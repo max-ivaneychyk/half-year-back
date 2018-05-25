@@ -1,5 +1,6 @@
 let config = require('./config');
 let express = require('express');
+let server = require('./server');
 let app = express();
 
 app.get('/', function (req, res) {
@@ -7,6 +8,4 @@ app.get('/', function (req, res) {
 });
 
 
-app.listen(config.server.PORT, function () {
-    console.log('Ready');
-});
+app.listen(config.server.PORT, server.start);
