@@ -5,6 +5,7 @@ let models = require('./models/model');
 
 module.exports = {
 
+
     start (app) {
            // let token = jwt.sign({ foo: 'bar' }, 'shhhhh');
 
