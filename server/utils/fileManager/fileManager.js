@@ -1,0 +1,9 @@
+
+
+class FileManager {
+    constructor () {}
+
+    putInFolder () {
+
+    }
+}

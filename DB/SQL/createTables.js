@@ -3,14 +3,12 @@ let TABLES = require('../const/tables').TABLES;
 module.exports = [
 `CREATE TABLE IF NOT EXISTS ${TABLES.REGISTRATION_USERS} (
     ID int,
-    LastName varchar(255),
-    FirstName varchar(255),
-    Email varchar(255),
     VerifyKey varchar(255)
 );`,
 
 `CREATE TABLE IF NOT EXISTS ${TABLES.USERS} (
     ID int,
+    Verify int DEFAULT 0,
     LastName varchar(255),
     FirstName varchar(255),
     Email varchar(255)

@@ -8,7 +8,7 @@ let app = express();
 
 // parse cookies
 // we need this because "cookie" is true in csrfProtection
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
 
