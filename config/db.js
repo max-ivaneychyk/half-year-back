@@ -1,7 +1,7 @@
 
-exports = {
+module.exports = {
+    DATABASE: 'half',
     HOST: 'localhost',
-    PORT: 3000,
-    USER: '',
+    USER: 'root',
     PASSWORD: ''
 };
