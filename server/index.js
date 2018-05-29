@@ -1,7 +1,7 @@
 let config = require('../config');
 // let DB = require('../DB')(config.database);
 let jwt = require('jsonwebtoken');
-let models = require('./models');
+let {userRegistrationValidator} = require('./validators/UserRegistrationValidator');
 
 
 module.exports = {
@@ -16,12 +16,13 @@ module.exports = {
         });
      
         app.route('/users')
-            .post((req, res, next) => {
-                    let {error, value} = models.UserRegistrationModel.validate(req.body);
-                    res.send(error || value);
-                });
+            .post(userRegistrationValidator.validateWithMiddleware.bind(userRegistrationValidator)
+            );
 
 
+        app.use((err, req, res, next) => {
+            res.json(err.details);
+        });
 
         console.log('Start server in port ', config.server.PORT)
     }
