@@ -1,7 +1,8 @@
 let config = require('../config');
 // let DB = require('../DB')(config.database);
 let jwt = require('jsonwebtoken');
-let models = require('./models/model');
+let models = require('./models');
+
 
 module.exports = {
 
@@ -15,16 +16,11 @@ module.exports = {
         });
      
         app.route('/users')
-            .post([(req, res, next) => {
-                    next({l: 100000})
-                    res.send('ggg');
-                }, (err, req, res, next) => {
+            .post((req, res, next) => {
+                    let {error, value} = models.UserRegistrationModel.validate(req.body);
+                    res.send(error || value);
+                });
 
-                res.send('OK')
-
-            }]);
-
-        let res = models.Model.UserRegistration({ username: 'abc', birthyear: 1994 })
 
 
         console.log('Start server in port ', config.server.PORT)
