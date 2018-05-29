@@ -1,18 +1,20 @@
 let Joi = require('joi');
 let Model = require('./Model').Model;
 
+const {EMAIL, FIRST_NAME, LAST_NAME, PASSWORD} = require('../validators');
+
 class UserRegistrationModel extends Model {
-    constructor () {
+    constructor() {
         super();
 
         this.schema = Joi.object().keys({
-            firstName: Joi.string().alphanum().min(3).max(30).required(),
-            lastName: Joi.string().alphanum().min(3).max(30).required(),
-            password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required(),
-            email: Joi.string().email().required()
+            ...FIRST_NAME,
+            ...LAST_NAME,
+            ...PASSWORD,
+            ...EMAIL
         })
+
     }
 }
-
 
 exports.UserRegistrationModel = UserRegistrationModel;
