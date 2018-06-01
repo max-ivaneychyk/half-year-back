@@ -1,6 +1,6 @@
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 const CREATE_TABLES_QUERY_LIST = require('./SQL/createTables');
-
+const USERS = require('./SQL/Users');
 
 // TODO: NEED Protect from SQL injection attacks
 
@@ -20,49 +20,50 @@ class Database {
         return await this.pool.end();
     }
 
-    query (query) {
-        return this.pool.query(query)
+    async query (query) {
+        return await this.pool.query(query)
+    }
+
+    normalizeTableFields (model) {
+        return Object.keys(model).join(', ')
+    }
+
+    normalizeTableFieldValues (model) {
+        return Object.values(model).map(val => typeof val === 'string' ? `'${val}'` : val).join(', ')
+    }
+
+    prepareModel (model) {
+        return {
+            fields: this.normalizeTableFields(model),
+            values: this.normalizeTableFieldValues(model)
+        }
     }
 }
 
-module.exports = {
-    connect: function (conf) {
-        const POOL_CONF = {
-            connectionLimit: 10,
-            host: conf.HOST,
-            user: 'root',
-            database: 'half'
-        };
-
-        /*            async function example2 () {
-                        let mysql = require('mysql2/promise');
-                        let pool = mysql.createPool(POOL_CONF);
-
-                        await Promise.all([pool.query('select sleep(2)'), pool.query('select sleep(3)')]);
-                        console.log('3 seconds after');
-                        await pool.end();
-                    }*/
-
-        // create the connection to database
-        const pool = mysql.createPool(POOL_CONF);
-
-        pool.getConnection(function (err, db) {
-            // Use the connection
-            CREATE_TABLES_QUERY_LIST.forEach(query => {
-                db.query(query, function (error, rows, fields) {
-                    // Handle error after the release.
-                    if (error) throw error;
-                });
-            })
-        })
-    },
-    normalizeTableFields: function (model) {
-        return Object.keys(model).join(', ')
-    },
-    normalizeTableFieldValues: function (model) {
-        return Object.values(model).map(val => typeof val === 'string' ? `'${val}'` : val).join(', ')
-    }
+const POOL_CONF = {
+    connectionLimit: 10,
+    host: '127.0.0.1',
+    password: 'password',
+    user: 'root',
+    database: 'half'
 };
 
+let model = {
+    firstName: 'Max',
+    lastName: 'Max'
+};
 
+let database = new Database;
+let {fields, values} = database.prepareModel(model);
+let query = USERS.addUser(fields, values);
+
+database.connect(POOL_CONF);
+
+database.query(query).then(res => {
+    console.log(res[0]);
+}, err => console.log(err) );
+
+database.query( USERS.selectUsers() ).then(res => {
+    res[0].forEach(row => console.log('>>>>', row));
+}, err => console.log(err) );
 

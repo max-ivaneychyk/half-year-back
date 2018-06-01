@@ -2,17 +2,17 @@ let TABLES = require('../const/tables').TABLES;
 
 module.exports = [
 `CREATE TABLE IF NOT EXISTS ${TABLES.REGISTRATION_USERS} (
-    ID int,
-    Token varchar(255)
+    id int NOT NULL AUTO_INCREMENT,
+    token varchar(255)
 );`,
 
 `CREATE TABLE IF NOT EXISTS ${TABLES.USERS} (
-    ID int,
-    Verified int DEFAULT 0,
-    Token varchar(255),
-    LastName varchar(255),
-    FirstName varchar(255),
-    Email varchar(255)
+    id int PRIMARY KEY AUTO_INCREMENT,
+    verified int DEFAULT 0,
+    token varchar(255),
+    lastName varchar(255),
+    firstName varchar(255),
+    email varchar(255)
 );`,
 
 `CREATE TABLE IF NOT EXISTS ${TABLES.POSTS} (
