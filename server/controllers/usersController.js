@@ -1,8 +1,12 @@
+const middlewares = require('../middlewares');
+const validators = require('../validators/UserRegistrationValidator');
 
 class UserController {
     constructor () {
         this.addNewUser = [
-            (r, r2) => {}
+            validators.userRegistrationValidator.validateWithMiddleware.bind(validators.userRegistrationValidator),
+            middlewares.isNewUser,
+            middlewares.sendAnswer
         ];
     }
 }

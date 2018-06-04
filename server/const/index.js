@@ -1,3 +1,4 @@
+let errorMessages = require('./errorMessages');
 
 exports.STATUS_CODE = {
     OK: 200,
@@ -15,3 +16,9 @@ exports.STATUS_CODE = {
     INTERNAL_ERROR: 500,
     NOT_IMPLEMENTED: 501,
 };
+
+exports.ERROR_MESSAGES = errorMessages;
+
+exports.RES_DATA = '__res_answer_data';
+exports.REQ_DATA = '__req__data';
+exports.STATUS = '__res_status';

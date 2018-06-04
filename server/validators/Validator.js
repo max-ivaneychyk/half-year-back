@@ -1,4 +1,5 @@
 let Joi = require('joi');
+let constants = require('../const');
 
 class Validator {
 
@@ -11,9 +12,16 @@ class Validator {
     }
 
     validateWithMiddleware(req, res, next) {
-        let {error} = this.validate(req.body);
+        let {error, value} = this.validate(req.body);
 
-        return error ? next(error) : next();
+        if (error) {
+            res.status(constants.STATUS_CODE.FORBIDDEN);
+            return next(error.details);
+        }
+
+        req[constants.RES_DATA] = value;
+
+        next();
     }
 }
 

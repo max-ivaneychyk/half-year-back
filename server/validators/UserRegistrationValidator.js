@@ -1,6 +1,6 @@
 
 let {Validator} = require('./Validator');
-let {UserRegistrationModel} = require('../models/index')
+let {UserRegistrationModel} = require('../models/index');
 
 class UserRegistrationValidator extends Validator {
     constructor() {
@@ -8,5 +8,4 @@ class UserRegistrationValidator extends Validator {
    }
 }
 
-exports.UserRegistrationValidator = UserRegistrationValidator;
 exports.userRegistrationValidator = new UserRegistrationValidator;
