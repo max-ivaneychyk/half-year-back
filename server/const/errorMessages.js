@@ -1,7 +1,8 @@
-
+let CODE = require('./index').STATUS_CODE;
 
 module.exports = {
-  USER_EXIST: {
-      message: 'User exist'
-  }
+  USER_EXIST: [{
+      code: CODE.FORBIDDEN,
+      message: 'User exist in system'
+  }]
 };

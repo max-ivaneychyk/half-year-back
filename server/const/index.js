@@ -1,5 +1,3 @@
-let errorMessages = require('./errorMessages');
-
 exports.STATUS_CODE = {
     OK: 200,
     NO_CONTENT: 204,
@@ -14,10 +12,9 @@ exports.STATUS_CODE = {
     UNPROCESSABLE_ENTITY: 422,
     FAILED_DEPENDENCY: 424,
     INTERNAL_ERROR: 500,
-    NOT_IMPLEMENTED: 501,
+    NOT_IMPLEMENTED: 501
 };
 
-exports.ERROR_MESSAGES = errorMessages;
 
 exports.RES_DATA = '__res_answer_data';
 exports.REQ_DATA = '__req__data';

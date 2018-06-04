@@ -1,7 +1,7 @@
 let sendAnswer = require('./sendAnswer');
-let isNewUser = require('./isUserNotExist');
+let addNewUser = require('./addNewUser');
 
 module.exports = {
     sendAnswer,
-    isNewUser
+    addNewUser
 };

@@ -8,6 +8,10 @@ class AppError {
     createValidationError () {
 
     }
+
+    createDatabaseError () {
+
+    }
 }
 
 

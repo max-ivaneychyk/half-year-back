@@ -5,7 +5,7 @@ class UserController {
     constructor () {
         this.addNewUser = [
             validators.userRegistrationValidator.validateWithMiddleware.bind(validators.userRegistrationValidator),
-            middlewares.isNewUser,
+            middlewares.addNewUser,
             middlewares.sendAnswer
         ];
     }
