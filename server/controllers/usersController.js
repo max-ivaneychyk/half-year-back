@@ -1,11 +1,21 @@
 const middlewares = require('../middlewares');
-const validators = require('../validators/UserRegistrationValidator');
+const Validator = require('../validators/Validator');
+let {UserRegistrationModel, UserLoginModel} = require('../models/index');
 
 class UserController {
     constructor () {
-        this.addNewUser = [
-            validators.userRegistrationValidator.validateWithMiddleware.bind(validators.userRegistrationValidator),
+        this.signUp = [
+            Validator.create(UserRegistrationModel),
+            middlewares.addAuthToken,
+            middlewares.sendLinkToVerifyEmail,
             middlewares.addNewUser,
+            middlewares.clearSessionFromResponse,
+            middlewares.sendAnswer
+        ];
+
+        this.signIn = [
+            Validator.create(UserLoginModel),
+            middlewares.signInUser,
             middlewares.sendAnswer
         ];
     }

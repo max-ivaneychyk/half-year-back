@@ -7,6 +7,14 @@ class Validator {
         this.schema = schema;
     }
 
+    static create(schema) {
+        let validator = new Validator(schema);
+
+        return (req, res, next) => {
+            return validator.validateWithMiddleware(req, res, next);
+        }
+    }
+
     validate(model) {
         return Joi.validate(model, this.schema);
     }
@@ -19,10 +27,10 @@ class Validator {
             return next(error.details);
         }
 
-        req[constants.RES_DATA] = value;
+        res[constants.RES_DATA] = value;
 
         next();
     }
 }
 
-exports.Validator = Validator;
+module.exports = Validator;
