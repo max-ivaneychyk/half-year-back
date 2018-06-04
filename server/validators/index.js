@@ -11,6 +11,10 @@ const VALIDATIONS = {
     MAX_LENGTH_PASSWORD: 30,
 };
 
+const PASSWORD = {
+    password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
+};
+
 exports.EMAIL = {
     email: Joi.string().email().required()
 };
@@ -23,8 +27,6 @@ exports.LAST_NAME = {
     lastName: Joi.string().alphanum().min(VALIDATIONS.MIN_LENGTH_LAST_NAME).max(VALIDATIONS.MAX_LENGTH_LAST_NAME).required()
 };
 
-exports.PASSWORD = {
-    password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
-};
+exports.PASSWORD = {...PASSWORD};
 
-
+exports.REPEAT_PASSWORD = {...PASSWORD};
