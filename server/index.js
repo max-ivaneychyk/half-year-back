@@ -1,32 +1,22 @@
 let config = require('../config');
-let DB = require('../DB');
-let jwt = require('jsonwebtoken');
-let {userRegistrationValidator} = require('./validators/UserRegistrationValidator');
+let router = require('./routes');
+let database = require('../DB');
 
 
 module.exports = {
-        // let token = jwt.sign({ foo: 'bar' }, 'shhhhh');
 
     start (app) {
 
-        DB.connect(config.database);
+        database.connect(config.database);
 
-        app.use(function (req, res, next) {
+        app.use(function logger (req, res, next) {
             console.log('New req :> ',req.url);
             next();
         });
-     
-        app.route('/users')
-            .post([
-                userRegistrationValidator.validateWithMiddleware.bind(userRegistrationValidator),
-                (req, res, next) => {
 
-                }
-                ]
-            );
+        app.use('/api', router.api);
 
-
-        app.use((err, req, res, next) => {
+        app.use(function errorHandler (err, req, res, next) {
             res.json(err.details);
         });
 
