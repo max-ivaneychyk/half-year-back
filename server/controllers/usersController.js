@@ -16,6 +16,7 @@ class UserController {
         this.signIn = [
             Validator.create(UserLoginModel),
             middlewares.signInUser,
+            middlewares.addAuthToken,
             middlewares.sendAnswer
         ];
     }
