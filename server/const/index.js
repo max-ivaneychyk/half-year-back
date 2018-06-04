@@ -15,6 +15,8 @@ exports.STATUS_CODE = {
     NOT_IMPLEMENTED: 501
 };
 
+exports.TABLES = require('../../DB/const/tables').TABLES;
+
 
 exports.RES_DATA = '__res_answer_data';
 exports.REQ_DATA = '__req__data';
