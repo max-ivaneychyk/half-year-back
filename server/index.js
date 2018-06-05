@@ -25,6 +25,11 @@ module.exports = {
             res.json(err);
         });
 
+        app.use('**', function errorHandler (req, res) {
+            console.log('404 >>>', req.url);
+            res.status(404).send();
+        });
+
         return () =>  console.log('Start server in port ', config.server.PORT)
     }
 };
