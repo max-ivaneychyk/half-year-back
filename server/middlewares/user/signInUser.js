@@ -1,7 +1,7 @@
-let database = require('../../DB');
-let {RES_DATA, TABLES} = require('../const');
-let AppError = require('../errors');
-let errorMessages = require('../errors/errorMessages');
+let database = require('../../../DB/index');
+let {RES_DATA, TABLES} = require('../../const/index');
+let AppError = require('../../errors/index');
+let errorMessages = require('../../errors/errorMessages');
 
 module.exports = function (req, res, next) {
     let {email, password} = req.body;
@@ -19,3 +19,4 @@ module.exports = function (req, res, next) {
         next()
     }).catch(next);
 };
+

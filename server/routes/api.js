@@ -12,8 +12,11 @@ router.route('/users/login')
     .post(controllers.usersController.signIn);
 
 router.route('/posts')
-    .post(controllers.postController.addNewPost)
-    .patch(controllers.postController.editPost)
+    .get(controllers.postController.getList)
+    .post(controllers.postController.addNewPost);
+
+router.route('/posts/:id')
+    .put(controllers.postController.editPostById)
     .delete(controllers.postController.deletePost);
 
 router.route('/verify-email/:token')

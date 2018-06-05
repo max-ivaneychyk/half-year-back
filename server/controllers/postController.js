@@ -11,16 +11,24 @@ class PostController {
             middlewares.sendAnswer
         ];
 
-        this.editPost = [
+        this.editPostById = [
             Validator.create(PostModel),
             middlewares.token.checkToken,
+            middlewares.posts.editPost,
             middlewares.sendAnswer
         ];
 
         this.deletePost = [
             middlewares.token.checkToken,
+            middlewares.posts.deletePost,
             middlewares.sendAnswer
         ];
+
+        this.getList = [
+            middlewares.token.checkToken,
+            middlewares.posts.getPosts,
+            middlewares.sendAnswer
+        ]
     }
 }
 

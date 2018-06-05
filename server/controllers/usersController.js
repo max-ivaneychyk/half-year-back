@@ -8,14 +8,14 @@ class UserController {
             Validator.create(UserRegistrationModel),
             middlewares.addAuthToken,
             middlewares.sendLinkToVerifyEmail,
-            middlewares.addNewUser,
+            middlewares.user.addNewUser,
             middlewares.clearSessionFromResponse,
             middlewares.sendAnswer
         ];
 
         this.signIn = [
             Validator.create(UserLoginModel),
-            middlewares.signInUser,
+            middlewares.user.signInUser,
             middlewares.addAuthToken,
             middlewares.sendAnswer
         ];

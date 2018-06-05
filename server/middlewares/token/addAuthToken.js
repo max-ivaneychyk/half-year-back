@@ -1,5 +1,5 @@
-let tokenService = require('../utils/token');
-let constants = require('../const');
+let tokenService = require('../../utils/token/index');
+let constants = require('../../const/index');
 
 module.exports = function (req, res, next) {
   let data = res[constants.RES_DATA];
