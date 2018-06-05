@@ -14,7 +14,7 @@ module.exports = {
         app.use(bodyParser.urlencoded({ extended: false }));
 
         app.use(function logger (req, res, next) {
-            console.log('Req <<<', req.method, req.url, req.body);
+            console.log('Input <<<', 'Method > ', req.method, 'Url > ', req.url, 'Body > ', req.body);
             next();
         });
 
