@@ -8,9 +8,11 @@ let redirectToAuthPage = require('./redirectToAuthPage');
 let signInUser = require('./signInUser');
 
 let posts = require('./posts');
+let token = require('./token');
 
 module.exports = {
     posts,
+    token,
     sendAnswer,
     addNewUser,
     endVerifyEmail,

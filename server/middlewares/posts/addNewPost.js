@@ -1,12 +1,11 @@
 let constants = require('../../const');
 const TABLES = constants.TABLES;
 let database = require('../../../DB');
-let SQL = require('../../../DB/SQL');
 let errorMessages = require('../../errors/errorMessages');
 let AppError = require('../../errors');
 
 module.exports = function addPost (req, res, next) {
-    let userID = 5;
+    let userID = req.getSessionData().payload.id;
     let {fields, values} = database.prepareModel({
         ...req.body
     });
