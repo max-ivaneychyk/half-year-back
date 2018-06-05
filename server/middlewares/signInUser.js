@@ -1,5 +1,7 @@
 let database = require('../../DB');
 let {RES_DATA, TABLES} = require('../const');
+let AppError = require('../errors');
+let errorMessages = require('../errors/errorMessages');
 
 module.exports = function (req, res, next) {
     let {email, password} = req.body;
@@ -9,7 +11,7 @@ module.exports = function (req, res, next) {
         let data = rows[0];
 
         if (!data.verified) {
-            return next({message: 'Your account not verified, please check your email'})
+            return next(AppError.create(errorMessages.USER_NOT_VERIFIED))
         }
 
         res[RES_DATA] = data;

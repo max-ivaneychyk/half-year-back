@@ -1,7 +1,8 @@
 let constants = require('../const');
 let database = require('../../DB');
 let SQL = require('../../DB/SQL');
-let errorMessages = require('../const/errorMessages');
+let errorMessages = require('../errors/errorMessages');
+let AppError = require('../errors');
 
 module.exports = function addNewUser (req, res, next) {
     let {fields, values} = database.prepareModel({
@@ -13,5 +14,8 @@ module.exports = function addNewUser (req, res, next) {
     database.query(sql).then(() => {
        res[constants.RES_DATA] = {...res[constants.RES_DATA], ...req.body};
        next();
-    }).catch(() => next(errorMessages.USER_EXIST))
+    }).catch(() => {
+        let err = AppError.create(errorMessages.USER_EXIST);
+        next(err);
+    })
 };
