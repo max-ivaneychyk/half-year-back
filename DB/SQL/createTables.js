@@ -9,12 +9,16 @@ module.exports = [
     password varchar(255) NOT NULL,
     lastName varchar(255),
     firstName varchar(255),
-    email varchar(255) NOT NULL UNIQUE
+    email varchar(255) NOT NULL UNIQUE,
+    updatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
 );`,
 
 `CREATE TABLE IF NOT EXISTS ${TABLES.POSTS} (
     id int PRIMARY KEY AUTO_INCREMENT,
-    description varchar(255)
+    description varchar(255),
+    updatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
 );`,
 
 `CREATE TABLE IF NOT EXISTS ${TABLES.POST_TO_USERS} (
