@@ -9,6 +9,10 @@ const VALIDATIONS = {
 
     MIN_LENGTH_PASSWORD: 3,
     MAX_LENGTH_PASSWORD: 30,
+
+    MIN_LENGTH_POST_DESC: 1,
+    MAX_LENGTH_POST_DESC: 255,
+
 };
 
 const PASSWORD = {
@@ -25,6 +29,10 @@ exports.FIRST_NAME = {
 
 exports.LAST_NAME = {
     lastName: Joi.string().alphanum().min(VALIDATIONS.MIN_LENGTH_LAST_NAME).max(VALIDATIONS.MAX_LENGTH_LAST_NAME).required()
+};
+
+exports.POST_DESC = {
+    description: Joi.string().min(VALIDATIONS.MIN_LENGTH_POST_DESC).max(VALIDATIONS.MAX_LENGTH_POST_DESC).required()
 };
 
 exports.PASSWORD = {...PASSWORD};

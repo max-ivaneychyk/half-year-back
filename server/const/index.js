@@ -21,3 +21,6 @@ exports.TABLES = require('../../DB/const/tables').TABLES;
 exports.RES_DATA = '__res_answer_data';
 exports.REQ_DATA = '__req__data';
 exports.STATUS = '__res_status';
+
+
+exports.TOKEN_EXP_TIME = 3600;

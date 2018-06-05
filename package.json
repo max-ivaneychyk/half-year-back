@@ -20,6 +20,7 @@
     "joi": "^13.3.0",
     "jsonwebtoken": "^8.2.1",
     "mysql2": "^1.5.3",
-    "nodemailer": "^4.6.5"
+    "nodemailer": "^4.6.5",
+    "redis": "^2.8.0"
   }
 }

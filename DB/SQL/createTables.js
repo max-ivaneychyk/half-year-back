@@ -17,6 +17,11 @@ module.exports = [
     description varchar(255)
 );`,
 
+`CREATE TABLE IF NOT EXISTS ${TABLES.POST_TO_USERS} (
+    postId int,
+    userId int
+);`,
+
 `CREATE TABLE IF NOT EXISTS ${TABLES.PHOTOS} (
     id int PRIMARY KEY AUTO_INCREMENT,
     url varchar(255)
