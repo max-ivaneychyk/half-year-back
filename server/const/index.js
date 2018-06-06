@@ -1,6 +1,6 @@
 exports.STATUS_CODE = {
     OK: 200,
-    NO_CONTENT: 204,
+    CONTENT_WAS_DELETED: 204,
     REDIRECT: 302,
     BAD_REQUEST: 400,
     NOT_FOUND: 404,

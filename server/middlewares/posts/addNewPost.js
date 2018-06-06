@@ -7,13 +7,13 @@ let AppError = require('../../errors');
 module.exports = function addPost (req, res, next) {
     let userID = req.getSessionData().payload.id;
     let {fields, values} = database.prepareModel({
-        ...req.body
+        ...req.body,
+        ownerId: userID
     });
 
 
     let sql = `INSERT INTO ${TABLES.POSTS} (${fields}) VALUES (${values}); 
 SELECT * FROM ${TABLES.POSTS} WHERE id=LAST_INSERT_ID();
-INSERT INTO ${TABLES.POST_TO_USERS} (postId, userId) VALUES (LAST_INSERT_ID(), ${userID});
 `;
 
     database.query(sql).then(([rows]) => {

@@ -14,8 +14,6 @@ module.exports = function addPost (req, res, next) {
     let sql = `UPDATE ${TABLES.POSTS} SET description = ${values} WHERE id=${postId}; 
 SELECT * FROM ${TABLES.POSTS} WHERE id=${postId};`;
 
-    console.log(sql);
-
     database.query(sql).then(([rows]) => {
         res[constants.RES_DATA] = {...rows[1][0]};
         next();
