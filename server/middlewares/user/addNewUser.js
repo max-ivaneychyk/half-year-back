@@ -7,15 +7,18 @@ const {TABLES} = constants;
 module.exports = function addNewUser (req, res, next) {
     let {fields, values} = database.prepareModel({
         ...req.body,
-        token: res[constants.RES_DATA].session.accessToken
+        refreshToken: res[constants.RES_DATA].session.accessToken
     });
+    
+    console.log(res[constants.RES_DATA].session.accessToken.length);
+    
     let sql = `INSERT INTO ${TABLES.USERS} (${fields}) VALUES (${values});`;
 
     database.query(sql).then(() => {
        res[constants.RES_DATA] = {...res[constants.RES_DATA], ...req.body};
        next();
-    }).catch(() => {
-        let err = AppError.create(errorMessages.USER_EXIST);
+    }).catch(e => {
+        let err = e;
         next(err);
     })
 };

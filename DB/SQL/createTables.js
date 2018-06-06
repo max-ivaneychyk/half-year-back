@@ -5,7 +5,7 @@ module.exports = [
 `CREATE TABLE IF NOT EXISTS ${TABLES.USERS} (
     id int PRIMARY KEY AUTO_INCREMENT,
     verified int DEFAULT 0,
-    refreshToken varchar(255),
+    refreshToken varchar(500),
     password varchar(255) NOT NULL,
     lastName varchar(255),
     firstName varchar(255),
