@@ -15,6 +15,31 @@ class Validator {
         }
     }
 
+    static deleteFields (fields) {
+        return (req, res, next) => {
+            fields.forEach(field => {
+                delete req.body[field];
+            });
+
+            next();
+        }
+    }
+
+    static isSameFields (fields) {
+        return (req, res, next) => {
+            let ctx = req.body;
+            let value = ctx[fields[0]];
+            
+            for (let field of fields) {
+                if (ctx[field] !== value) {
+                    return next({message: `Diff value in fields ${fields[0]} and ${field}`})
+                }
+            }
+
+            next();
+        }
+    }
+
     validate(model) {
         return Joi.validate(model, this.schema);
     }

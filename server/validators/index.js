@@ -37,4 +37,4 @@ exports.POST_DESC = {
 
 exports.PASSWORD = {...PASSWORD};
 
-exports.REPEAT_PASSWORD = {...PASSWORD};
+exports.REPEAT_PASSWORD = {repeatPassword: PASSWORD.password};

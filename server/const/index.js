@@ -24,3 +24,4 @@ exports.STATUS = '__res_status';
 
 
 exports.TOKEN_EXP_TIME = 3600;
+exports.REFRESH_TOKEN_EXP_TIME = 3600;

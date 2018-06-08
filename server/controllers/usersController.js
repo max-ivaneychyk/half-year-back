@@ -6,7 +6,8 @@ class UserController {
     constructor () {
         this.signUp = [
             Validator.create(UserRegistrationModel),
-            middlewares.addAuthToken,
+            Validator.isSameFields(['password', 'repeatPassword']),
+            Validator.deleteFields(['repeatPassword']),
             middlewares.sendLinkToVerifyEmail,
             middlewares.user.addNewUser,
             middlewares.clearSessionFromResponse,
@@ -15,9 +16,13 @@ class UserController {
 
         this.signIn = [
             Validator.create(UserLoginModel),
-            middlewares.user.signInUser,
             middlewares.addAuthToken,
+            middlewares.user.signInUser,
             middlewares.sendAnswer
+        ];
+
+        this.deleteUser = [
+
         ];
     }
 }
