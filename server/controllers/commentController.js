@@ -19,9 +19,21 @@ class CommentController {
             middlewares.sendAnswer
         ];
 
+        this.getCommentByPostId = [
+            middlewares.token.checkToken,
+            middlewares.comments.getListCommetsByPostId,
+            middlewares.sendAnswer
+        ];
+
+        this.getCommentByUserId = [
+            middlewares.token.checkToken,
+            middlewares.comments.getListCommentsByUserId,
+            middlewares.sendAnswer
+        ];
+
         this.deleteComment = [
             middlewares.token.checkToken,
-            middlewares.posts.deletePost,
+            middlewares.comments.deleteComment,
             middlewares.sendAnswer
         ];
     }

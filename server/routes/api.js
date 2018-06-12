@@ -11,6 +11,9 @@ router.route('/users')
 router.route('/users/login')
     .post(controllers.usersController.signIn);
 
+router.route('/users/:id/comments')
+    .get(controllers.commentController.getCommentByUserId);
+
 router.route('/posts')
     .get(controllers.postController.getList)
     .post(controllers.postController.addNewPost);
@@ -20,6 +23,7 @@ router.route('/posts/:id')
     .delete(controllers.postController.deletePost);
 
 router.route('/posts/:id/comments')
+    .get(controllers.commentController.getCommentByPostId)
     .post(controllers.commentController.addNewCommentUnderPost);
 
 router.route('/posts/comments/:commentId')

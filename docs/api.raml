@@ -128,7 +128,16 @@ types:
         body: 
           application/json:
             type: CommentModel   
-                     
+      # GET /posts/:id/comments       
+      get: 
+        description: Get list comments under the Post        
+        securedBy: 
+        - auth
+        queryParameters: 
+          limit: 
+            type: number 
+            example: 5 
+            required: false 
     /likes: 
       post:
         description: User can live like under Post
