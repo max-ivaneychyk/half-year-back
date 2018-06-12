@@ -37,6 +37,11 @@ module.exports = [
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
 );`,
 
+`CREATE TABLE IF NOT EXISTS ${TABLES.COMMENTS_TO_POSTS} (
+    commentId int NOT NULL,
+    postId int NOT NULL
+);`,
+
 `CREATE TABLE IF NOT EXISTS ${TABLES.LIKES_TO_POSTS} (
     likeId int NOT NULL,
     postId int NOT NULL

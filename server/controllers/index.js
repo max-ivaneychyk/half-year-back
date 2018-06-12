@@ -1,11 +1,11 @@
 let usersController = require('./usersController');
 let verifyEmailController = require('./verifyEmailController');
 let postController = require('./postController');
-let postsCommentController = require('./postsCommentController');
+let commentController = require('./commentController');
 
 module.exports = {
     usersController,
     verifyEmailController,
-    postsCommentController,
+    commentController,
     postController
 };

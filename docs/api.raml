@@ -103,8 +103,24 @@ types:
         application/json:
           type: LoginUserModel
 /posts:
+  /comments:
+    /{id}: 
+      # DELETE /posts/comments/:id
+      delete: 
+        description: Delete comment under the Post
+        securedBy: 
+        - auth 
+      # PUT /posts/comments/:id  
+      put:
+        description: Edit comment under the Post
+        securedBy: 
+        - auth
+        body: 
+          application/json:
+            type: CommentModel 
   /{id}:
-    /comment: 
+    /comments:  
+      # POST /posts/:id/comments 
       post:
         description: Leave comment under the Post
         securedBy: 
@@ -112,18 +128,8 @@ types:
         body: 
           application/json:
             type: CommentModel   
-      delete: 
-        description: Delete comment
-        securedBy: 
-        - auth 
-      put:
-        description: Edit comment
-        securedBy: 
-        - auth
-        body: 
-          application/json:
-            type: CommentModel                            
-    /like: 
+                     
+    /likes: 
       post:
         description: User can live like under Post
         securedBy: 
