@@ -14,10 +14,6 @@ module.exports = function (req, res, next) {
             return next(AppError.create(errorMessages.USER_NOT_VERIFIED))
         }
 
-        database.query(`UPDATE ${TABLES.USERS} SET refreshToken='${res[RES_DATA].session.refreshToken}' WHERE id=${data.id}`)
-                .then(s => console.log(s))
-                .catch(e => console.log(e));
-
         res[RES_DATA] = {...data, ...res[RES_DATA]};
 
         next()

@@ -26,6 +26,7 @@ class Database {
     }
 
     async query (query) {
+         console.log('SQL >> ', query);
         return await this.pool.query(query)
     }
 

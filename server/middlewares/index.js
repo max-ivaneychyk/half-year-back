@@ -8,11 +8,13 @@ let redirectToAuthPage = require('./redirectToAuthPage');
 let posts = require('./posts');
 let token = require('./token');
 let user = require('./user');
+let comments = require('./comments');
 
 module.exports = {
     posts,
     token,
     user,
+    comments,
     sendAnswer,
     endVerifyEmail,
     redirectToAuthPage,

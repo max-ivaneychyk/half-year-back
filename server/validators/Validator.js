@@ -47,7 +47,7 @@ class Validator {
     validateWithMiddleware(req, res, next) {
         let {error, value} = this.validate(req.body);
 
-        if (error) {
+       if (error) {
             res.status(constants.STATUS_CODE.FORBIDDEN);
             return next(error.details);
         }

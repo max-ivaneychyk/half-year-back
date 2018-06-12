@@ -4,16 +4,15 @@ let database = require('../../../DB');
 let errorMessages = require('../../errors/errorMessages');
 let AppError = require('../../errors');
 
-module.exports = function addPost (req, res, next) {
+module.exports = function addComment (req, res, next) {
     let userID = req.getSessionData().payload.id;
     let {fields, values} = database.prepareModel({
-        ...req.body,
-        ownerId: userID
+        ownerId: userID,
+        ...req.body
     });
 
-
-    let sql = `INSERT INTO ${TABLES.POSTS} (${fields}) VALUES (${values}); 
-SELECT * FROM ${TABLES.POSTS} WHERE id=LAST_INSERT_ID();
+    let sql = `INSERT INTO ${TABLES.COMMENTS} (${fields}) VALUES (${values}); 
+SELECT * FROM ${TABLES.COMMENTS} WHERE id=LAST_INSERT_ID();
 `;
 
     database.query(sql).then(([rows]) => {
@@ -24,4 +23,3 @@ SELECT * FROM ${TABLES.POSTS} WHERE id=LAST_INSERT_ID();
         next(err);
     })
 };
-

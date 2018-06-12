@@ -19,6 +19,13 @@ router.route('/posts/:id')
     .put(controllers.postController.editPostById)
     .delete(controllers.postController.deletePost);
 
+router.route('/posts/:id/comment')
+    .post(controllers.postsCommentController.addNewComment);
+
+router.route('/posts/:id/comment/:comment')
+    .put(controllers.postsCommentController.editCommentById)
+    .delete(controllers.postsCommentController.deleteComment);
+
 router.route('/verify-email/:token')
     .get(controllers.verifyEmailController.verify);
 
