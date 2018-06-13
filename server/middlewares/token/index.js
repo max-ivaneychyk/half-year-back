@@ -1,5 +1,6 @@
 
 module.exports = {
-    checkToken: require('./checkToken')
+    checkToken: require('./checkToken'),
+    addAuthToken: require('./addAuthToken')
 };
 

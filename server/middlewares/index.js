@@ -1,5 +1,4 @@
 let sendAnswer = require('./sendAnswer');
-let addAuthToken = require('./token/addAuthToken');
 let clearSessionFromResponse = require('./clearSessionFromResponse');
 let redirectToAuthPage = require('./redirectToAuthPage');
 
@@ -19,6 +18,5 @@ module.exports = {
     comments,
     sendAnswer,
     redirectToAuthPage,
-    clearSessionFromResponse,
-    addAuthToken
+    clearSessionFromResponse
 };
