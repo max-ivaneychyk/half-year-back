@@ -37,32 +37,22 @@ module.exports = [
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
 );`,
 
-`CREATE TABLE IF NOT EXISTS ${TABLES.COMMENTS_TO_POSTS} (
-    commentId int NOT NULL,
-    postId int NOT NULL
-);`,
-
-`CREATE TABLE IF NOT EXISTS ${TABLES.LIKES_TO_POSTS} (
-    likeId int NOT NULL,
-    postId int NOT NULL
-);`,
-
-/*`CREATE TABLE IF NOT EXISTS ${TABLES.POST_TO_USERS} (
-    postId int,
-    userId int
-);`,
-
 `CREATE TABLE IF NOT EXISTS ${TABLES.PHOTOS} (
     id int PRIMARY KEY AUTO_INCREMENT,
-    url varchar(255)
+    url varchar(500) NOT NULL,
+    updatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
 );`,
 
-`CREATE TABLE IF NOT EXISTS ${TABLES.LIKES_TO_POSTS} (
-    id int PRIMARY KEY AUTO_INCREMENT,
-    postId int,
-    userId int
-);`
-*/
+`CREATE TABLE IF NOT EXISTS ${TABLES.COMMENTS_TO_ENTITIES} (
+    commentId int NOT NULL,
+    entityType int NOT NULL,
+    entityId int NOT NULL
+);`,
 
-
+`CREATE TABLE IF NOT EXISTS ${TABLES.LIKES_TO_ENTITIES} (
+    likeId int NOT NULL,
+    entityType int NOT NULL,
+    entityId int NOT NULL
+);`,
 ];

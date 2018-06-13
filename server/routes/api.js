@@ -13,7 +13,7 @@ router.route('/users/login')
     .post(controllers.usersController.signIn);
 
 // Comments    
-router.route('/posts/:id/comments')
+router.route('/posts/:postId/comments')
     .get(controllers.commentController.getCommentByPostId)
     .post(controllers.commentController.addNewCommentUnderPost);
 
@@ -21,7 +21,7 @@ router.route('/posts/comments/:commentId')
     .put(controllers.commentController.editCommentById)
     .delete(controllers.commentController.deleteComment);
 
-router.route('/users/:id/comments')
+router.route('/users/:ownerId/comments')
     .get(controllers.commentController.getCommentByUserId);
 // Likes 
 router.route('/posts/:postId/likes')
@@ -35,7 +35,7 @@ router.route('/posts')
     .get(controllers.postController.getList)
     .post(controllers.postController.addNewPost);
 
-router.route('/posts/:id')
+router.route('/posts/:postId')
     .put(controllers.postController.editPostById)
     .delete(controllers.postController.deletePost);
 

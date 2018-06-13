@@ -1,6 +1,6 @@
-let database = require('../../DB');
-let tokenService = require('../utils/token');
-let {TABLES} = require('../const');
+let database = require('../../../DB');
+let tokenService = require('../../utils/token');
+let {TABLES} = require('../../const');
 
 module.exports = function (req, res, next) {
     let token = req.params.token;

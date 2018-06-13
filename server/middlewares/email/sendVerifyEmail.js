@@ -1,8 +1,8 @@
-let emailService = require('../utils/email');
-let constants = require('../const/index');
-let {server} = require('../../config/');
-let AppError = require('../errors');
-let errorMessages = require('../errors/errorMessages');
+let emailService = require('../../utils/email');
+let constants = require('../../const');
+let {server} = require('../../../config/');
+let AppError = require('../../errors');
+let errorMessages = require('../../errors/errorMessages');
 
 
 module.exports = function (req, res, next) {
@@ -16,5 +16,4 @@ module.exports = function (req, res, next) {
   }).then(() => next())
     .catch(() => next(AppError.create(errorMessages.ERROR_SEND_EMAIL)));
 };
-
 

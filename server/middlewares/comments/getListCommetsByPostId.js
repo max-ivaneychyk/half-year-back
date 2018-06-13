@@ -6,11 +6,11 @@ let AppError = require('../../errors');
 
 module.exports = function getCommentsForPost (req, res, next) {
     let limit = req.query.limit || 5;
-    let idPost = req.params.id;
+    let postId = req.params.postId;
     let sql = `SELECT ${TABLES.COMMENTS}.*
-    FROM ${TABLES.COMMENTS_TO_POSTS}
-    RIGHT JOIN ${TABLES.COMMENTS} ON ${TABLES.COMMENTS_TO_POSTS}.postId = ${idPost} 
-    AND ${TABLES.COMMENTS_TO_POSTS}.commentId = ${TABLES.COMMENTS}.id
+    FROM ${TABLES.COMMENTS_TO_ENTITIES}
+    RIGHT JOIN ${TABLES.COMMENTS} ON ${TABLES.COMMENTS_TO_ENTITIES}.postId = ${postId} 
+    AND ${TABLES.COMMENTS_TO_ENTITIES}.commentId = ${TABLES.COMMENTS}.id
     ORDER BY ${TABLES.COMMENTS}.id
     LIMIT ${limit};`
 

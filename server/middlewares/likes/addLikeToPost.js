@@ -10,7 +10,7 @@ module.exports = function savePostId (req, res, next) {
         postId: req.params.postId
     });
 
-    let sql = `INSERT INTO ${TABLES.LIKES_TO_POSTS} (${fields}) VALUES (${values});`;
+    let sql = `INSERT INTO ${TABLES.LIKES_TO_ENTITIES} (${fields}) VALUES (${values});`;
 
     database.query(sql).then(() => {
         next();

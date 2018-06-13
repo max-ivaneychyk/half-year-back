@@ -8,10 +8,10 @@ module.exports = function savePostId (req, res, next) {
     let id = res.ans.get().id;
     let {fields, values} = database.prepareModel({
         commentId: id,
-        postId: req.params.id
+        postId: req.params.postId
     });
 
-    let sql = `INSERT INTO ${TABLES.COMMENTS_TO_POSTS} (${fields}) VALUES (${values});`;
+    let sql = `INSERT INTO ${TABLES.COMMENTS_TO_ENTITIES} (${fields}) VALUES (${values});`;
 
     database.query(sql).then(() => {
         next();

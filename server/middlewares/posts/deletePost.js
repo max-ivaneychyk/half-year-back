@@ -5,7 +5,7 @@ let errorMessages = require('../../errors/errorMessages');
 let AppError = require('../../errors');
 
 module.exports = function addPost (req, res, next) {
-    let postId = req.params.id;
+    let postId = req.params.postId;
     let sql = `DELETE FROM ${TABLES.POSTS} WHERE id=${postId};`;
 
     database.query(sql).then(() => {

@@ -7,9 +7,15 @@ exports.TABLES = {
     PHOTOS: 'Photos',
     MESSAGES: 'Messages',
     COMMENTS: 'Comments',
-    POST_TO_USERS: 'PostsToUsers',
-    COMMENTS_TO_PHOTOS: 'CommentsToPhotos',
-    COMMENTS_TO_POSTS: 'CommentsToPosts',
-    LIKES_TO_PHOTOS: 'LikesToPhotos',
-    LIKES_TO_POSTS: 'LikesToPosts'
+    COMMENTS_TO_ENTITIES: 'CommentsToEntities',
+    LIKES_TO_ENTITIES: 'LikesToEntities'
 };
+
+const ENTITIES = {
+    LIKE: 1,
+    POST: 2,
+    COMMENT: 3,
+    PHOTO: 4,
+};
+
+exports.ENTITIES = ENTITIES;

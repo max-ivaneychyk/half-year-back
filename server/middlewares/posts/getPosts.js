@@ -4,7 +4,7 @@ let database = require('../../../DB');
 let errorMessages = require('../../errors/errorMessages');
 let AppError = require('../../errors');
 
-module.exports = function addPost (req, res, next) {
+module.exports = function  (req, res, next) {
     let sql = `SELECT * FROM ${TABLES.POSTS} LIMIT 10`;
 
     database.query(sql).then(([rows]) => {

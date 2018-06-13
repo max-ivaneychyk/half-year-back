@@ -3,7 +3,7 @@ const middlewares = require('../middlewares');
 class VerifyEmailController {
     constructor () {
         this.verify = [
-            middlewares.endVerifyEmail,
+            middlewares.email.endVerifyEmail,
             middlewares.redirectToAuthPage
         ];
     }
