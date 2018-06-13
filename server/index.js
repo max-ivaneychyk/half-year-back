@@ -14,7 +14,9 @@ module.exports = {
         app.use(bodyParser.raw({ limit: '50mb' }));
         app.use(bodyParser.urlencoded({ extended: false }));
 
+    //    app.use(Logger.webPanel());
         app.use(Logger.logRequest);
+
         app.use('/api', router.api);
 
         app.use(Logger.errorLogger);

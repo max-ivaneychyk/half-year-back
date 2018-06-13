@@ -1,5 +1,5 @@
 
-module.exports = function addPost (req, res, next) {
+module.exports = function (req, res, next) {
     let {payload, err} = req.getSessionData();
 
     if (!err) {

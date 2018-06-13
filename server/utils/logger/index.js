@@ -18,16 +18,20 @@ class Logger {
         next();
     }
 
+    static webPanel () {
+        return scribe.webPanel();
+    }
+
     static logResponse  (req, res, next) {
         console.time()
             .tag(
-                { msg: 'Response', colors: 'gray'},
+                { msg: 'Response', colors: 'yellow'},
                 { msg: req.method, colors: 'green' },
                 { msg: req.url, colors: 'grey' }
             )
             .log();
 
-        console.log(req.ans)
+        console.log(res.ans.get())
         
         next && next();
     }

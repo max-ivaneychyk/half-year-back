@@ -6,14 +6,13 @@ const {TABLES} = constants;
 module.exports = function (req, res, next) {
   let data = res.ans.get();
   let session = {
-      accessToken: tokenService.encryptToken(data),
-      refreshToken: tokenService.generateRefreshToken(data)
+      accessToken: tokenService.encryptToken({id: data.id, email: data.email}),
+      refreshToken: tokenService.generateRefreshToken({id: data.id, email: data.email})
   };
 
   res.ans.merge({session});
 
   database.query(`UPDATE ${TABLES.USERS} SET refreshToken='${session.refreshToken}' WHERE id=${data.id}`)
-  .then(s => console.log(s))
   .catch(e => console.log(e));
 
   next();

@@ -3,6 +3,6 @@ let Logger = require('../utils/logger');
 
 module.exports = function (req, res) {
     let data = res.ans.get();
-    console.log('Ans >>>', res.statusCode, data);
+    Logger.logResponse(req, res);
     res.json(data);
 };
