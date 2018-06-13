@@ -1,5 +1,6 @@
 const mysql = require('mysql2/promise');
 const CREATE_TABLES_QUERY_LIST = require('./SQL/createTables');
+let Logger = require('../server/utils/logger')
 
 // TODO: NEED Protect from SQL injection attacks
 // TODO: execute > `CREATE DATABASE IF NOT EXISTS half DEFAULT CHARACTER SET utf8;`
@@ -26,7 +27,7 @@ class Database {
     }
 
     async query (query) {
-         console.log('SQL >> ', query);
+        Logger.sqlQuery(query);
         return await this.pool.query(query)
     }
 

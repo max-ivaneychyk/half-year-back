@@ -2,6 +2,7 @@ let config = require('../config');
 let router = require('./routes');
 let database = require('../DB');
 let bodyParser = require('body-parser');
+let Logger = require('./utils/logger');
 
 module.exports = {
 
@@ -13,24 +14,21 @@ module.exports = {
         app.use(bodyParser.raw({ limit: '50mb' }));
         app.use(bodyParser.urlencoded({ extended: false }));
 
-        app.use(function logger (req, res, next) {
-            console.log('Input <<<', 'Method > ', req.method, 'Url > ', req.url, 'Body > ', req.body);
-            next();
-        });
-
+        app.use(Logger.logRequest);
         app.use('/api', router.api);
 
-        app.use(function errorHandler (err, req, res, next) {
-            console.log('Ans >>>', res.statusCode, err);
+        app.use(Logger.errorLogger);
+        // Error handler
+        app.use( (err, req, res, next) => {
             res.json(err);
         });
 
         app.use('**', function errorHandler (req, res) {
-            console.log('404 >>>', req.url);
+            console.warn('[404] ', req.url);
             res.status(404).send();
         });
 
-        return () =>  console.log('Start server in port ', config.server.PORT)
+        return () => console.log('Start server in port ', config.server.PORT)
     }
 };
 
