@@ -10,7 +10,7 @@ module.exports = function addPost (req, res, next) {
 
     database.query(sql).then(() => {
         res.status(constants.STATUS_CODE.CONTENT_WAS_DELETED);
-        res[constants.RES_DATA] = {};
+        res.ans.clear();
         next();
     }).catch((e) => {
         let err = AppError.create(e);

@@ -15,7 +15,7 @@ module.exports = function getCommentsForPost (req, res, next) {
     LIMIT ${limit};`
 
     database.query(sql).then(([rows]) => {
-        res[constants.RES_DATA] = rows;
+        res.ans.merge({list: rows});
         next();
     }).catch((e) => {
         let err = AppError.create(e);

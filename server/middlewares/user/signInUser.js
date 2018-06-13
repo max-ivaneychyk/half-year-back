@@ -14,7 +14,7 @@ module.exports = function (req, res, next) {
             return next(AppError.create(errorMessages.USER_NOT_VERIFIED))
         }
 
-        res[RES_DATA] = {...data, ...res[RES_DATA]};
+        res.ans.merge(data);
 
         next()
     }).catch(next);

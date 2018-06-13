@@ -1,5 +1,4 @@
-let constants = require('../../const');
-const TABLES = constants.TABLES;
+const {TABLES} = require('../../const');
 let database = require('../../../DB');
 let errorMessages = require('../../errors/errorMessages');
 let AppError = require('../../errors');
@@ -16,7 +15,7 @@ SELECT * FROM ${TABLES.COMMENTS} WHERE id=LAST_INSERT_ID();
 `;
 
     database.query(sql).then(([rows]) => {
-        res[constants.RES_DATA] = {...rows[1][0]};
+        res.ans.merge(rows[1][0]);
         next();
     }).catch(e => {
         let err = AppError.create(e);

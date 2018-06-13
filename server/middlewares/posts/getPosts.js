@@ -8,7 +8,7 @@ module.exports = function addPost (req, res, next) {
     let sql = `SELECT * FROM ${TABLES.POSTS} LIMIT 10`;
 
     database.query(sql).then(([rows]) => {
-        res[constants.RES_DATA] = rows;
+        res.ans.merge({list: rows});
         next();
     }).catch((e) => {
         let err = AppError.create(e);

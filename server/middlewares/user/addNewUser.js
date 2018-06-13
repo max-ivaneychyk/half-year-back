@@ -11,7 +11,7 @@ module.exports = function addNewUser (req, res, next) {
     let sql = `INSERT INTO ${TABLES.USERS} (${fields}) VALUES (${values});`;
 
     database.query(sql).then(() => {
-       res[constants.RES_DATA] = {...res[constants.RES_DATA], ...req.body};
+        res.ans.merge(req.body);
        next();
     }).catch(e => {
         let err = e;

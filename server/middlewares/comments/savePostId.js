@@ -5,7 +5,7 @@ let errorMessages = require('../../errors/errorMessages');
 let AppError = require('../../errors');
 
 module.exports = function savePostId (req, res, next) {
-    let id = res[constants.RES_DATA].id;
+    let id = res.ans.get().id;
     let {fields, values} = database.prepareModel({
         commentId: id,
         postId: req.params.id

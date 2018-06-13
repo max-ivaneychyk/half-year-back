@@ -18,6 +18,20 @@ class Logger {
         next();
     }
 
+    static logResponse  (req, res, next) {
+        console.time()
+            .tag(
+                { msg: 'Response', colors: 'gray'},
+                { msg: req.method, colors: 'green' },
+                { msg: req.url, colors: 'grey' }
+            )
+            .log();
+
+        console.log(req.ans)
+        
+        next && next();
+    }
+
     static sqlQuery (query) {
         console
             .tag(
