@@ -9,11 +9,13 @@ let posts = require('./posts');
 let token = require('./token');
 let user = require('./user');
 let comments = require('./comments');
+let likes = require('./likes');
 
 module.exports = {
     posts,
     token,
     user,
+    likes,
     comments,
     sendAnswer,
     endVerifyEmail,
