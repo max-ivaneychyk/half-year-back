@@ -17,7 +17,7 @@ module.exports = {
     //    app.use(Logger.webPanel());
         app.use(Logger.logRequest);
 
-        app.use('/api', router.api);
+        app.use('/api/:version', router.api);
 
         app.use(Logger.errorLogger);
         // Error handler

@@ -26,8 +26,13 @@ class Database {
         return await Promise.all(queries.map(query => this.query(query)))
     }
 
-    async query (query) {
+    async query (query, placeholder) {
         Logger.sqlQuery(query);
+        // Using placeholder for protect api
+        if (placeholder) {
+            return await this.pool.query(query, placeholder);
+        }
+        // Warning!
         return await this.pool.query(query)
     }
 

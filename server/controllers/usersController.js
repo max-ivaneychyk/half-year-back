@@ -21,9 +21,7 @@ class UserController {
             middlewares.sendAnswer
         ];
 
-        this.deleteUser = [
-
-        ];
+        this.deleteUser = [];
     }
 }
 
