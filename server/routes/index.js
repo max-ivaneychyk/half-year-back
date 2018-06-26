@@ -1,5 +1,4 @@
-let api = require('./api');
 
 module.exports = {
-    api
+    v1: require('./v1')
 };
