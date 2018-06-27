@@ -8,16 +8,10 @@ class PostController {
             Validator.create(PostModel),
             middlewares.token.checkToken,
             middlewares.posts.addNewPost,
-            middlewares.sendAnswer
-        ];
-
-        this.addNewPostForMe = [
-            Validator.create(PostModel),
-            middlewares.token.checkToken,
-            middlewares.posts.addNewPost,
             middlewares.posts.getPost,
             middlewares.sendAnswer
         ];
+
 
         this.editPostById = [
             Validator.create(PostModel),
