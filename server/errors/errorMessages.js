@@ -16,6 +16,11 @@ module.exports = {
       name: CLIENT_ERROR,
       message: 'Your account not verified, please check your email'
   },
+  USER_NOT_FOUNT: {
+      code: CODE.NOT_FOUND,
+      name: CLIENT_ERROR,
+      message: 'User is not exist'
+  },
   ERROR_SEND_EMAIL: {
       name: EMAIL_SENDER,
       message: 'Error sending email, please try again, or change email'

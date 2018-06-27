@@ -22,7 +22,7 @@ module.exports = {
         app.use(Logger.errorLogger);
         // Error handler
         app.use( (err, req, res, next) => {
-            res.json(err);
+            res.status(err.code || 404).json(err);
         });
 
         app.use('**', function errorHandler (req, res) {

@@ -1,6 +1,6 @@
 
 let conf = {
-    PORT: 3000,
+    PORT: 5000,
     HOST: '127.0.0.1',
     PROTOCOL: 'http://',
     FULL_PATH: null

@@ -25,11 +25,15 @@ router.route('/users/login')
 // GET|POST             /users/:userId/posts 
 // DELETE|PATCH         /users/:userId/posts/:postId 
 
-router.route('/posts')
+router.route('/users/me/posts')
+.get(controllers.postController.getList)
+.post(controllers.postController.addNewPostForMe);
+
+router.route('/users/:userId/posts')
 .get(controllers.postController.getList)
 .post(controllers.postController.addNewPost);
 
-router.route('/posts/:postId')
+router.route('/users/:userId/posts/:postId')
 .put(controllers.postController.editPostById)
 .delete(controllers.postController.deletePost);
 

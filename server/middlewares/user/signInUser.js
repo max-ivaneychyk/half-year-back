@@ -1,5 +1,5 @@
 let database = require('../../../DB/index');
-let {RES_DATA, TABLES} = require('../../const/index');
+let {TABLES} = require('../../const/index');
 let AppError = require('../../errors/index');
 let errorMessages = require('../../errors/errorMessages');
 
@@ -9,6 +9,10 @@ module.exports = function (req, res, next) {
 
     database.query(query).then(([rows]) => {
         let data = rows[0];
+
+        if (!data) {
+            return next(AppError.create(errorMessages.USER_NOT_FOUNT))
+        }
 
         if (!data.verified) {
             return next(AppError.create(errorMessages.USER_NOT_VERIFIED))

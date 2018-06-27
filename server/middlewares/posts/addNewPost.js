@@ -6,18 +6,11 @@ let AppError = require('../../errors');
 
 module.exports = function addPost (req, res, next) {
     let userID = req.getSessionData().payload.id;
-    let {fields, values} = database.prepareModel({
-        ...req.body,
-        ownerId: userID
-    });
+    let sql = `INSERT INTO ${TABLES.POSTS} (description, ownerId) VALUES (?, ?); `;
+    let placeholder = [req.body.text, userID];
 
-
-    let sql = `INSERT INTO ${TABLES.POSTS} (${fields}) VALUES (${values}); 
-SELECT * FROM ${TABLES.POSTS} WHERE id=LAST_INSERT_ID();
-`;
-
-    database.query(sql).then(([rows]) => {
-        res.ans.merge(rows[1][0]);
+    database.query(sql, placeholder).then((rows, fields) => {
+        res.ans.merge({id: rows[0].insertId});
         next();
     }).catch(e => {
         let err = AppError.create(e);

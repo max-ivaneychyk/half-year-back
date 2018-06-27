@@ -35,7 +35,7 @@ exports.LAST_NAME = {
 };
 
 exports.POST_DESC = {
-    description: Joi.string().min(VALIDATIONS.MIN_LENGTH_SHORT_TEXT).max(VALIDATIONS.MAX_LENGTH_SHORT_TEXT).required()
+    text: Joi.string().min(VALIDATIONS.MIN_LENGTH_SHORT_TEXT).max(VALIDATIONS.MAX_LENGTH_SHORT_TEXT).required()
 };
 
 exports.MIDDLE_TEXT = {
