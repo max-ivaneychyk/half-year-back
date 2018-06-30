@@ -7,11 +7,9 @@ module.exports = function deleteComment (req, res, next) {
     let likeId = req.params.likeId;
     let sql = `
     DELETE FROM ${TABLES.LIKES} WHERE id=${likeId};
-    DELETE FROM ${TABLES.LIKES_TO_ENTITIES} WHERE likeId=${likeId};
     `;
 
-    database.query(sql).then(([rows]) => {
-        res.ans.merge(rows[1][0]);
+    database.query(sql).then(() => {
         next();
     }).catch((e) => {
         let err = AppError.create(e);

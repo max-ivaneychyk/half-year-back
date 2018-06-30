@@ -1,6 +1,6 @@
 
 module.exports = {
-    addLike: require('./addLike'),
+    getLike: require('./getLike'),
     addLikeToPost: require('./addLikeToPost'),
     removeLike: require('./removeLike')
 };

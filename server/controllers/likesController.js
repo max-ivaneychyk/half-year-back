@@ -5,8 +5,8 @@ class LikesController {
         // For Posts
         this.setLikeToPost = [
             middlewares.token.checkToken,
-            middlewares.likes.addLike,
             middlewares.likes.addLikeToPost,
+            middlewares.likes.getLike,
             middlewares.sendAnswer
         ];
 

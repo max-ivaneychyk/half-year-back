@@ -30,7 +30,7 @@ router.route('/users/me/posts')
 .post(controllers.postController.addNewPost);
 
 router.route('/users/:userId/posts')
-.get(controllers.postController.getList)
+.get(controllers.postController.getList);
 
 router.route('/users/:userId/posts/:postId')
 .put(controllers.postController.editPostById)
@@ -80,7 +80,7 @@ router.route('/users/:ownerId/comments')
 router.route('/posts/:postId/likes')
     .post(controllers.likesController.setLikeToPost);
 
-router.route('/posts/likes/:likeId')
+router.route('/posts/:postId/likes/:likeId')
     .delete(controllers.likesController.deleteLikeToPost);
 
 

@@ -11,11 +11,10 @@ exports.TABLES = {
     LIKES_TO_ENTITIES: 'LikesToEntities'
 };
 
-const ENTITIES = {
+exports.ENTITIES = {
     LIKE: 1,
     POST: 2,
     COMMENT: 3,
     PHOTO: 4,
 };
 
-exports.ENTITIES = ENTITIES;

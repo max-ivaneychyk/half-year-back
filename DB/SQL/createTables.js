@@ -33,7 +33,8 @@ module.exports = [
 `CREATE TABLE IF NOT EXISTS ${TABLES.LIKES} (
     id int PRIMARY KEY AUTO_INCREMENT,
     ownerId int NOT NULL,
-    updatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    recipientId int NOT NULL,
+    entityId int NOT NULL,
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
 );`,
 
@@ -44,15 +45,4 @@ module.exports = [
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
 );`,
 
-`CREATE TABLE IF NOT EXISTS ${TABLES.COMMENTS_TO_ENTITIES} (
-    commentId int NOT NULL,
-    entityType int NOT NULL,
-    entityId int NOT NULL
-);`,
-
-`CREATE TABLE IF NOT EXISTS ${TABLES.LIKES_TO_ENTITIES} (
-    likeId int NOT NULL,
-    entityType int NOT NULL,
-    entityId int NOT NULL
-);`,
 ];

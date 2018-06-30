@@ -17,6 +17,8 @@ exports.STATUS_CODE = {
 
 exports.TABLES = require('../../DB/const/tables').TABLES;
 
+exports.ENTITIES = require('../../DB/const/tables').ENTITIES;
+
 
 exports.RES_DATA = '__res_answer_data';
 exports.REQ_DATA = '__req__data';
