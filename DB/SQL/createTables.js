@@ -24,7 +24,9 @@ module.exports = [
 
 `CREATE TABLE IF NOT EXISTS ${TABLES.COMMENTS} (
     id int PRIMARY KEY AUTO_INCREMENT,
-    ownerId int,
+    ownerId int NOT NULL,
+    recipientId int NOT NULL,
+    entityId int NOT NULL,
     text varchar(500),
     updatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -44,5 +46,6 @@ module.exports = [
     updatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
 );`,
+
 
 ];

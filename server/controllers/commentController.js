@@ -8,7 +8,6 @@ class CommentController {
             Validator.create(CommentModel),
             middlewares.token.checkToken,
             middlewares.comments.addComment,
-            middlewares.comments.savePostId,
             middlewares.sendAnswer
         ];
 

@@ -1,14 +1,12 @@
 
 exports.TABLES = {
-    REGISTRATION_USERS: 'RegistrationUsers',
+    AUTH: 'Authorization',
     USERS: 'Users',
     LIKES: 'Likes',
     POSTS: 'Posts',
     PHOTOS: 'Photos',
     MESSAGES: 'Messages',
-    COMMENTS: 'Comments',
-    COMMENTS_TO_ENTITIES: 'CommentsToEntities',
-    LIKES_TO_ENTITIES: 'LikesToEntities'
+    COMMENTS: 'Comments'
 };
 
 exports.ENTITIES = {
