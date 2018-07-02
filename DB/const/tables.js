@@ -14,5 +14,6 @@ exports.ENTITIES = {
     POST: 2,
     COMMENT: 3,
     PHOTO: 4,
+    MESSAGE: 5
 };
 

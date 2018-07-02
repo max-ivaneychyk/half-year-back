@@ -21,7 +21,11 @@ class UserController {
             middlewares.sendAnswer
         ];
 
-        this.deleteUser = [];
+        this.searchUsers = [
+            middlewares.token.checkToken,
+            middlewares.user.searchUsers,
+            middlewares.sendAnswer
+        ];
     }
 }
 

@@ -7,13 +7,14 @@ router.use(extendReq);
 
 // Users
 
-// POST                 /users
+// POST|GET             /users
 // POST                 /users/login 
 // GET                  /users/:userId
 // DELETE|PATCH         /users/me
 
 router.route('/users')
-    .post(controllers.usersController.signUp);
+    .post(controllers.usersController.signUp)
+    .get(controllers.usersController.searchUsers);
 
 router.route('/users/login')
     .post(controllers.usersController.signIn);
