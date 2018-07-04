@@ -12,7 +12,6 @@ class PostController {
             middlewares.sendAnswer
         ];
 
-
         this.editPostById = [
             Validator.create(PostModel),
             middlewares.token.checkToken,
