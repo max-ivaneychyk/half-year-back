@@ -19,11 +19,11 @@ exports.TABLES = require('../../DB/const/tables').TABLES;
 
 exports.ENTITIES = require('../../DB/const/tables').ENTITIES;
 
-
-exports.RES_DATA = '__res_answer_data';
-exports.REQ_DATA = '__req__data';
-exports.STATUS = '__res_status';
-
+exports.LIMIT = {
+    COMMENTS_MIN: 3,
+    COMMENTS_MAX: 10,
+    POSTS: 10
+}
 
 exports.TOKEN_EXP_TIME = 3600;
 exports.REFRESH_TOKEN_EXP_TIME = 3600;
