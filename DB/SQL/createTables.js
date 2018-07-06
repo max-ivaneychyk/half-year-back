@@ -16,6 +16,7 @@ module.exports = [
     password varchar(255) NOT NULL,
     lastName varchar(255),
     firstName varchar(255),
+    avatarId int,
     email varchar(255) NOT NULL UNIQUE,
     updatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP

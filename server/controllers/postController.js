@@ -28,6 +28,7 @@ class PostController {
         this.getList = [
             middlewares.token.checkToken,
             middlewares.posts.getPosts,
+            middlewares.utils.groupJoinData,
             middlewares.sendAnswer
         ]
     }
