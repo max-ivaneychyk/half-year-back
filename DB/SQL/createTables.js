@@ -11,14 +11,10 @@ module.exports = [
 
 `CREATE TABLE IF NOT EXISTS ${TABLES.USERS} (
     id int PRIMARY KEY AUTO_INCREMENT,
-    verified int DEFAULT 0,
-    refreshToken varchar(500),
-    password varchar(255) NOT NULL,
     lastName varchar(255),
     firstName varchar(255),
-    avatarId int,
+    photoId int,
     email varchar(255) NOT NULL UNIQUE,
-    updatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
 );`,
 
@@ -51,7 +47,6 @@ module.exports = [
 `CREATE TABLE IF NOT EXISTS ${TABLES.PHOTOS} (
     id int PRIMARY KEY AUTO_INCREMENT,
     url varchar(500) NOT NULL,
-    updatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
 );`,
 
