@@ -3,7 +3,11 @@ const extendReq = require('../utils/extendRequest');
 const express = require('express');
 const router = express.Router();
 
+let multer  = require('multer');
+let upload = multer();
+
 router.use(extendReq);
+router.use(upload.array('file', 10));
 
 // Users
 
@@ -44,7 +48,10 @@ router.route('/users/:userId/posts/:postId')
 // GET                  /users/:userId/photos 
 
 // GET|POST             /posts/:postId/photos 
-// DELETE               /posts/:postId/photos/:photoId 
+// DELETE               /posts/:postId/photos/:photoId
+
+router.route('/photos/upload')
+    .post(controllers.photoController.loadPhoto);
 
 
 // Comments    
@@ -74,6 +81,9 @@ router.route('/users/:ownerId/comments')
 
 // GET|POST                 /posts/:postId/likes
 // DELETE                   /posts/:postId/likes/:likesId
+//
+// GET|POST                 /comments/:postId/likes
+// DELETE                   /comments/:postId/likes/:likesId
 
 // GET|POST                 /photos/:photoId/likes
 // DELETE                   /photos/:photoId/likes/:likesId
