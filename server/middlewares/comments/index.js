@@ -4,6 +4,7 @@ module.exports = {
     editComment: require('./editComment'),
     savePostId: require('./savePostId'),
     deleteComment: require('./deleteComment'),
-    getListCommetsByPostId: require('./getListCommetsByPostId'),
+    getCommentById: require('./getCommentById'),
+    getListCommentsByPostId: require('./getListCommetsByPostId'),
     getListCommentsByUserId: require('./getListCommentsByUserId')
 };

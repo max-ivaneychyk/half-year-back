@@ -1,6 +1,15 @@
 let utils = require('../../utils/transformSelection');
 
 module.exports = function (req, res, next) {
-    res.ans.merge({ data: utils.groupJoinData(res.ans.get().data ) });
+    let data = res.ans.get().data;
+    let isArray = Array.isArray(data);
+
+    data = utils.groupJoinData( isArray ? data : [data] );
+
+    if (!isArray) {
+        data = data[0]
+    }
+
+    res.ans.merge({data});
     next();
 };

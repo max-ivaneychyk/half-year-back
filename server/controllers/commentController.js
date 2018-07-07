@@ -8,6 +8,8 @@ class CommentController {
             Validator.create(CommentModel),
             middlewares.token.checkToken,
             middlewares.comments.addComment,
+            middlewares.comments.getCommentById,
+            middlewares.utils.groupJoinData,
             middlewares.sendAnswer
         ];
 
@@ -20,7 +22,7 @@ class CommentController {
 
         this.getCommentByPostId = [
             middlewares.token.checkToken,
-            middlewares.comments.getListCommetsByPostId,
+            middlewares.comments.getListCommentsByPostId,
             middlewares.sendAnswer
         ];
 

@@ -9,6 +9,7 @@ class PostController {
             middlewares.token.checkToken,
             middlewares.posts.addNewPost,
             middlewares.posts.getPost,
+            middlewares.utils.groupJoinData,
             middlewares.sendAnswer
         ];
 
@@ -16,6 +17,8 @@ class PostController {
             Validator.create(PostModel),
             middlewares.token.checkToken,
             middlewares.posts.editPost,
+            middlewares.posts.getPost,
+            middlewares.utils.groupJoinData,
             middlewares.sendAnswer
         ];
 

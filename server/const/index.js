@@ -22,6 +22,7 @@ exports.ENTITIES = require('../../DB/const/tables').ENTITIES;
 exports.LIMIT = {
     COMMENTS_MIN: 3,
     COMMENTS_MAX: 10,
+    USERS: 10,
     POSTS: 10
 };
 
