@@ -8,9 +8,8 @@ class UserController {
             Validator.create(UserRegistrationModel),
             Validator.isSameFields(['password', 'repeatPassword']),
             Validator.deleteFields(['repeatPassword']),
-            middlewares.email.sendVerifyEmail,
             middlewares.user.addNewUser,
-            middlewares.clearSessionFromResponse,
+            middlewares.email.sendVerifyEmail,
             middlewares.sendAnswer
         ];
 

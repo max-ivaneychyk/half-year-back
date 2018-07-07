@@ -1,6 +1,6 @@
 let tokenService = require('../../utils/token/index');
 let constants = require('../../const/index');
-let database = require('../../../DB/index')
+let database = require('../../../DB/index');
 const {TABLES} = constants;
 
 module.exports = function (req, res, next) {

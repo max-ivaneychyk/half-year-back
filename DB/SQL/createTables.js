@@ -4,9 +4,10 @@ module.exports = [
 
 `CREATE TABLE IF NOT EXISTS ${TABLES.AUTH} (
     id int PRIMARY KEY AUTO_INCREMENT,
+    email varchar(255) NOT NULL UNIQUE,
+    password varchar(255) NOT NULL,
     verified int DEFAULT 0,
-    refreshToken varchar(500),
-    password varchar(255) NOT NULL
+    refreshToken varchar(500) UNIQUE
 );`,
 
 `CREATE TABLE IF NOT EXISTS ${TABLES.USERS} (
@@ -14,7 +15,6 @@ module.exports = [
     lastName varchar(255),
     firstName varchar(255),
     photoId int,
-    email varchar(255) NOT NULL UNIQUE,
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
 );`,
 

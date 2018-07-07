@@ -6,9 +6,8 @@ let errorMessages = require('../../errors/errorMessages');
 
 
 module.exports = function (req, res, next) {
-  let email = req.body.email;
-  let token = res.ans.get().session.accessToken;
-  let template = `Please click <a href="${server.FULL_PATH}/api/verify-email/${token}">here</a> for verify your account`;
+  let {email, token} = req.body;
+  let template = `Please click <a href="${server.FULL_PATH}/api/v1/verify-email/${token}">here</a> for verify your account`;
 
   emailService.sendMail({
       to: [email],

@@ -23,7 +23,7 @@ exports.LIMIT = {
     COMMENTS_MIN: 3,
     COMMENTS_MAX: 10,
     POSTS: 10
-}
+};
 
-exports.TOKEN_EXP_TIME = 3600;
-exports.REFRESH_TOKEN_EXP_TIME = 3600;
+exports.TOKEN_EXP_TIME = 36000;
+exports.REFRESH_TOKEN_EXP_TIME = 36000;

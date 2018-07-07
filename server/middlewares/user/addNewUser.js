@@ -1,21 +1,25 @@
 let constants = require('../../const/index');
 let database = require('../../../DB/index');
+let tokenService = require('../../utils/token/index');
 let errorMessages = require('../../errors/errorMessages');
 let AppError = require('../../errors');
 const {TABLES} = constants;
 
-module.exports = function addNewUser (req, res, next) {
-    let {fields, values} = database.prepareModel({
-        refreshToken: 5,
-        ...req.body
-    });
-    let sql = `INSERT INTO ${TABLES.USERS} (${fields}) VALUES (${values});`;
+module.exports = function addNewUser(req, res, next) {
+    let {firstName, lastName, email, password} = req.body;
+    let token = tokenService.generateRefreshToken({email});
+    let sqlSecurityInfo = `INSERT INTO ${TABLES.AUTH} (email, password, refreshToken) VALUES (?, ?, ?);`;
+    let sqlAddUser = `INSERT INTO ${TABLES.USERS} (firstName, lastName) VALUES (?, ?);`;
 
-    database.query(sql).then(() => {
-        res.ans.merge(req.body);
-       next();
-    }).catch(e => {
-        let err = e;
-        next(err);
-    })
+    database.query(sqlSecurityInfo, [email, password, token])
+        .then(() => database.query(sqlAddUser, [firstName, lastName]))
+        .then(() => {
+            req.body.token = token;
+            next();
+        })
+        .catch(err => {
+            // User Exist
+            console.log(err);
+            next(AppError.create(errorMessages.USER_EXIST));
+        })
 };
