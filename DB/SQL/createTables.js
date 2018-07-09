@@ -23,6 +23,13 @@ module.exports = [
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
 );`,
 
+
+    `CREATE TABLE IF NOT EXISTS ${TABLES.FRIENDS} (
+    myId int,
+    friendId int,
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+);`,
+
     `CREATE TABLE IF NOT EXISTS ${TABLES.WALLS} (
     id int PRIMARY KEY AUTO_INCREMENT,
     ownerId int,
@@ -57,9 +64,10 @@ module.exports = [
 );`,
 
     `CREATE TABLE IF NOT EXISTS ${TABLES.PHOTOS} (
-    id int PRIMARY KEY AUTO_INCREMENT,
+    id int AUTO_INCREMENT,
     url varchar(500) NOT NULL,
-    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(id)
 );`,
 
 

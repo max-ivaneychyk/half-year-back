@@ -6,15 +6,18 @@ exports.TABLES = {
     POSTS: 'Posts',
     WALLS: 'Walls',
     PHOTOS: 'Photos',
+    FRIENDS: 'Friends',
     MESSAGES: 'Messages',
-    COMMENTS: 'Comments'
+    COMMENTS: 'Comments',
 };
 
 exports.ENTITIES = {
+    USER: 0,
     LIKE: 1,
     POST: 2,
     COMMENT: 3,
     PHOTO: 4,
-    MESSAGE: 5
+    MESSAGE: 5,
+    WALL: 6,
 };
 
