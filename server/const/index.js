@@ -26,5 +26,8 @@ exports.LIMIT = {
     POSTS: 10
 };
 
+
+exports.PATH_UPLOAD_IMAGES = '/public/images/uploads/';
+
 exports.TOKEN_EXP_TIME = 36000;
 exports.REFRESH_TOKEN_EXP_TIME = 36000;

@@ -3,11 +3,7 @@ const extendReq = require('../utils/extendRequest');
 const express = require('express');
 const router = express.Router();
 
-let multer  = require('multer');
-let upload = multer();
-
 router.use(extendReq);
-router.use(upload.array('file', 10));
 
 // Users
 
