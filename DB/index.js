@@ -22,8 +22,10 @@ class Database {
         return await this.pool.end();
     }
 
-    async listQueries(queries) {
-        return await Promise.all(queries.map(query => this.query(query)))
+    async listQueries(queries, placeholders = []) {
+        return await Promise.all(queries.map((query, index) => {
+            return this.query(query, placeholders[index])
+        }))
     }
 
     async query(query, placeholder) {

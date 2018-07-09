@@ -4,6 +4,7 @@ module.exports = {
     editPost: require('./editPost'),
     getPosts: require('./getPosts'),
     getPost: require('./getPostById'),
+    countPosts: require('./countPosts'),
     deletePost: require('./deletePost')
 };
 

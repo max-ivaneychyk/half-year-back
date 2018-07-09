@@ -13,7 +13,7 @@ class Logger {
             )
             .log();
 
-        console.log(req.body)
+        console.log(req.body);
         
         next();
     }

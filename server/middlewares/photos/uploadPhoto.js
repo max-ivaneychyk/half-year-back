@@ -11,21 +11,24 @@ module.exports = function (req, res, next) {
     let placeholders = [];
     let sqlList = [];
 
-    files.forEach(file => {
+/*    files.forEach(file => {*/
         let sql = `INSERT INTO ${PHOTOS} (url) VALUES (?); `;
-        let placeholder = [file.originalname];
+        let placeholder = [files[0].originalname];
 
-        sqlList.push(sql);
-        placeholders.push(placeholder);
-    });
+    //     sqlList.push(sql);
+    //     placeholders.push(placeholder);
+    // });
 
-    database.listQueries(sqlList, placeholders).then((rows, fields) => {
-        req.ans.set({photos: rows.map(row => row.insertId)});
+
+    database.query(sql, placeholder).then((rows) => {
+       res.ans.set({data: {
+            id: rows[0].insertId
+        }});
+
+
         next();
     }).catch(e => {
         let err = AppError.create(e);
         next(err);
     });
-
-    next();
 };

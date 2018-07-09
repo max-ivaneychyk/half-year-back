@@ -32,8 +32,7 @@ module.exports = function (req, res, next) {
     let placeholder = [LIMIT.POSTS];
 
     database.query(sql, placeholder).then(([rows], fields) => {
-        console.log(fields);
-        res.ans.merge({
+        res.ans.set({
             data: rows
         });
         next();
