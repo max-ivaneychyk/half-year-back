@@ -4,6 +4,7 @@ exports.TABLES = {
     USERS: 'Users',
     LIKES: 'Likes',
     POSTS: 'Posts',
+    POSTS_PHOTOS: 'PostsPhotos',
     WALLS: 'Walls',
     PHOTOS: 'Photos',
     FRIENDS: 'Friends',

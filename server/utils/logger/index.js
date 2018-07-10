@@ -1,11 +1,11 @@
 
 let scribe = require('scribe-js')({createDefaultConsole: false, logWriter: false}); //loads Scribe
-let console = scribe.console({logWriter: false});
+let cons = scribe.console({logWriter: false});
 
 class Logger {
 
     static logRequest(req, res, next) {
-        console.time()
+        cons.time()
             .tag(
                 { msg: 'Request', colors: 'blue'},
                 { msg: req.method, colors: 'green' },
@@ -13,7 +13,7 @@ class Logger {
             )
             .log();
 
-        console.log(req.body);
+        cons.log(req.body);
         
         next();
     }
@@ -23,7 +23,7 @@ class Logger {
     }
 
     static logResponse  (req, res, next) {
-        console.time()
+        cons.time()
             .tag(
                 { msg: 'Response', colors: 'yellow'},
                 { msg: req.method, colors: 'green' },
@@ -31,13 +31,13 @@ class Logger {
             )
             .log();
 
-        console.log(res.ans.get())
+        console.log(JSON.stringify(res.ans.get()));
         
         next && next();
     }
 
     static sqlQuery (query) {
-        console
+        cons
             .tag(
                 { msg: 'SQL', colors: 'green'}
             )
@@ -45,7 +45,7 @@ class Logger {
     }
 
     static errorLogger(err, req, res, next) {
-        console
+        cons
             .time()
             .tag(
                 { msg: 'Response', colors: 'red' },
@@ -55,7 +55,7 @@ class Logger {
             .log();
 
             
-        console.log(err)
+        cons.log(err);
             
         next(err);
     }

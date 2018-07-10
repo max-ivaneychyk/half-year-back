@@ -1,6 +1,7 @@
 let Joi = require('joi');
-const {POST_DESC} = require('../validators');
+const {POST_DESC, PHOTOS} = require('../validators');
 
 exports.PostModel = Joi.object().keys({
-    ...POST_DESC
+    ...POST_DESC,
+    ...PHOTOS
 });

@@ -30,6 +30,12 @@ exports.FIRST_NAME = {
     firstName: Joi.string().alphanum().min(VALIDATIONS.MIN_LENGTH_FIRST_NAME).max(VALIDATIONS.MAX_LENGTH_FIRST_NAME).required()
 };
 
+exports.PHOTOS = {
+    photos: Joi.array().items(
+        Joi.number()
+    )
+};
+
 exports.LAST_NAME = {
     lastName: Joi.string().alphanum().min(VALIDATIONS.MIN_LENGTH_LAST_NAME).max(VALIDATIONS.MAX_LENGTH_LAST_NAME).required()
 };
