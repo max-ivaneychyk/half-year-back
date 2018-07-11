@@ -79,6 +79,19 @@ CREATE TABLE IF NOT EXISTS ${TABLES.PHOTOS} (
     PRIMARY KEY(id)
 );
 
+CREATE TABLE IF NOT EXISTS ${TABLES.AVATARS} (
+    ownerId int,
+    photoId int,
+    CONSTRAINT FK_AvatarsOwnerId 
+        FOREIGN KEY (ownerId) 
+        REFERENCES ${TABLES.USERS} (id) 
+        ON DELETE CASCADE,
+    CONSTRAINT FK_AvatarsPhotoId 
+        FOREIGN KEY (photoId) 
+        REFERENCES ${TABLES.PHOTOS} (id)
+        ON DELETE CASCADE 
+);
+
 CREATE TABLE IF NOT EXISTS ${TABLES.POSTS_PHOTOS} (
     postId int,
     photoId int,

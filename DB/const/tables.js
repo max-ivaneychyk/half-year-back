@@ -7,6 +7,7 @@ exports.TABLES = {
     POSTS_PHOTOS: 'PostsPhotos',
     WALLS: 'Walls',
     PHOTOS: 'Photos',
+    AVATARS: 'Avatars',
     FRIENDS: 'Friends',
     MESSAGES: 'Messages',
     COMMENTS: 'Comments',

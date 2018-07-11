@@ -1,5 +1,6 @@
 const middlewares = require('../middlewares');
 const Validator = require('../validators/Validator');
+const {photosUploader} = require('../utils/multer');
 let {UserRegistrationModel, UserLoginModel} = require('../models/index');
 
 class UserController {
@@ -23,6 +24,14 @@ class UserController {
         this.searchUsers = [
             middlewares.token.checkToken,
             middlewares.user.searchUsers,
+            middlewares.sendAnswer
+        ];
+
+        this.changeAvatar = [
+            middlewares.token.checkToken,
+            photosUploader.array('avatar', 1),
+            middlewares.photos.uploadPhoto,
+            middlewares.user.saveAvatarId,
             middlewares.sendAnswer
         ];
     }

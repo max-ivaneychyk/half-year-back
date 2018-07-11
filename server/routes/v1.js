@@ -19,6 +19,9 @@ router.route('/users')
 router.route('/users/login')
     .post(controllers.usersController.signIn);
 
+router.route('/users/me/avatar')
+    .put(controllers.usersController.changeAvatar);
+
 
 // Posts    
 

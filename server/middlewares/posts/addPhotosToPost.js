@@ -16,7 +16,8 @@ module.exports = function addPost (req, res, next) {
 
     photos.forEach(photoId => placeholder.push(postId, photoId));
 
-    values = Array(placeholder.length/2).fill('(?, ?)').join(', ');
+    values = Array(photos.length).fill('(?, ?)').join(', ');
+
     sql = `INSERT INTO ${POSTS_PHOTOS} (postId, photoId) VALUES ${values}; `;
 
     database.query(sql, placeholder).then(() => {
