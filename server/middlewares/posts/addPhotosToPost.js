@@ -6,10 +6,15 @@ let AppError = require('../../errors');
 
 module.exports = function addPost (req, res, next) {
     let postId = req.params.postId;
+    let photos = req.body.photos || [];
     let placeholder = [];
     let sql, values;
 
-    req.body.photos.forEach(photoId => placeholder.push(postId, photoId));
+    if (!photos.length) {
+        return next();
+    }
+
+    photos.forEach(photoId => placeholder.push(postId, photoId));
 
     values = Array(placeholder.length/2).fill('(?, ?)').join(', ');
     sql = `INSERT INTO ${POSTS_PHOTOS} (postId, photoId) VALUES ${values}; `;
