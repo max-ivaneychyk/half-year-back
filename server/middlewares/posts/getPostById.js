@@ -2,6 +2,8 @@ let constants = require('../../const');
 const {TABLES, ENTITIES} = constants;
 const {
     POSTS,
+    PHOTOS,
+    POSTS_PHOTOS,
     USERS,
     LIKES,
     COMMENTS
@@ -12,6 +14,7 @@ let AppError = require('../../errors');
 
 module.exports = function  (req, res, next) {
     let sql = ` SELECT post.id, post.description, post.updatedAt, post.createdAt, post.ownerId AS 'owner.id',
+    ${PHOTOS}.id AS 'photos[0].id', ${PHOTOS}.url AS 'photos[0].url',
     (SELECT count(${LIKES}.recipientId) FROM ${LIKES} WHERE ${LIKES}.recipientId = post.id) AS countLikes,
     (SELECT count(${COMMENTS}.recipientId) FROM ${COMMENTS} WHERE ${COMMENTS}.recipientId = post.id) AS countComments,
     (SELECT ${LIKES}.id FROM ${LIKES} WHERE ${LIKES}.recipientId = post.id AND ${LIKES}.entityId = ${ENTITIES.POST} LIMIT 1) AS likedId,
@@ -20,15 +23,17 @@ module.exports = function  (req, res, next) {
     (SELECT count(${LIKES}.recipientId) FROM ${LIKES} WHERE ${LIKES}.recipientId = ${COMMENTS}.id) AS 'comments[0].countLikes',
     ${COMMENTS}.createdAt AS 'comments[0].createdAt',  ${COMMENTS}.updatedAt AS 'comments[0].updatedAt',
     OwnerComments.id AS 'comments[0].owner.id',  OwnerComments.firstName AS 'comments[0].owner.firstName', OwnerComments.lastName AS 'comments[0].owner.lastName'
-    FROM ( SELECT * FROM ${POSTS} WHERE id = ?) as post  
+    FROM ( SELECT * FROM ${POSTS} WHERE id = ?) as post 
+    LEFT JOIN ${POSTS_PHOTOS} ON post.id = ${POSTS_PHOTOS}.postId
+    LEFT JOIN ${PHOTOS} ON ${POSTS_PHOTOS}.photoId = ${PHOTOS}.id 
     LEFT JOIN ${USERS} ON post.ownerId = ${USERS}.id
     LEFT JOIN ${COMMENTS} ON post.id = ${COMMENTS}.recipientId
     LEFT JOIN ${USERS} AS OwnerComments ON OwnerComments.id = ${COMMENTS}.ownerId
     `;
-    let placeholder = [res.ans.get().id];
+    let placeholder = [req.params.postId];
 
     database.query(sql, placeholder).then(([rows]) => {
-        res.ans.set({data: rows[0]});
+        res.ans.set({data: rows});
         next();
     }).catch((e) => {
         console.log(e);

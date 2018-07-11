@@ -15,7 +15,8 @@ let storage = multer.diskStorage({
 let photosUploader = multer({
     storage,
     fileFilter: function (req, file, cb) {
-        let fileTypes = /jpeg|jpg|png|gif/gmi;
+        let formats = ['jpeg', 'jpg', 'png', 'gif', 'webp', 'svg'];
+        let fileTypes = new RegExp(`${formats.join('|')}`, 'i');
         let mimeType = fileTypes.test(file.mimetype);
         let extName = fileTypes.test(file.originalname);
 
@@ -23,7 +24,7 @@ let photosUploader = multer({
             return cb(null, true);
         }
 
-        cb(`Error: File upload only supports the following filetypes - ${fileTypes}`);
+        cb(`Error: File upload only supports the following filetypes - ${formats.join(', ')}`);
     }
 });
 

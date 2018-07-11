@@ -14,10 +14,12 @@ module.exports = function (req, res, next) {
     let placeholder = [path];
 
     database.query(sql, placeholder).then((rows) => {
-       res.ans.set({data: {
-            id: rows[0].insertId,
-            url: path
-        }});
+        res.ans.set({
+            data: {
+                id: rows[0].insertId,
+                url: path
+            }
+        });
 
         next();
     }).catch(e => {

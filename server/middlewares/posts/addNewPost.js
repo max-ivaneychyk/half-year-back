@@ -10,7 +10,7 @@ module.exports = function addPost (req, res, next) {
     let placeholder = [req.body.text, userID];
 
     database.query(sql, placeholder).then((rows, fields) => {
-        res.ans.merge({id: rows[0].insertId});
+        req.params.postId = rows[0].insertId;
         next();
     }).catch(e => {
         let err = AppError.create(e);

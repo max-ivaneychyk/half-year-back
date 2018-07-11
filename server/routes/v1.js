@@ -34,6 +34,7 @@ router.route('/users/:userId/posts')
 .get(controllers.postController.getList);
 
 router.route('/users/:userId/posts/:postId')
+.get(controllers.postController.getPostById)
 .put(controllers.postController.editPostById)
 .delete(controllers.postController.deletePost);
 

@@ -26,6 +26,20 @@ let utils = {
         });
 
         return Object.values(store);
+    },
+    clearEmptyArrays : (list, listKeysForCheck = []) => {
+
+        list.forEach(data => {
+           listKeysForCheck.forEach(checkConf => {
+               let val = _.get(data, checkConf.checkKey);
+
+               if (val === null) {
+                   _.set(data, checkConf.ifEmptySet.key, checkConf.ifEmptySet.value);
+               }
+           })
+        });
+
+        return list;
     }
 };
 
