@@ -13,7 +13,6 @@ module.exports = function (req, res, next) {
     LIMIT ${LIMIT.USERS}`;
 
     database.query(query).then(([rows]) => {
-        console.log(rows);
         res.ans.merge({data: rows});
         next()
     }).catch(next);
