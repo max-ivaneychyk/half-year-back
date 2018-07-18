@@ -5,3 +5,5 @@
 /logs/
 /.idea/
 docs/build
+public/images/upload*
+!public/images/upload/.empty
