@@ -1,12 +1,13 @@
 let constants = require('../../const');
-const {POSTS_LIKES} = constants.TABLES;
+const TABLES = constants.TABLES;
 let database = require('../../../DB');
 let errorMessages = require('../../errors/errorMessages');
 let AppError = require('../../errors');
 
-module.exports = function addPost (req, res, next) {
-    let sql = `INSERT INTO ${POSTS_LIKES} (likeId, postId) VALUES (?, ?); `;
-    let placeholder = [req.params.likeId, req.params.postId];
+module.exports = function (req, res, next) {
+    let userID = req.getSessionData().payload.id;
+    let sql = `INSERT INTO ${TABLES.USERS_COMMENTS} (userId, commentId) VALUES (?, ?);`;
+    let placeholder = [userID, req.params.commentId];
 
     database.query(sql, placeholder).then(() => {
         next();

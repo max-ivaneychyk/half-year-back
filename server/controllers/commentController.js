@@ -8,6 +8,8 @@ class CommentController {
             Validator.create(CommentModel),
             middlewares.token.checkToken,
             middlewares.comments.addComment,
+            middlewares.comments.addUserWhoComment,
+            middlewares.comments.addCommentToPost,
             middlewares.comments.getCommentById,
             middlewares.utils.groupJoinData,
             middlewares.sendAnswer

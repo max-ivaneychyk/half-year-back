@@ -13,6 +13,8 @@ class PostController {
             Validator.create(PostModel),
             middlewares.token.checkToken,
             middlewares.posts.addNewPost,
+            middlewares.posts.addUserToPost,
+            middlewares.posts.addPostToWall,
             middlewares.posts.addPhotosToPost,
             ...this._getPostById,
             middlewares.sendAnswer

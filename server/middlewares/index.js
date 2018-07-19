@@ -10,6 +10,7 @@ let likes = require('./likes');
 let email = require('./email');
 let utils = require('./utils');
 let photos = require('./photos');
+let walls = require('./walls');
 
 module.exports = {
     posts,
@@ -20,6 +21,7 @@ module.exports = {
     likes,
     comments,
     photos,
+    walls,
     sendAnswer,
     redirectToAuthPage,
     clearSessionFromResponse

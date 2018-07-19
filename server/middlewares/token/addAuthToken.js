@@ -4,7 +4,7 @@ let database = require('../../../DB/index');
 const {TABLES} = constants;
 
 module.exports = function (req, res, next) {
-  let data = res.ans.get();
+  let data = res.ans.get().data;
   let session = {
       accessToken: tokenService.encryptToken({id: data.id, email: data.email}),
       refreshToken: tokenService.generateRefreshToken({id: data.id, email: data.email})

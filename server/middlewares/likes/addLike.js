@@ -4,14 +4,14 @@ let errorMessages = require('../../errors/errorMessages');
 let AppError = require('../../errors');
 
 module.exports = function (req, res, next) {
-    let sql = `SELECT id, createdAt FROM Likes WHERE id = ?;`;
-    let placeholder = [req.params.likeId];
+    let sql = `INSERT INTO ${TABLES.LIKES} (createdAt) VALUE (DEFAULT);`;
 
-    database.query(sql, placeholder).then(([rows]) => {
-        res.ans.set({data: rows[0]});
+    database.query(sql).then(([rows]) => {
+        req.params.likeId = rows.insertId;
         next();
     }).catch(e => {
         let err = AppError.create(e);
         next(err);
-    });
+    })
 };
+

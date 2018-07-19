@@ -29,9 +29,14 @@ router.route('/users/me/avatar')
 // GET                  /users/:userId/posts 
 // DELETE|PATCH         /users/:userId/posts/:postId 
 
-router.route('/users/me/posts')
+router.route('/users/walls/:wallId/posts')
 .get(controllers.postController.getList)
 .post(controllers.postController.addNewPost);
+
+
+// Walls
+router.route('/users/walls')
+.post(controllers.wallsController.createWall);
 
 router.route('/users/:userId/posts')
 .get(controllers.postController.getList);

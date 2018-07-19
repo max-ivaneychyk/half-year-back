@@ -14,6 +14,13 @@ let clearPlaces = {
             key: 'photos',
             value: []
         }
+    },
+    walls: {
+        checkKey: 'walls[0].id',
+        ifEmptySet: {
+            key: 'walls',
+            value: []
+        }
     }
 };
 
@@ -22,7 +29,7 @@ module.exports = function (req, res, next) {
     let isArray = Array.isArray(data);
 
     data = utils.groupJoinData( isArray ? data : [data] );
-    data = utils.clearEmptyArrays(data, [clearPlaces.comments, clearPlaces.photos]);
+    data = utils.clearEmptyArrays(data, [clearPlaces.comments, clearPlaces.photos, clearPlaces.walls]);
 
     if (!isArray) {
         data = data[0]

@@ -1,8 +1,9 @@
 
 module.exports = {
     addComment: require('./addComment'),
+    addUserWhoComment: require('./addUserWhoComment'),
     editComment: require('./editComment'),
-    savePostId: require('./savePostId'),
+    addCommentToPost: require('./addCommentToPost'),
     deleteComment: require('./deleteComment'),
     getCommentById: require('./getCommentById'),
     getListCommentsByPostId: require('./getListCommetsByPostId'),
