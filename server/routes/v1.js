@@ -96,8 +96,11 @@ router.route('/users/:ownerId/comments')
 router.route('/posts/:postId/likes')
     .post(controllers.likesController.setLikeToPost);
 
-router.route('/posts/:postId/likes/:likeId')
-    .delete(controllers.likesController.deleteLikeToPost);
+router.route('/comments/:commentId/likes')
+    .post(controllers.likesController.setLikeToComment);
+
+router.route('/users/me/likes/:likeId')
+    .delete(controllers.likesController.deleteLike);
 
 
 // Email
