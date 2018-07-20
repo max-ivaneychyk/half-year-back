@@ -5,6 +5,7 @@ let AppError = require('../../errors/index');
 let errorMessages = require('../../errors/errorMessages');
 
 module.exports = function (req, res, next) {
+    let userID = req.getSessionData().payload.id;
     let query = `
     SELECT  Users.id, Users.firstName, Users.lastName, 
     (
@@ -15,6 +16,7 @@ module.exports = function (req, res, next) {
       LIMIT 1
     ) AS 'avatarUrl'
     FROM Users
+    WHERE Users.id != ${userID} AND Users.id NOT IN (SELECT friendId FROM Friends WHERE myId = ${userID})
     LIMIT 10
 `;
 

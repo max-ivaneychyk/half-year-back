@@ -16,6 +16,9 @@ router.route('/users')
     .post(controllers.usersController.signUp)
     .get(controllers.usersController.searchUsers);
 
+router.route('/users/:userId')
+    .get(controllers.usersController.getUserById);
+
 router.route('/users/login')
     .post(controllers.usersController.signIn);
 

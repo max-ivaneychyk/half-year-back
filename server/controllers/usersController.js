@@ -35,6 +35,13 @@ class UserController {
             middlewares.user.saveAvatarId,
             middlewares.sendAnswer
         ];
+
+        this.getUserById = [
+            middlewares.token.checkToken,
+            middlewares.user.getUserProfileById,
+            middlewares.utils.groupJoinData,
+            middlewares.sendAnswer
+        ];
     }
 }
 

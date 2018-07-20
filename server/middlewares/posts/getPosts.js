@@ -25,6 +25,7 @@ let utils = require('../../utils/transformSelection');
 
 module.exports = function (req, res, next) {
     let userID = req.getSessionData().payload.id;
+    let {wallId} = req.params;
     let sql = `
     SELECT 
     post.id, post.description, post.updatedAt, post.createdAt,
@@ -58,7 +59,13 @@ module.exports = function (req, res, next) {
         LIMIT 1
     ) AS 'comments[0].owner.avatarUrl'
     
-    FROM ( SELECT * FROM ${POSTS} ORDER BY createdAt DESC LIMIT ?) as post  
+    FROM ( 
+        SELECT ${POSTS}.* 
+        FROM ${POSTS}, ${WALLS_POSTS} 
+        WHERE ${WALLS_POSTS}.wallId=${wallId} AND ${WALLS_POSTS}.postId=${POSTS}.id
+        ORDER BY ${POSTS}.createdAt DESC 
+        LIMIT ?
+    ) as post  
 
     LEFT JOIN ${POSTS_PHOTOS} ON post.id = ${POSTS_PHOTOS}.postId
     LEFT JOIN ${PHOTOS} ON ${POSTS_PHOTOS}.photoId = ${PHOTOS}.id
