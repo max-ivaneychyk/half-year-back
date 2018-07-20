@@ -16,7 +16,6 @@ const {
     USERS_COMMENTS,
     POSTS_LIKES,
     AVATARS,
-    LIKES,
     COMMENTS
 } = TABLES;
 let database = require('../../../DB');
@@ -43,7 +42,21 @@ module.exports = function (req, res, next) {
     
     OwnerComment.id AS  'comments[0].owner.id',
     OwnerComment.firstName AS  'comments[0].owner.firstName',
-    OwnerComment.lastName AS  'comments[0].owner.lastName'
+    OwnerComment.lastName AS  'comments[0].owner.lastName',
+    
+    (SELECT ${PHOTOS}.url 
+        FROM ${PHOTOS}, ${AVATARS} 
+        WHERE ${USERS}.id=${AVATARS}.ownerId AND ${PHOTOS}.id=${AVATARS}.photoId
+        ORDER BY ${AVATARS}.createdAt DESC 
+        LIMIT 1
+    ) AS 'owner.avatarUrl',
+
+    (SELECT ${PHOTOS}.url 
+        FROM ${PHOTOS}, ${AVATARS} 
+        WHERE OwnerComment.id=${AVATARS}.ownerId AND ${PHOTOS}.id=${AVATARS}.photoId
+        ORDER BY ${AVATARS}.createdAt DESC 
+        LIMIT 1
+    ) AS 'comments[0].owner.avatarUrl'
     
     FROM ( SELECT * FROM ${POSTS} ORDER BY createdAt DESC LIMIT ?) as post  
 
