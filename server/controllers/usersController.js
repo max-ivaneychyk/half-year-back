@@ -42,6 +42,10 @@ class UserController {
             middlewares.utils.groupJoinData,
             middlewares.sendAnswer
         ];
+
+        this.test = [
+            middlewares.sendAnswer
+        ]
     }
 }
 

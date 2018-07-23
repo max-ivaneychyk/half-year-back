@@ -17,6 +17,4 @@ $ api-console dev ./docs/api.raml  --open
 #### - Add Bearer
 #### - Resfresh token
 #### - Restore rassword
-#### - Upload Avatar and photos 
-#### - Profile 
-#### - rename field 'likedId'
+

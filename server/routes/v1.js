@@ -25,6 +25,9 @@ router.route('/users/login')
 router.route('/users/me/avatar')
     .put(controllers.usersController.changeAvatar);
 
+router.route('/test')
+    .get(controllers.usersController.test);
+
 
 // Posts    
 
@@ -79,7 +82,7 @@ router.route('/posts/comments/:commentId')
     .put(controllers.commentController.editCommentById)
     .delete(controllers.commentController.deleteComment);
 
-router.route('/users/:ownerId/comments')
+router.route('/users/:userId/comments')
     .get(controllers.commentController.getCommentByUserId);
 
 

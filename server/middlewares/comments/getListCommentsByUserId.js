@@ -6,7 +6,8 @@ let AppError = require('../../errors');
 
 module.exports = function getCommentsByUserId (req, res, next) {
     let limit = req.query.limit || 5;
-    let id = req.params.id;
+    let id = req.params.userId;
+
     let sql = `SELECT * FROM ${TABLES.COMMENTS}  WHERE ownerId=${req.params.ownerId} LIMIT ${limit}`;
 
     database.query(sql).then(([rows]) => {

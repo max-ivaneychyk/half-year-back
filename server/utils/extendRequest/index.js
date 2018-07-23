@@ -6,20 +6,22 @@ module.exports = function (req, res, next) {
     };
 
     res.ans = {
-        __ans: {},
         get: () => {
-            return this.__ans;
+            return req.params.__ans;
         },
         merge: obj => {
-            this.__ans = {...this.__ans, ...obj }
+            req.params.__ans = {...req.params.__ans, ...obj }
         },
         set:  obj => {
-            this.__ans = {...obj}; 
+            req.params.__ans = {...obj};
         },
         clear: () => {
-            this.__ans = {}; 
+            // temp store answer for list middlevares
+            req.params.__ans = {};
         }
     };
+
+    res.ans.clear();
 
     next();
 };

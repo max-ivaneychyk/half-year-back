@@ -23,7 +23,15 @@ CREATE TABLE IF NOT EXISTS ${TABLES.FRIENDS} (
     myId int,
     friendId int,
     updatedAt DATETIME ON UPDATE CURRENT_TIMESTAMP,
-    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT FK_FriendsMyId 
+        FOREIGN KEY (myId) 
+        REFERENCES ${TABLES.USERS} (id) 
+        ON DELETE NO ACTION,
+    CONSTRAINT FK_FriendsFriendId 
+        FOREIGN KEY (friendId) 
+        REFERENCES ${TABLES.USERS} (id) 
+        ON DELETE NO ACTION
 );
 
 
