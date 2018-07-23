@@ -8,7 +8,7 @@ module.exports = function addPost (req, res, next) {
     let sql = `INSERT INTO ${POSTS} (description) VALUES (?); `;
     let placeholder = [req.body.text];
 
-    database.query(sql, placeholder).then((rows, fields) => {
+    database.query(sql, placeholder).then((rows) => {
         req.params.postId = rows[0].insertId;
         next();
     }).catch(e => {

@@ -73,8 +73,13 @@ module.exports = function (req, res, next) {
     LEFT JOIN ${USERS_POSTS} ON ${USERS_POSTS}.postId = post.id
     LEFT JOIN ${USERS} ON ${USERS_POSTS}.userId = ${USERS}.id
     
-    LEFT JOIN (SELECT ${POSTS_COMMENTS}.* FROM ${POSTS_COMMENTS} ORDER BY postId DESC) AS postsComments ON postsComments.postId = post.id
-    LEFT JOIN ${COMMENTS} ON ${COMMENTS}.id=postsComments.commentId 
+    LEFT JOIN ${COMMENTS} ON ${COMMENTS}.id = (SELECT ${COMMENTS}.id 
+        FROM ${POSTS_COMMENTS}, ${COMMENTS} 
+        WHERE ${POSTS_COMMENTS}.postId=post.id 
+        AND ${POSTS_COMMENTS}.commentId=${COMMENTS}.id
+        ORDER BY ${COMMENTS}.createdAt DESC
+        LIMIT 1
+    )
     
     LEFT JOIN ${USERS_COMMENTS} ON ${USERS_COMMENTS}.commentId = ${COMMENTS}.id
     LEFT JOIN ${USERS} AS OwnerComment ON OwnerComment.id = ${USERS_COMMENTS}.userId

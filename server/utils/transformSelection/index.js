@@ -25,7 +25,7 @@ let utils = {
             store[tempRow[uniq]] = _.mergeWith(tempRow, store[tempRow[uniq]], customizer);
         });
 
-        return Object.values(store);
+        return Object.values(store).reverse();
     },
     clearEmptyArrays : (list, listKeysForCheck = []) => {
 
