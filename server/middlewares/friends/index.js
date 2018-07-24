@@ -5,4 +5,5 @@ module.exports = {
     getListFriends: require('./getListFriends'),
     getInvitesToFriends: require('./getInviteToFriends'),
     getMyRequests: require('./getMyRequests'),
+    paginationFriends: require('./paginationFriends'),
 };

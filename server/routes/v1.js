@@ -111,6 +111,8 @@ router.route('/friends/:friendId')
 
 router.route('/friends/me')
     .get(controllers.friendsController.getListMyFriends);
+router.route('/friends/:userId')
+    .get(controllers.friendsController.getListFriendsForUser);
 router.route('/friends/invites/me')
     .get(controllers.friendsController.getInvitesToFriends);
 router.route('/friends/me/requests')
