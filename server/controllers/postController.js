@@ -38,7 +38,7 @@ class PostController {
             middlewares.token.checkToken,
             middlewares.posts.getPosts,
             middlewares.utils.groupJoinData,
-            middlewares.posts.countPosts,
+            middlewares.posts.addPaginationToPosts,
             middlewares.sendAnswer
         ]
     }

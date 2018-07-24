@@ -22,8 +22,8 @@ CREATE TABLE IF NOT EXISTS ${TABLES.AUTH} (
 CREATE TABLE IF NOT EXISTS ${TABLES.FRIENDS} (
     myId int,
     friendId int,
-    updatedAt DATETIME ON UPDATE CURRENT_TIMESTAMP,
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(myId, friendId),
     CONSTRAINT FK_FriendsMyId 
         FOREIGN KEY (myId) 
         REFERENCES ${TABLES.USERS} (id) 
@@ -33,7 +33,6 @@ CREATE TABLE IF NOT EXISTS ${TABLES.FRIENDS} (
         REFERENCES ${TABLES.USERS} (id) 
         ON DELETE NO ACTION
 );
-
 
 CREATE TABLE IF NOT EXISTS ${TABLES.WALLS} (
     id int AUTO_INCREMENT,
@@ -101,6 +100,7 @@ CREATE TABLE IF NOT EXISTS ${TABLES.POSTS_PHOTOS} (
 CREATE TABLE IF NOT EXISTS ${TABLES.POSTS_COMMENTS} (
     postId int,
     commentId int,
+    PRIMARY KEY (postId, commentId),
     CONSTRAINT FK_PostCommentsPostId 
         FOREIGN KEY (postId) 
         REFERENCES ${TABLES.POSTS} (id) 
@@ -114,6 +114,7 @@ CREATE TABLE IF NOT EXISTS ${TABLES.POSTS_COMMENTS} (
 CREATE TABLE IF NOT EXISTS ${TABLES.POSTS_LIKES} (
     postId int,
     likeId int,
+    PRIMARY KEY (postId, likeId),
     CONSTRAINT FK_PostLikesPostId 
         FOREIGN KEY (postId) 
         REFERENCES ${TABLES.POSTS} (id) 
@@ -127,6 +128,7 @@ CREATE TABLE IF NOT EXISTS ${TABLES.POSTS_LIKES} (
 CREATE TABLE IF NOT EXISTS ${TABLES.COMMENTS_LIKES} (
     commentId int,
     likeId int,
+    PRIMARY KEY (commentId, likeId),
     CONSTRAINT FK_CommentsLikesCommentId 
         FOREIGN KEY (commentId) 
         REFERENCES ${TABLES.COMMENTS} (id) 
@@ -140,6 +142,7 @@ CREATE TABLE IF NOT EXISTS ${TABLES.COMMENTS_LIKES} (
 CREATE TABLE IF NOT EXISTS ${TABLES.USERS_WALLS} (
     userId int,
     wallId int,
+    PRIMARY KEY (userId, wallId),
     CONSTRAINT FK_UsersWallsUserId 
         FOREIGN KEY (userId) 
         REFERENCES ${TABLES.USERS} (id) 
@@ -153,6 +156,7 @@ CREATE TABLE IF NOT EXISTS ${TABLES.USERS_WALLS} (
 CREATE TABLE IF NOT EXISTS ${TABLES.USERS_LIKES} (
     userId int,
     likeId int,
+    PRIMARY KEY (userId, likeId),
     CONSTRAINT FK_UsersLikesUserId 
         FOREIGN KEY (userId) 
         REFERENCES ${TABLES.USERS} (id) 

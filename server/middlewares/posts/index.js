@@ -6,7 +6,7 @@ module.exports = {
     addPhotosToPost: require('./addPhotosToPost'),
     addUserToPost: require('./addUserToPost'),
     addPostToWall: require('./addPostToWall'),
-    countPosts: require('./countPosts'),
+    addPaginationToPosts: require('./addPaginationToPosts'),
     deletePost: require('./deletePost')
 };
 

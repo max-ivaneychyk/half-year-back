@@ -71,8 +71,6 @@ router.route('/photos/upload')
 // GET|POST             /posts/:postId/comments
 // DELETE|PUT           /posts/:postId/comments/:commentId
 
-// GET|POST             /photos/:photoId/comments
-// DELETE|PUT           /photos/:photoId/comments/:commentId
 
 router.route('/posts/:postId/comments')
     .get(controllers.commentController.getCommentByPostId)
@@ -96,9 +94,6 @@ router.route('/users/:userId/comments')
 // GET|POST                 /comments/:postId/likes
 // DELETE                   /comments/:postId/likes/:likesId
 
-// GET|POST                 /photos/:photoId/likes
-// DELETE                   /photos/:photoId/likes/:likesId
-
 router.route('/posts/:postId/likes')
     .post(controllers.likesController.setLikeToPost);
 
@@ -107,6 +102,19 @@ router.route('/comments/:commentId/likes')
 
 router.route('/users/me/likes/:likeId')
     .delete(controllers.likesController.deleteLike);
+
+// Friends
+router.route('/friends/:friendId')
+    .post(controllers.friendsController.addToFriends)
+    .delete(controllers.friendsController.deleteFromFriends);
+
+
+router.route('/friends/me')
+    .get(controllers.friendsController.getListMyFriends);
+router.route('/friends/invites/me')
+    .get(controllers.friendsController.getInvitesToFriends);
+router.route('/friends/me/requests')
+    .get(controllers.friendsController.getMyRequests);
 
 
 // Email

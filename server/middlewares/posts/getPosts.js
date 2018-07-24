@@ -1,6 +1,5 @@
 const {
     TABLES,
-    ENTITIES,
     LIMIT
 } = require('../../const');
 const {
@@ -21,11 +20,13 @@ const {
 let database = require('../../../DB');
 let errorMessages = require('../../errors/errorMessages');
 let AppError = require('../../errors');
-let utils = require('../../utils/transformSelection');
 
 module.exports = function (req, res, next) {
     let userID = req.getSessionData().payload.id;
     let {wallId} = req.params;
+    let limit = req.query.limit || LIMIT.POSTS;
+    let offset = req.query.offset || 0;
+
     let sql = `
     SELECT 
     post.id, post.description, post.updatedAt, post.createdAt,
@@ -64,7 +65,7 @@ module.exports = function (req, res, next) {
         FROM ${POSTS}, ${WALLS_POSTS} 
         WHERE ${WALLS_POSTS}.wallId=${wallId} AND ${WALLS_POSTS}.postId=${POSTS}.id
         ORDER BY ${POSTS}.createdAt DESC 
-        LIMIT ?
+        LIMIT ?, ?
     ) as post  
 
     LEFT JOIN ${POSTS_PHOTOS} ON post.id = ${POSTS_PHOTOS}.postId
@@ -87,9 +88,9 @@ module.exports = function (req, res, next) {
     ORDER BY post.createdAt DESC
     `;
 
-    let placeholder = [LIMIT.POSTS];
+    let placeholder = [+offset, +limit];
 
-    database.query(sql, placeholder).then(([rows], fields) => {
+    database.query(sql, placeholder).then(([rows]) => {
         res.ans.set({
             data: rows
         });
