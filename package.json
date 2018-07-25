@@ -25,6 +25,7 @@
     "mysql2": "^1.5.3",
     "nodemailer": "^4.6.5",
     "redis": "^2.8.0",
-    "scribe-js": "^2.0.4"
+    "scribe-js": "^2.0.4",
+    "socket.io": "^2.1.1"
   }
 }
