@@ -69,6 +69,62 @@ CREATE TABLE IF NOT EXISTS ${TABLES.COMMENTS} (
     PRIMARY KEY(id)
 ); 
 
+CREATE TABLE IF NOT EXISTS ${TABLES.MESSAGES} (
+    id int AUTO_INCREMENT,
+    text varchar(500),
+    updatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(id)
+); 
+
+CREATE TABLE IF NOT EXISTS ${TABLES.CONVERSATIONS} (
+    id int AUTO_INCREMENT,
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(id)
+); 
+
+CREATE TABLE IF NOT EXISTS ${TABLES.CONVERSATIONS_MESSAGES} (
+    messageId int NOT NULL,
+    conversationId int NOT NULL,
+    PRIMARY KEY(messageId, conversationId),
+    CONSTRAINT FK_ConversationMessagesMessageId 
+        FOREIGN KEY (messageId) 
+        REFERENCES ${TABLES.MESSAGES} (id) 
+        ON DELETE CASCADE,
+    CONSTRAINT FK_ConversationMessagesConversationId 
+        FOREIGN KEY (conversationId) 
+        REFERENCES ${TABLES.CONVERSATIONS} (id)
+        ON DELETE CASCADE  
+); 
+
+CREATE TABLE IF NOT EXISTS ${TABLES.USERS_MESSAGES} (
+    messageId int NOT NULL,
+    userId int NOT NULL,
+    PRIMARY KEY(messageId, userId),
+    CONSTRAINT FK_UsersMessagesMessageId 
+        FOREIGN KEY (messageId) 
+        REFERENCES ${TABLES.MESSAGES} (id) 
+        ON DELETE CASCADE,
+    CONSTRAINT FK_UsersMessagesUserId 
+        FOREIGN KEY (userId) 
+        REFERENCES ${TABLES.USERS} (id)
+        ON DELETE CASCADE
+); 
+
+CREATE TABLE IF NOT EXISTS ${TABLES.USERS_CONVERSATIONS} (
+    conversationId int NOT NULL,
+    userId int NOT NULL,
+    PRIMARY KEY(userId, conversationId),
+    CONSTRAINT FK_UsersConversationsConversationId 
+        FOREIGN KEY (conversationId) 
+        REFERENCES ${TABLES.CONVERSATIONS} (id) 
+        ON DELETE CASCADE,
+    CONSTRAINT FK_UsersConversationsUserId 
+        FOREIGN KEY (userId) 
+        REFERENCES ${TABLES.USERS} (id)
+        ON DELETE CASCADE
+); 
+
 CREATE TABLE IF NOT EXISTS ${TABLES.LIKES} (
     id int AUTO_INCREMENT,
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,

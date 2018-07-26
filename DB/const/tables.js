@@ -7,6 +7,8 @@ exports.TABLES = {
     USERS_POSTS: 'UsersPosts',
     USERS_COMMENTS: 'UsersComments',
     USERS_LIKES: 'UsersLikes',
+    USERS_MESSAGES: 'UsersMessages',
+    USERS_CONVERSATIONS: 'UsersConversations',
     LIKES: 'Likes',
     POSTS: 'Posts',
     POSTS_PHOTOS: 'PostsPhotos',
@@ -18,17 +20,10 @@ exports.TABLES = {
     AVATARS: 'Avatars',
     FRIENDS: 'Friends',
     MESSAGES: 'Messages',
+    CONVERSATIONS: 'Conversations',
+    CONVERSATIONS_MESSAGES: 'ConversationsMessages',
     COMMENTS: 'Comments',
     COMMENTS_LIKES: 'CommentsLikes',
 };
 
-exports.ENTITIES = {
-    USER: 0,
-    LIKE: 1,
-    POST: 2,
-    COMMENT: 3,
-    PHOTO: 4,
-    MESSAGE: 5,
-    WALL: 6,
-};
 
