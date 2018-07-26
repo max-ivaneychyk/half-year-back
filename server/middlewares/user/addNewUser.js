@@ -9,7 +9,10 @@ module.exports = function addNewUser(req, res, next) {
     let {firstName, lastName, email, password} = req.body;
     let token = tokenService.generateRefreshToken({email});
     let sqlSecurityInfo = `INSERT INTO ${TABLES.AUTH} (email, password, refreshToken) VALUES (?, ?, ?);`;
-    let sqlAddUser = `INSERT INTO ${TABLES.USERS} (firstName, lastName) VALUES (?, ?);`;
+    let sqlAddUser = `
+        INSERT INTO ${TABLES.USERS} (firstName, lastName) VALUES (?, ?);
+        INSERT INTO ${TABLES.ONLINE} (userId, isOnline) VALUES (LAST_INSERT_ID(), 0);
+    `;
 
     database.query(sqlSecurityInfo, [email, password, token])
         .then(() => database.query(sqlAddUser, [firstName, lastName]))

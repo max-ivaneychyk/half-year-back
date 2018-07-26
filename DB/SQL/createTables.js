@@ -10,6 +10,18 @@ module.exports = [
     PRIMARY KEY(id)
 );
 
+CREATE TABLE IF NOT EXISTS ${TABLES.ONLINE} (
+    userId int,
+    isOnline int,
+    updatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP 
+        ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY(userId),
+    CONSTRAINT FK_OnlineUserId 
+        FOREIGN KEY (userId) 
+        REFERENCES ${TABLES.USERS} (id) 
+        ON DELETE CASCADE
+);
+
 CREATE TABLE IF NOT EXISTS ${TABLES.AUTH} (
     id int AUTO_INCREMENT,
     email varchar(255) NOT NULL UNIQUE,

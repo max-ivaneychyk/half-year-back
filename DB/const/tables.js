@@ -2,6 +2,7 @@
 exports.TABLES = {
     AUTH: 'Authorization',
     USERS: 'Users',
+    ONLINE: 'Online',
     USERS_WALLS: 'UsersWalls',
     USERS_POSTS: 'UsersPosts',
     USERS_COMMENTS: 'UsersComments',
