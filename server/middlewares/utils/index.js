@@ -1,5 +1,5 @@
 
 module.exports = {
-    groupJoinData: require('./groupJoinData'),
+    joiner: require('./groupJoinData'),
     addUserIdToParams: require('./addUserIdToParams'),
 };

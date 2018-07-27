@@ -1,21 +1,27 @@
 let utils = require('../../utils/transformSelection');
 
+const CHECK_KEYS = {
+  COMMENTS: 'comments',
+  PHOTOS: 'photos',
+  WALLS: 'walls',
+};
+
 let clearPlaces = {
-    comments: {
-        checkKey: 'comments[0].id',
+    [CHECK_KEYS.COMMENTS]: {
+        checkKey: 'lastComment.id',
         ifEmptySet: {
-            key: 'comments',
-            value: []
+            key: 'lastComment',
+            value: null
         }
     },
-    photos: {
+    [CHECK_KEYS.PHOTOS]: {
         checkKey: 'photos[0].id',
         ifEmptySet: {
             key: 'photos',
             value: []
         }
     },
-    walls: {
+    [CHECK_KEYS.WALLS]: {
         checkKey: 'walls[0].id',
         ifEmptySet: {
             key: 'walls',
@@ -24,17 +30,31 @@ let clearPlaces = {
     }
 };
 
-module.exports = function (req, res, next) {
-    let data = res.ans.get().data;
-    let isArray = Array.isArray(data);
+function groupJoinData(keysForCheck = []) {
+    let _clearPlacesList = keysForCheck.map(key => clearPlaces[key]);
 
-    data = utils.groupJoinData( isArray ? data : [data] );
-    data = utils.clearEmptyArrays(data, [clearPlaces.comments, clearPlaces.photos, clearPlaces.walls]);
+    return function (req, res, next)  {
+        let data = req.ans.get().data;
+        let isArray = Array.isArray(data);
 
-    if (!isArray) {
-        data = data[0]
+
+        data = utils.groupJoinData(isArray ? data : [data]);
+
+        if (_clearPlacesList.length) {
+            data = utils.clearEmptyArrays(data, _clearPlacesList);
+        }
+
+        if (!isArray) {
+            data = data[0]
+        }
+
+        req.ans.merge({data});
+
+        next();
     }
+}
 
-    res.ans.merge({data});
-    next();
+module.exports = {
+    groupJoinData,
+    CHECK_KEYS
 };

@@ -18,12 +18,12 @@ module.exports = function (req, res, next) {
     ${AUTH}.verified
     
     FROM ${USERS} 
-    INNER JOIN ${AUTH} ON ${AUTH}.email='${email}' AND ${AUTH}.password='${password}'AND ${USERS}.id=${AUTH}.id
+    INNER JOIN ${AUTH} ON ${AUTH}.email=? AND ${AUTH}.password=? AND ${USERS}.id=${AUTH}.id
     LEFT JOIN ${USERS_WALLS} ON ${USERS}.id=${USERS_WALLS}.userId
     LEFT JOIN ${WALLS} ON ${USERS_WALLS}.wallId=${WALLS}.id
     `;
 
-    database.query(query).then(([rows]) => {
+    database.query(query, [email, password]).then(([rows]) => {
         let data = rows[0];
 
         if (!data) {
@@ -34,7 +34,7 @@ module.exports = function (req, res, next) {
             return next(AppError.create(errorMessages.USER_NOT_VERIFIED))
         }
 
-        res.ans.merge({data});
+        req.ans.merge({data});
 
         next()
     }).catch(next);

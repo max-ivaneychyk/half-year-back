@@ -25,7 +25,7 @@ module.exports = function (req, res, next) {
     `;
 
     database.query(sql, placeholder).then(([rows]) => {
-        res.ans.set({
+        req.ans.set({
             data: rows
         });
         next();

@@ -85,7 +85,7 @@ module.exports = function  (req, res, next) {
     console.log('SELECT-------------');
 
     database.query(sql, placeholder).then(([rows]) => {
-        res.ans.set({data: rows});
+        req.ans.set({data: rows});
         next();
     }).catch((e) => {
         console.log(e);

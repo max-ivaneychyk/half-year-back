@@ -16,7 +16,7 @@ module.exports = function (req, res, next) {
     `;
 
     database.query(sql, placeholder).then(([rows]) => {
-        res.ans.merge({
+        req.ans.merge({
             pagination: {
                 total: rows[0].count
             }

@@ -14,7 +14,7 @@ module.exports = function editComment (req, res, next) {
 SELECT * FROM ${TABLES.COMMENTS} WHERE id=${commentId};`;
 
     database.query(sql).then(([rows]) => {
-        res.ans.merge(rows[1][0]);
+        req.ans.merge(rows[1][0]);
         next();
     }).catch((e) => {
         let err = AppError.create(e);

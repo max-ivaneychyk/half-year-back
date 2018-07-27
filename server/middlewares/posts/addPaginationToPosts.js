@@ -24,7 +24,7 @@ module.exports = function (req, res, next) {
         .then(([rows]) => {
             let total = rows[0].countPosts;
 
-            res.ans.merge({
+            req.ans.merge({
                 pagination: {
                     nextOffset: (page+1) * limit,
                     nextPage: page + 1,

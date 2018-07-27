@@ -2,6 +2,7 @@ const middlewares = require('../middlewares');
 const Validator = require('../validators/Validator');
 const {photosUploader} = require('../utils/multer');
 let {UserRegistrationModel, UserLoginModel} = require('../models/index');
+let {groupJoinData, CHECK_KEYS} = middlewares.utils.joiner;
 
 class UserController {
     constructor () {
@@ -17,7 +18,7 @@ class UserController {
         this.signIn = [
             Validator.create(UserLoginModel),
             middlewares.user.signInUser,
-            middlewares.utils.groupJoinData,
+            groupJoinData([CHECK_KEYS.WALLS]),
             middlewares.token.addAuthToken,
             middlewares.sendAnswer
         ];
@@ -39,7 +40,7 @@ class UserController {
         this.getUserById = [
             middlewares.token.checkToken,
             middlewares.user.getUserProfileById,
-            middlewares.utils.groupJoinData,
+            groupJoinData([CHECK_KEYS.WALLS]),
             middlewares.sendAnswer
         ];
 

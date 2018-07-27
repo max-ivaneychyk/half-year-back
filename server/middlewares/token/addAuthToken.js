@@ -4,16 +4,17 @@ let database = require('../../../DB/index');
 const {TABLES} = constants;
 
 module.exports = function (req, res, next) {
-  let data = res.ans.get().data;
-  let session = {
-      accessToken: tokenService.encryptToken({id: data.id, email: data.email}),
-      refreshToken: tokenService.generateRefreshToken({id: data.id, email: data.email})
-  };
+    let data = req.ans.get().data;
+    let session = {
+        accessToken: tokenService.encryptToken({id: data.id, email: data.email}),
+        refreshToken: tokenService.generateRefreshToken({id: data.id, email: data.email})
+    };
+    let sql = `UPDATE ${TABLES.AUTH} SET refreshToken=? WHERE id=? `;
 
-  res.ans.merge({session});
+    req.ans.merge({session});
 
-  database.query(`UPDATE ${TABLES.USERS} SET refreshToken='${session.refreshToken}' WHERE id=${data.id}`)
-  .catch(e => console.log(e));
+    database.query(sql, [session.refreshToken, data.id])
+        .then(() => next())
+        .catch(e => console.log(e));
 
-  next();
 };

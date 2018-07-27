@@ -14,7 +14,7 @@ module.exports = function uploadOnePhoto (req, res, next) {
     let placeholder = [path];
 
     database.query(sql, placeholder).then((rows) => {
-        res.ans.set({
+        req.ans.set({
             data: {
                 id: rows[0].insertId,
                 url: path

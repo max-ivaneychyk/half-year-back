@@ -5,7 +5,7 @@ module.exports = function (req, res, next) {
         return tokenService.decryptToken(req.headers.authorization);
     };
 
-    res.ans = {
+    req.ans = {
         get: () => {
             return req.params.__ans;
         },
@@ -16,12 +16,12 @@ module.exports = function (req, res, next) {
             req.params.__ans = {...obj};
         },
         clear: () => {
-            // temp store answer for list middlevares
+            // temp store answers
             req.params.__ans = {};
         }
     };
 
-    res.ans.clear();
+    req.ans.clear();
 
     next();
 };

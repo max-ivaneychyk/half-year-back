@@ -12,10 +12,10 @@ module.exports = function getCommentsForPost (req, res, next) {
     RIGHT JOIN ${TABLES.COMMENTS} ON ${TABLES.COMMENTS_TO_ENTITIES}.postId = ${postId} 
     AND ${TABLES.COMMENTS_TO_ENTITIES}.commentId = ${TABLES.COMMENTS}.id
     ORDER BY ${TABLES.COMMENTS}.id
-    LIMIT ${limit};`
+    LIMIT ${limit};`;
 
     database.query(sql).then(([rows]) => {
-        res.ans.merge({data: rows});
+        req.ans.merge({data: rows});
         next();
     }).catch((e) => {
         let err = AppError.create(e);

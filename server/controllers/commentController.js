@@ -1,6 +1,7 @@
 const middlewares = require('../middlewares');
 const Validator = require('../validators/Validator');
 let {CommentModel} = require('../models/index');
+let {groupJoinData, CHECK_KEYS} = middlewares.utils.joiner;
 
 class CommentController {
     constructor () {
@@ -11,7 +12,7 @@ class CommentController {
             middlewares.comments.addUserWhoComment,
             middlewares.comments.addCommentToPost,
             middlewares.comments.getCommentById,
-            middlewares.utils.groupJoinData,
+            groupJoinData([]),
             middlewares.sendAnswer
         ];
 

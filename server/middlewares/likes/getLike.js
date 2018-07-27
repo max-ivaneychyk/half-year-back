@@ -8,7 +8,7 @@ module.exports = function (req, res, next) {
     let placeholder = [req.params.likeId];
 
     database.query(sql, placeholder).then(([rows]) => {
-        res.ans.set({data: rows[0]});
+        req.ans.set({data: rows[0]});
         next();
     }).catch(e => {
         let err = AppError.create(e);

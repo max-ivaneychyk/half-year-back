@@ -1,12 +1,13 @@
 const middlewares = require('../middlewares');
 const Validator = require('../validators/Validator');
 let {PostModel} = require('../models/index');
+let {groupJoinData, CHECK_KEYS} = middlewares.utils.joiner;
 
 class PostController {
     constructor () {
         this._getPostById = [
             middlewares.posts.getPost,
-            middlewares.utils.groupJoinData,
+            groupJoinData([CHECK_KEYS.PHOTOS, CHECK_KEYS.COMMENTS]),
         ];
 
         this.addNewPost = [
@@ -37,7 +38,7 @@ class PostController {
         this.getList = [
             middlewares.token.checkToken,
             middlewares.posts.getPosts,
-            middlewares.utils.groupJoinData,
+            groupJoinData([CHECK_KEYS.PHOTOS, CHECK_KEYS.COMMENTS]),
             middlewares.posts.addPaginationToPosts,
             middlewares.sendAnswer
         ]

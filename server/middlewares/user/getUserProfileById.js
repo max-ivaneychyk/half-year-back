@@ -29,7 +29,7 @@ module.exports = function (req, res, next) {
             return next(AppError.create(errorMessages.USER_NOT_FOUNT))
         }
 
-        res.ans.set({data});
+        req.ans.set({data});
 
         next()
     }).catch(next);

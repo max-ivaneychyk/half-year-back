@@ -21,7 +21,7 @@ module.exports = function (req, res, next) {
 `;
 
     database.query(query).then(([rows]) => {
-        res.ans.merge({data: rows});
+        req.ans.merge({data: rows});
         next()
     }).catch(next);
 };

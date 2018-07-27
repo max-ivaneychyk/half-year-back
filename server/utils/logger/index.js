@@ -31,7 +31,7 @@ class Logger {
             )
             .log();
 
-        console.log(JSON.stringify(res.ans.get()));
+        console.log(JSON.stringify(req.ans.get()));
         
         next && next();
     }

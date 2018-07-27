@@ -52,8 +52,6 @@ class Validator {
             return next(error.details);
         }
 
-        res[constants.RES_DATA] = value;
-
         next();
     }
 }

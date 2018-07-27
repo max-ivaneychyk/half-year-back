@@ -36,15 +36,15 @@ module.exports = function (req, res, next) {
     (SELECT count(*) FROM ${POSTS_COMMENTS} WHERE ${POSTS_COMMENTS}.postId = post.id) AS countComments,
     (SELECT ${USERS_LIKES}.likeId FROM ${USERS_LIKES}, ${POSTS_LIKES} WHERE  ${USERS_LIKES}.userId = ${userID} AND ${USERS_LIKES}.likeId = ${POSTS_LIKES}.likeId AND ${POSTS_LIKES}.postId = post.id LIMIT 1) AS likeId,
     
-    (SELECT count(*) FROM ${COMMENTS_LIKES} WHERE ${COMMENTS_LIKES}.commentId = ${COMMENTS}.id) AS 'comments[0].countLikes',
-    ${COMMENTS}.id AS 'comments[0].id', 
-    ${COMMENTS}.text AS 'comments[0].text', 
-    ${COMMENTS}.createdAt AS 'comments[0].createdAt',
-    (SELECT ${USERS_LIKES}.likeId FROM ${USERS_LIKES}, ${COMMENTS_LIKES} WHERE  ${USERS_LIKES}.userId = ${userID} AND ${USERS_LIKES}.likeId = ${COMMENTS_LIKES}.likeId AND ${COMMENTS_LIKES}.commentId =  ${COMMENTS}.id LIMIT 1) AS  'comments[0].likeId',
+    (SELECT count(*) FROM ${COMMENTS_LIKES} WHERE ${COMMENTS_LIKES}.commentId = ${COMMENTS}.id) AS 'lastComment.countLikes',
+    ${COMMENTS}.id AS 'lastComment.id', 
+    ${COMMENTS}.text AS 'lastComment.text', 
+    ${COMMENTS}.createdAt AS 'lastComment.createdAt',
+    (SELECT ${USERS_LIKES}.likeId FROM ${USERS_LIKES}, ${COMMENTS_LIKES} WHERE  ${USERS_LIKES}.userId = ${userID} AND ${USERS_LIKES}.likeId = ${COMMENTS_LIKES}.likeId AND ${COMMENTS_LIKES}.commentId =  ${COMMENTS}.id LIMIT 1) AS  'lastComment.likeId',
     
-    OwnerComment.id AS  'comments[0].owner.id',
-    OwnerComment.firstName AS  'comments[0].owner.firstName',
-    OwnerComment.lastName AS  'comments[0].owner.lastName',
+    OwnerComment.id AS  'lastComment.owner.id',
+    OwnerComment.firstName AS  'lastComment.owner.firstName',
+    OwnerComment.lastName AS  'lastComment.owner.lastName',
     
     (SELECT ${PHOTOS}.url 
         FROM ${PHOTOS}, ${AVATARS} 
@@ -58,7 +58,7 @@ module.exports = function (req, res, next) {
         WHERE OwnerComment.id=${AVATARS}.ownerId AND ${PHOTOS}.id=${AVATARS}.photoId
         ORDER BY ${AVATARS}.createdAt DESC 
         LIMIT 1
-    ) AS 'comments[0].owner.avatarUrl'
+    ) AS 'lastComment.owner.avatarUrl'
     
     FROM ( 
         SELECT ${POSTS}.* 
@@ -91,7 +91,7 @@ module.exports = function (req, res, next) {
     let placeholder = [+offset, +limit];
 
     database.query(sql, placeholder).then(([rows]) => {
-        res.ans.set({
+        req.ans.set({
             data: rows
         });
         next();

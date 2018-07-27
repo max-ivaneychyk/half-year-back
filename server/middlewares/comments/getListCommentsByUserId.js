@@ -11,7 +11,7 @@ module.exports = function getCommentsByUserId (req, res, next) {
     let sql = `SELECT * FROM ${TABLES.COMMENTS}  WHERE ownerId=${req.params.ownerId} LIMIT ${limit}`;
 
     database.query(sql).then(([rows]) => {
-        res.ans.merge({data: rows});
+        req.ans.merge({data: rows});
         next();
     }).catch((e) => {
         let err = AppError.create(e);

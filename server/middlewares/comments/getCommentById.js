@@ -26,7 +26,7 @@ module.exports = function addComment (req, res, next) {
     let placeholder = [commentId];
 
     database.query(sql, placeholder).then(([rows]) => {
-        res.ans.set({data: rows[0]});
+        req.ans.set({data: rows[0]});
         next();
     }).catch(e => {
         let err = AppError.create(e);

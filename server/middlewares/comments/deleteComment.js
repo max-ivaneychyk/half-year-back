@@ -8,7 +8,7 @@ module.exports = function deleteComment (req, res, next) {
     let sql = `DELETE FROM ${TABLES.COMMENTS} WHERE id=${commentId};`;
 
     database.query(sql).then(([rows]) => {
-        res.ans.merge(rows[0]);
+        req.ans.merge(rows[0]);
         next();
     }).catch((e) => {
         let err = AppError.create(e);
