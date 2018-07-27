@@ -71,8 +71,8 @@ module.exports = function (req, res, next) {
     LEFT JOIN ${POSTS_PHOTOS} ON post.id = ${POSTS_PHOTOS}.postId
     LEFT JOIN ${PHOTOS} ON ${POSTS_PHOTOS}.photoId = ${PHOTOS}.id
 
-    LEFT JOIN ${USERS_POSTS} ON ${USERS_POSTS}.postId = post.id
-    LEFT JOIN ${USERS} ON ${USERS_POSTS}.userId = ${USERS}.id
+    INNER JOIN ${USERS_POSTS} ON ${USERS_POSTS}.postId = post.id
+    INNER JOIN ${USERS} ON ${USERS_POSTS}.userId = ${USERS}.id
     
     LEFT JOIN ${COMMENTS} ON ${COMMENTS}.id = (SELECT ${COMMENTS}.id 
         FROM ${POSTS_COMMENTS}, ${COMMENTS} 

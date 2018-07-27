@@ -1,13 +1,14 @@
 let multer  = require('multer');
 const CONSTANTS = require('../../const');
 const path = require('path');
+const uuidv4 = require('uuid/v4');
 
 let storage = multer.diskStorage({
     destination: function (req, file, callback) {
         callback(null, path.join(global.NODE_PATH, CONSTANTS.PATH_UPLOAD_IMAGES));
     },
     filename: function (req, file, callback) {
-        let name = file.fieldname + '-' + Date.now() +  path.extname(file.originalname);
+        let name = file.fieldname + '-' + uuidv4() +  path.extname(file.originalname);
         callback(null, name);
     }
 });

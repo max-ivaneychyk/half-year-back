@@ -2,7 +2,47 @@ const tokenService = require('./server/utils/token');
 const PORT = 8888;
 const io = require('socket.io')(PORT);
 
-io.use(function (socket, next) {
+
+class ActiveUser {
+    constructor ({id, socket, io}) {
+        this.id = id;
+        this.name = `user-${id}`;
+        this.io = io;
+        this.socket = socket;
+
+        socket.join(this.name);
+        this.setOnline(id);
+    }
+
+    static create (data) {
+        return new ActiveUser(data);
+    }
+
+    sendMessage (msg) {
+
+    }
+
+    readConversation () {
+
+    }
+
+    setOnline (id) {
+
+    }
+
+    setOffline () {
+
+    }
+
+    destroy () {
+        this.setOffline();
+
+        this.socket = null;
+        this.io = null;
+    }
+}
+
+let auth = function (socket, next) {
     let {query} = socket.handshake;
     let token;
 
@@ -25,32 +65,32 @@ io.use(function (socket, next) {
     socket.userId = payload.id;
     socket.auth = true;
     next();
+};
 
-});
 
 let chat = io
     .of('/chat')
+    .use(auth)
     .on('connection', (socket) => {
-        console.log('user connected');
-
-        socket.use((socket, next) => {
-            console.log('middleware work');
-            next();
+        let user = ActiveUser.create({
+            id: socket.userId,
+            io,
+            socket
         });
-
-        socket.on('disconnect', function () {
-            console.log('user disconnected');
-        });
-
+        
+  
+        console.log('user connected', user.name);
+        
         socket.on('send-message', function (msg) {
-            console.log('message: ' + msg);
+            user.sendMessage(msg);
+            console.log('message: ' + msg, 'from ' + userId);
             socket.broadcast.emit('send-message', msg);
             chat.emit('send-message', msg)
         });
-
-        socket.on('read-conversation', function (msg) {
-            console.log('conversation: ' + msg);
+        
+        socket.on('disconnect', function () {
+            user.destroy();
+            user = null;
         });
-
 
     });
