@@ -5,11 +5,11 @@ const {TABLES} = constants;
 
 module.exports = function (req, res, next) {
     let data = req.ans.get().data;
+    let sql = `UPDATE ${TABLES.AUTH} SET refreshToken=? WHERE id=? `;
     let session = {
         accessToken: tokenService.encryptToken({id: data.id, email: data.email}),
         refreshToken: tokenService.generateRefreshToken({id: data.id, email: data.email})
     };
-    let sql = `UPDATE ${TABLES.AUTH} SET refreshToken=? WHERE id=? `;
 
     req.ans.merge({session});
 
