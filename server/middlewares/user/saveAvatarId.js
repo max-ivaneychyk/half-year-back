@@ -6,7 +6,7 @@ let AppError = require('../../errors');
 
 module.exports = function (req, res, next) {
     let userID = req.getSessionData().payload.id;
-    let avatarId = res.ans.get().data.id;
+    let avatarId = req.ans.get().data.id;
     let placeholder = [userID, avatarId];
     let sql = `INSERT INTO ${AVATARS} (ownerId, photoId) VALUES (?, ?); `;
 

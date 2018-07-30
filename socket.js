@@ -1,49 +1,115 @@
 const tokenService = require('./server/utils/token');
 const PORT = 8888;
+const NAMESPACE = '/chat';
 const io = require('socket.io')(PORT);
+const database = require('./DB');
 
+database.connect()
+
+const friendsController = require('./server/controllers').friendsController;
+
+const IS_ONLINE = 1;
+const IS_OFFLINE = 0;
+
+const SOCKET_EVENTS = {
+    MESSAGE: 'send-message',
+    ONLINE: 'online'
+}
 
 class ActiveUser {
-    constructor ({id, socket, io}) {
+    constructor({
+        id,
+        socket,
+        io
+    }) {
         this.id = id;
-        this.name = `user-${id}`;
+        this.name = `user:${id}`;
         this.io = io;
         this.socket = socket;
 
         socket.join(this.name);
+
+        console.log('user connected', this.name);
+
+        socket.on(SOCKET_EVENTS.MESSAGE,  (msg) => {
+            this.sendMessage(msg);
+            console.log('message: ' + msg);
+            socket.broadcast.emit('send-message', msg);
+            io.emit('send-message', msg)
+        });
+
+        socket.on(SOCKET_EVENTS.ONLINE,  (msg) => {
+            console.log('online: ' + msg);
+        });
+
         this.setOnline(id);
     }
 
-    static create (data) {
+
+    static create(data) {
         return new ActiveUser(data);
     }
 
-    sendMessage (msg) {
 
+    sendMessage(msg) {}
+
+    readConversation(conversationId) {}
+
+    setOnline(id) {
+        return this._updateStatusOnline(id, IS_ONLINE).then(() => {
+            return this._informFriendsAboutMe(id, IS_ONLINE);
+        });
     }
 
-    readConversation () {
-
+    setOffline(id) {
+        return this._updateStatusOnline(id, IS_OFFLINE).then(() => {
+            return this._informFriendsAboutMe(id, IS_OFFLINE);
+        });
     }
 
-    setOnline (id) {
+    _informFriendsAboutMe(myId, isOnline) {
+        let payload = {
+            data: {
+                userId: myId,
+                isOnline
+            }
+        };
 
+        return this._getListOnlineFriends(myId).then(([friends]) => {
+            friends.forEach(friend => {
+                let userName = `user:${friend.id}`;
+
+                this.io.of(NAMESPACE).to(userName).emit(SOCKET_EVENTS.ONLINE, payload);
+            });
+        })
+    }
+    _getListOnlineFriends(myId) {
+        return friendsController.getListFriends({
+            userId: myId,
+            isOnline: IS_ONLINE
+        });
     }
 
-    setOffline () {
-
+    _updateStatusOnline(userId, isOnline) {
+        let sql = `UPDATE Online SET isOnline=? WHERE userId=?;`;
+        return database.query(sql, [isOnline, userId]);
     }
 
-    destroy () {
-        this.setOffline();
-
-        this.socket = null;
-        this.io = null;
+    destroy() {
+        this.setOffline(this.id).then(() => {
+            this.socket = null;
+            this.io = null;           
+        }).catch(err => {
+            this.socket = null;
+            this.io = null;    
+        });
     }
 }
 
 let auth = function (socket, next) {
-    let {query} = socket.handshake;
+    let {
+        query
+    } = socket.handshake;
     let token;
 
     socket.auth = false;
@@ -55,7 +121,10 @@ let auth = function (socket, next) {
 
     token = socket.handshake.query.accessToken;
 
-    let {payload, err} = tokenService.decryptToken(token);
+    let {
+        payload,
+        err
+    } = tokenService.decryptToken(token);
 
     if (err) {
         socket.disconnect('unauthorized');
@@ -68,26 +137,16 @@ let auth = function (socket, next) {
 };
 
 
-let chat = io
-    .of('/chat')
-    .use(auth)
+io.of(NAMESPACE).use(auth)
     .on('connection', (socket) => {
         let user = ActiveUser.create({
             id: socket.userId,
             io,
             socket
         });
-        
-  
-        console.log('user connected', user.name);
-        
-        socket.on('send-message', function (msg) {
-            user.sendMessage(msg);
-            console.log('message: ' + msg, 'from ' + userId);
-            socket.broadcast.emit('send-message', msg);
-            chat.emit('send-message', msg)
-        });
-        
+
+        console.log('Connected', user.name)
+
         socket.on('disconnect', function () {
             user.destroy();
             user = null;
