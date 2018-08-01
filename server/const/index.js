@@ -17,8 +17,6 @@ exports.STATUS_CODE = {
 
 exports.TABLES = require('../../DB/const/tables').TABLES;
 
-exports.ENTITIES = require('../../DB/const/tables').ENTITIES;
-
 exports.LIMIT = {
     COMMENTS_MIN: 3,
     COMMENTS_MAX: 10,
@@ -31,3 +29,6 @@ exports.PATH_UPLOAD_IMAGES = '/public/images/uploads/';
 
 exports.TOKEN_EXP_TIME = 36000;
 exports.REFRESH_TOKEN_EXP_TIME = 36000;
+
+exports.IS_ONLINE = 1;
+exports.IS_OFFLINE = 0;

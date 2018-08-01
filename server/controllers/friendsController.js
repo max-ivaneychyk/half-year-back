@@ -1,33 +1,34 @@
 const middlewares = require('../middlewares');
-const database = require('../../DB').connect();
+const entities = require('../entities');
+let AppError = require('../errors');
 
 class FriendsController {
     constructor () {
         this.addToFriends = [
             middlewares.token.checkToken,
             middlewares.utils.addUserIdToParams,
-            middlewares.friends.addToFriends,
+            this._addUserToFriends,
             middlewares.sendAnswer
         ];
 
         this.getListMyFriends = [
             middlewares.token.checkToken,
             middlewares.utils.addUserIdToParams,
-            middlewares.friends.getListFriends,
+            this._getListFriends,
             middlewares.friends.paginationFriends,
             middlewares.sendAnswer
         ];
 
         this.getListFriendsForUser = [
             middlewares.token.checkToken,
-            middlewares.friends.getListFriends,
+            this._getListFriends,
             middlewares.sendAnswer
         ];
 
         this.deleteFromFriends = [
             middlewares.token.checkToken,
             middlewares.utils.addUserIdToParams,
-            middlewares.friends.deleteFromFriends,
+            this._deleteUserFromFriends,
             middlewares.sendAnswer
         ];
 
@@ -47,44 +48,28 @@ class FriendsController {
 
     }
 
-    getListFriends (params = {}, pagination = {}) {
-        let {userId, isOnline} = params;
-        let {limit, offset} = {limit: 100, offset: 0};
-        let placeholder = [userId, userId];
-        let sqlOnline = '';
+    _addUserToFriends (req, res, next) {
+        entities.friends.addToFriends(req.params).then(() => {
+            next();
+        }).catch(e => next(AppError.create(e)))
+    }
 
-        if (pagination.limit) {
-            limit = pagination.limit;
-        }
+    _getListFriends (req, res, next) {
 
-        if (pagination.offset) {
-            offset = pagination.offset;
-        }
+        entities.friends.getListFriends(req.params).then(([rows]) => {
+            req.ans.set({
+                data: rows
+            });
 
-       if (typeof isOnline === 'number') {
-            placeholder.push(isOnline);
-            sqlOnline = ' AND Online.isOnline = ?'
-        }
+            next();
+        }).catch(e => next(AppError.create(e)))
+    }
 
-        let sql = `
-        SELECT 
-            Users.id, Users.firstName, Users.lastName,
-            Online.isOnline,
-            (
-            SELECT Photos.url 
-            FROM Avatars, Photos 
-            WHERE ownerId=Users.id AND Avatars.photoId=Photos.id 
-            ORDER BY Avatars.createdAt DESC 
-            LIMIT 1
-            ) AS 'avatarUrl'
-        FROM Users 
-        INNER JOIN Friends as f ON f.myId=?
-        INNER JOIN Friends ON Friends.friendId=? AND Friends.myId = f.friendId
-        INNER JOIN Online ON Online.userId = f.friendId ${sqlOnline}
-        WHERE Users.id = f.friendId
-        LIMIT ?, ? `;
-    
-        return database.query(sql, [...placeholder, offset, limit]);
+    _deleteUserFromFriends (req, res, next) {
+
+        entities.friends.deleteFriend(req.params).then(() => {
+            next();
+        }).catch(e => next(AppError.create(e)))
     }
 }
 

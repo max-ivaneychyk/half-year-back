@@ -1,20 +1,17 @@
 const tokenService = require('./server/utils/token');
 const PORT = 8888;
-const NAMESPACE = '/chat';
+const NAMESPACE_CHAT = '/chat';
 const io = require('socket.io')(PORT);
-const database = require('./DB');
-
-database.connect()
-
-const friendsController = require('./server/controllers').friendsController;
+const database = require('./DB').connect();
+const friendsEntities = require('./server/entities').friends;
 
 const IS_ONLINE = 1;
 const IS_OFFLINE = 0;
 
 const SOCKET_EVENTS = {
-    MESSAGE: 'send-message',
+    MESSAGE: 'message',
     ONLINE: 'online'
-}
+};
 
 class ActiveUser {
     constructor({
@@ -79,14 +76,13 @@ class ActiveUser {
             friends.forEach(friend => {
                 let userName = `user:${friend.id}`;
 
-                this.io.of(NAMESPACE).to(userName).emit(SOCKET_EVENTS.ONLINE, payload);
+                this.io.of(NAMESPACE_CHAT).to(userName).emit(SOCKET_EVENTS.ONLINE, payload);
             });
         })
     }
     _getListOnlineFriends(myId) {
-        return friendsController.getListFriends({
-            userId: myId,
-            isOnline: IS_ONLINE
+        return friendsEntities.getListOnlineFriends({
+            userId: myId
         });
     }
 
@@ -137,7 +133,7 @@ let auth = function (socket, next) {
 };
 
 
-io.of(NAMESPACE).use(auth)
+io.of(NAMESPACE_CHAT).use(auth)
     .on('connection', (socket) => {
         let user = ActiveUser.create({
             id: socket.userId,
