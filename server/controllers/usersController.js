@@ -7,7 +7,7 @@ let {groupJoinData, CHECK_KEYS} = middlewares.utils.joiner;
 class UserController {
     constructor () {
         this.signUp = [
-            Validator.create(UserRegistrationModel),
+            Validator.create(UserRegistrationModel).body,
             Validator.isSameFields(['password', 'repeatPassword']),
             Validator.deleteFields(['repeatPassword']),
             middlewares.user.addNewUser,
@@ -16,7 +16,7 @@ class UserController {
         ];
 
         this.signIn = [
-            Validator.create(UserLoginModel),
+            Validator.create(UserLoginModel).body,
             middlewares.user.signInUser,
             groupJoinData([CHECK_KEYS.WALLS]),
             middlewares.token.addAuthToken,

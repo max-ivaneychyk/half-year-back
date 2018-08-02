@@ -11,7 +11,7 @@ class PostController {
         ];
 
         this.addNewPost = [
-            Validator.create(PostModel),
+            Validator.create(PostModel).body,
             middlewares.token.checkToken,
             middlewares.posts.addNewPost,
             middlewares.posts.addUserToPost,

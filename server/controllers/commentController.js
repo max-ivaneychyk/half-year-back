@@ -6,7 +6,7 @@ let {groupJoinData, CHECK_KEYS} = middlewares.utils.joiner;
 class CommentController {
     constructor () {
         this.addNewCommentUnderPost = [
-            Validator.create(CommentModel),
+            Validator.create(CommentModel).body,
             middlewares.token.checkToken,
             middlewares.comments.addComment,
             middlewares.comments.addUserWhoComment,
@@ -17,7 +17,7 @@ class CommentController {
         ];
 
         this.editCommentById = [
-            Validator.create(CommentModel),
+            Validator.create(CommentModel).body,
             middlewares.token.checkToken,
             middlewares.comments.editComment,
             middlewares.sendAnswer

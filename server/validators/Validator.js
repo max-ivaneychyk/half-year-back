@@ -10,8 +10,9 @@ class Validator {
     static create(schema) {
         let validator = new Validator(schema);
 
-        return (req, res, next) => {
-            return validator.validateWithMiddleware(req, res, next);
+        return {
+            body: (req, res, next) => validator.validateBodyWithMiddleware(req, res, next),
+            query:(req, res,next) => validator.validateQueryWithMiddleware(req, res, next),
         }
     }
 
@@ -44,8 +45,19 @@ class Validator {
         return Joi.validate(model, this.schema);
     }
 
-    validateWithMiddleware(req, res, next) {
+    validateBodyWithMiddleware(req, res, next) {
         let {error, value} = this.validate(req.body);
+
+       if (error) {
+            res.status(constants.STATUS_CODE.FORBIDDEN);
+            return next(error.details);
+        }
+
+        next();
+    }
+
+    validateQueryWithMiddleware(req, res, next) {
+        let {error, value} = this.validate(req.query);
 
        if (error) {
             res.status(constants.STATUS_CODE.FORBIDDEN);
