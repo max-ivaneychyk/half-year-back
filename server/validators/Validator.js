@@ -11,8 +11,8 @@ class Validator {
         let validator = new Validator(schema);
 
         return {
-            body: (req, res, next) => validator.validateBodyWithMiddleware(req, res, next),
-            query:(req, res,next) => validator.validateQueryWithMiddleware(req, res, next),
+            body: (req, res, next) => validator.validateBodyMiddleware(req, res, next),
+            query:(req, res,next) => validator.validateQueryMiddleware(req, res, next),
         }
     }
 
@@ -45,7 +45,7 @@ class Validator {
         return Joi.validate(model, this.schema);
     }
 
-    validateBodyWithMiddleware(req, res, next) {
+    validateBodyMiddleware(req, res, next) {
         let {error, value} = this.validate(req.body);
 
        if (error) {
@@ -56,7 +56,7 @@ class Validator {
         next();
     }
 
-    validateQueryWithMiddleware(req, res, next) {
+    validateQueryMiddleware(req, res, next) {
         let {error, value} = this.validate(req.query);
 
        if (error) {
