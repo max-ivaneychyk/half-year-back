@@ -108,6 +108,11 @@ router.route('/friends/:friendId')
     .post(controllers.friendsController.addToFriends)
     .delete(controllers.friendsController.deleteFromFriends);
 
+router.route('/conversations/me')
+    .get(controllers.conversationController.getListConversations);
+
+router.route('/friends/:friendId/conversations')
+    .get(controllers.conversationController.getConversationByUser);
 
 router.route('/friends/me')
     .get(controllers.friendsController.getListMyFriends);

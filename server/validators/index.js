@@ -16,6 +16,9 @@ const VALIDATIONS = {
     MIN_LENGTH_MIDDLE_TEXT: 1,
     MAX_LENGTH_MIDDLE_TEXT: 500,
 
+    MAX_LENGTH_LONG_TEXT: 15000,
+
+    MAX_PHOTOS_TO_PHOTOS: 10
 };
 
 const PASSWORD = {
@@ -33,7 +36,7 @@ exports.FIRST_NAME = {
 exports.PHOTOS = {
     photos: Joi.array().items(
         Joi.number()
-    )
+    ).max(VALIDATIONS.MAX_PHOTOS_TO_PHOTOS)
 };
 
 exports.LAST_NAME = {
@@ -41,12 +44,22 @@ exports.LAST_NAME = {
 };
 
 exports.POST_DESC = {
-    text: Joi.string().min(VALIDATIONS.MIN_LENGTH_SHORT_TEXT).max(VALIDATIONS.MAX_LENGTH_SHORT_TEXT).required()
+    text: Joi.string().min(VALIDATIONS.MIN_LENGTH_SHORT_TEXT).max(VALIDATIONS.MAX_LENGTH_LONG_TEXT).required()
 };
 
 exports.MIDDLE_TEXT = {
     text: Joi.string().min(VALIDATIONS.MIN_LENGTH_MIDDLE_TEXT).max(VALIDATIONS.MAX_LENGTH_MIDDLE_TEXT).required()
 };
+
+exports.UUID = {
+    uuid: Joi.string().required()
+};
+
+exports.COVERSATION_ID = {
+    conversationId: Joi.number().required()
+};
+
+
 
 exports.PASSWORD = {...PASSWORD};
 

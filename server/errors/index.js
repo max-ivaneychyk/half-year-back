@@ -14,6 +14,7 @@ class AppError extends Error {
     }
 
     static create (...params) {
+        console.log(...params);
         return new AppError(...params);
     }
 }

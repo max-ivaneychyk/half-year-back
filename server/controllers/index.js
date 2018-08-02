@@ -6,6 +6,7 @@ let likesController = require('./likesController');
 let photoController = require('./photoController');
 let friendsController = require('./friendsController');
 let wallsController = require('./wallsController');
+let conversationController = require('./conversationController');
 
 module.exports = {
     usersController,
@@ -15,6 +16,7 @@ module.exports = {
     likesController,
     photoController,
     wallsController,
+    conversationController,
     friendsController,
 };
 
