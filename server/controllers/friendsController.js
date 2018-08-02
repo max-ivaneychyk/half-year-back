@@ -35,14 +35,14 @@ class FriendsController {
         this.getInvitesToFriends = [
             middlewares.token.checkToken,
             middlewares.utils.addUserIdToParams,
-            middlewares.friends.getInvitesToFriends,
+            this._getInvitesToFriends,
             middlewares.sendAnswer
         ];
 
         this.getMyRequests = [
             middlewares.token.checkToken,
             middlewares.utils.addUserIdToParams,
-            middlewares.friends.getMyRequests,
+            this._getMyRequestsToFriends,
             middlewares.sendAnswer
         ]
 
@@ -50,6 +50,24 @@ class FriendsController {
 
     _addUserToFriends (req, res, next) {
         entities.friends.addToFriends(req.params).then(() => {
+            next();
+        }).catch(e => next(AppError.create(e)))
+    }
+
+    _getInvitesToFriends (req, res, next) {
+        entities.friends.getInvitesToFriends(req.params).then(([rows]) => {
+            req.ans.set({
+                data: rows
+            });
+            next();
+        }).catch(e => next(AppError.create(e)))
+    }
+
+    _getMyRequestsToFriends (req, res, next) {
+        entities.friends.getMyRequestsToFriends(req.params).then(([rows]) => {
+            req.ans.set({
+                data: rows
+            });
             next();
         }).catch(e => next(AppError.create(e)))
     }
