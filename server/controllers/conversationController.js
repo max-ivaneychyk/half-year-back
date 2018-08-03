@@ -21,7 +21,15 @@ class ConversationController {
             this._getConversations,
             groupJoinData([]),
             middlewares.sendAnswer
-        ]
+        ];
+
+        this.getListMessagesForConversation = [
+            middlewares.token.checkToken,
+            middlewares.utils.addUserIdToParams,
+            this._getListMessages,
+            groupJoinData([]),
+            middlewares.sendAnswer
+        ];
     }
 
     _getConversationIdByUser (req, res, next) {
@@ -41,6 +49,16 @@ class ConversationController {
             next();
         }).catch(e => next(AppError.create(e)))
     }
+
+    _getListMessages (req, res, next) {
+        entities.message.getListMessagesForConversation(req.params).then(([rows]) => {
+            req.ans.set({
+                data: rows
+            });
+            next();
+        }).catch(e => next(AppError.create(e)))
+    }
+
 }
 
 module.exports = new ConversationController;

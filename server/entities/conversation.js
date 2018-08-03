@@ -78,6 +78,14 @@ class Conversation {
 
     }
 
+    getUsersIdListFromConversation(params) {
+        let {conversationId} = params;
+        let sql = `
+            select userId from UsersConversations where conversationId = ?
+        `;
+        return database.query(sql, [conversationId]);
+    }
+
 }
 
 

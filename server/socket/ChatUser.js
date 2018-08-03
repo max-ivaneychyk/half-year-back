@@ -1,6 +1,8 @@
 const {IS_ONLINE, IS_OFFLINE} = require('../const');
 let friendsEntities = require('../entities').friends;
 let userEntity = require('../entities').user;
+let messageEntity = require('../entities').message;
+let conversationEntity = require('../entities').conversation;
 
 
 const SOCKET_EVENTS = {
@@ -25,12 +27,7 @@ class ChatUser {
 
         console.log('user connected', this.name);
 
-        socket.on(SOCKET_EVENTS.MESSAGE, (msg) => {
-            this.sendMessage(msg);
-            console.log('message: ' + msg);
-            socket.broadcast.emit('send-message', msg);
-            io.emit('send-message', msg)
-        });
+        socket.on(SOCKET_EVENTS.MESSAGE, msg => this.sendMessage(msg));
 
         socket.on(SOCKET_EVENTS.ONLINE, (msg) => {
             console.log('online: ' + msg);
@@ -46,14 +43,34 @@ class ChatUser {
 
 
     sendMessage(msg) {
+        let {conversationId, message, uuid} = msg;
+        let messageId;
+
+        return messageEntity.createMessage({message, uuid})
+            .then(data => {
+                messageId = data.messageId
+                return data;
+            })
+            .then(() => messageEntity.addMessageToConversation({conversationId, messageId}))
+            .then(() => messageEntity.addMessageToUser({messageId, userId: this.id}) )
+            .then(() => messageEntity.getMessageById({messageId}))
+            .then(([message]) => {
+                conversationEntity.getUsersIdListFromConversation({conversationId}).then(([list]) => {
+                    list.forEach(friend => {
+                        let userName = `user:${friend.userId}`;
+                        this.io.of(NAMESPACES.CHAT).to(userName).emit(SOCKET_EVENTS.MESSAGE, message);
+                    });
+                })
+            })
     }
 
     readConversation(conversationId) {
+
     }
 
     setOnline(userId) {
         return userEntity.updateStatusOnline({userId, isOnline: IS_ONLINE}).then(() => {
-            return this._informFriendsAboutMe(id, IS_ONLINE);
+            return this._informFriendsAboutMe(userId, IS_ONLINE);
         });
     }
 
@@ -74,12 +91,11 @@ class ChatUser {
         return this._getListOnlineFriends(myId).then(([friends]) => {
             friends.forEach(friend => {
                 let userName = `user:${friend.id}`;
-
                 this.io.of(NAMESPACES.CHAT).to(userName).emit(SOCKET_EVENTS.ONLINE, payload);
             });
         })
     }
-
+    
     _getListOnlineFriends(myId) {
         return friendsEntities.getListOnlineFriends({
             userId: myId

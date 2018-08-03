@@ -111,6 +111,9 @@ router.route('/friends/:friendId')
 router.route('/conversations/me')
     .get(controllers.conversationController.getListConversations);
 
+router.route('/conversations/:conversationId/messages')
+    .get(controllers.conversationController.getListMessagesForConversation);
+
 router.route('/friends/:friendId/conversations')
     .get(controllers.conversationController.getConversationByUser);
 
