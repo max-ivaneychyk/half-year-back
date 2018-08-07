@@ -22,7 +22,16 @@ class Message {
     }
 
     getMessageById (params) {
-        let sql = `select id, message from Messages where id=?`;
+        let sql = `
+        SELECT
+            Messages.id, Messages.createdAt, Messages.message, Messages.status, Messages.updatedAt, Messages.uuid,
+            Users.id as 'author.id', Users.firstName as 'author.firstName', Users.lastName as 'author.lastName',
+            ConversationsMessages.conversationId
+        from Messages 
+            inner join UsersMessages on UsersMessages.messageId = Messages.id
+            inner join Users on UsersMessages.userId = Users.id
+            inner join ConversationsMessages on ConversationsMessages.messageId = Messages.id
+        where Messages.id=?`;
         return database.query(sql, [params.messageId]);
     }
 
@@ -38,9 +47,9 @@ class Message {
             inner join Messages on Messages.id = ConversationsMessages.messageId
             inner join UsersMessages on UsersMessages.messageId = Messages.id
             inner join Users on UsersMessages.userId = Users.id
-            where Conversations.id = ? 
-            order by Messages.createdAt DESC
-            limit 0, 10
+        where Conversations.id = ? 
+        order by Messages.createdAt DESC
+        limit 0, 10
         `;
 
         return database.query(sql, [userId, conversationId]);

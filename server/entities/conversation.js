@@ -86,6 +86,27 @@ class Conversation {
         return database.query(sql, [conversationId]);
     }
 
+    readConversation (params) {
+        let {conversationId, userId} = params;
+        let sql = `
+        update Messages
+            inner join UsersMessages
+                on Messages.id = UsersMessages.messageId
+                and UsersMessages.userId != ?
+            inner join ConversationsMessages 
+				on Messages.id = ConversationsMessages.messageId 
+                and Messages.status = 0
+                and  ConversationsMessages.conversationId = ?
+            inner join UsersConversations 
+				on UsersConversations.userId = ? 
+                and UsersConversations.conversationId = ConversationsMessages.conversationId
+         set  Messages.status = 1 
+         where id > 0
+        `;
+
+        return database.query(sql, [userId, conversationId, userId]);
+    }
+
 }
 
 

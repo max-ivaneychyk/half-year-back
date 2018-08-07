@@ -3,11 +3,13 @@ let friendsEntities = require('../entities').friends;
 let userEntity = require('../entities').user;
 let messageEntity = require('../entities').message;
 let conversationEntity = require('../entities').conversation;
+let transformSelection = require('../utils/transformSelection')
 
 
 const SOCKET_EVENTS = {
     MESSAGE: 'message',
-    ONLINE: 'online'
+    ONLINE: 'online',
+    READ_CONVERSATION: 'read-conversation',
 };
 
 const NAMESPACES = {
@@ -28,7 +30,7 @@ class ChatUser {
         console.log('user connected', this.name);
 
         socket.on(SOCKET_EVENTS.MESSAGE, msg => this.sendMessage(msg));
-
+        socket.on(SOCKET_EVENTS.READ_CONVERSATION, msg => this.readConversation(msg));
         socket.on(SOCKET_EVENTS.ONLINE, (msg) => {
             console.log('online: ' + msg);
         });
@@ -55,6 +57,8 @@ class ChatUser {
             .then(() => messageEntity.addMessageToUser({messageId, userId: this.id}) )
             .then(() => messageEntity.getMessageById({messageId}))
             .then(([message]) => {
+                message = transformSelection.groupJoinData(message);
+
                 conversationEntity.getUsersIdListFromConversation({conversationId}).then(([list]) => {
                     list.forEach(friend => {
                         let userName = `user:${friend.userId}`;
@@ -64,8 +68,28 @@ class ChatUser {
             })
     }
 
-    readConversation(conversationId) {
+    readConversation(data) {
+        let {conversationId} = data;
 
+        conversationEntity.readConversation({conversationId, userId: this.id})
+        .then(([result]) => {
+            if (result.affectedRows) {
+                return conversationEntity.getUsersIdListFromConversation({conversationId}) 
+            }
+
+            return [[]];
+        })
+        .then( ([list]) => {
+            list.forEach(friend => {
+                let userName = `user:${friend.userId}`;
+                // skip me
+                if (userName === this.name) {
+                    return false;
+                }
+
+                this.io.of(NAMESPACES.CHAT).to(userName).emit(SOCKET_EVENTS.READ_CONVERSATION, {conversationId});
+            })
+        });
     }
 
     setOnline(userId) {
