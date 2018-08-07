@@ -6,4 +6,5 @@ module.exports = {
     user: require('./user'),
     conversation: require('./conversation'),
     message: require('./message'),
+    posts: require('./posts'),
 };

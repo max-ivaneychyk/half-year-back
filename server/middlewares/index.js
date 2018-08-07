@@ -2,7 +2,6 @@ let sendAnswer = require('./sendAnswer');
 let clearSessionFromResponse = require('./clearSessionFromResponse');
 let redirectToAuthPage = require('./redirectToAuthPage');
 
-let posts = require('./posts');
 let token = require('./token');
 let user = require('./user');
 let comments = require('./comments');
@@ -14,7 +13,6 @@ let friends = require('./friends');
 let walls = require('./walls');
 
 module.exports = {
-    posts,
     token,
     email,
     utils,
