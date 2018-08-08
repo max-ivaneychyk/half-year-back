@@ -127,6 +127,7 @@ class ChatUser {
     }
 
     destroy() {
+        console.log('Disconnect user:', this.id)
         this.setOffline(this.id).then(() => {
             this.socket = null;
             this.io = null;

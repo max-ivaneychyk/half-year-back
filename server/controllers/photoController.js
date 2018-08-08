@@ -1,6 +1,6 @@
 const middlewares = require('../middlewares');
 const {photosUploader} = require('../utils/multer');
-const IMAGE_FIELD = 'photos';
+const IMAGE_FIELD = 'image';
 
 
 

@@ -78,7 +78,7 @@ class Posts {
         ) AS 'comments[0].owner.avatarUrl'
     
         FROM (
-            SELECT Posts.*
+            SELECT Posts.id, Posts.description, Posts.updatedAt, Posts.createdAt
             FROM Posts
             WHERE Posts.id = ?
             ORDER BY Posts.createdAt DESC
@@ -142,7 +142,7 @@ class Posts {
     ) AS 'lastComment.owner.avatarUrl'
 
     FROM (
-        SELECT Posts.*
+        SELECT Posts.id, Posts.description, Posts.updatedAt, Posts.createdAt
         FROM Posts, WallsPosts
         WHERE WallsPosts.wallId=? AND WallsPosts.postId=Posts.id
         ORDER BY Posts.createdAt DESC
@@ -175,7 +175,9 @@ class Posts {
         let sql = `
         SELECT count(*) AS countPosts 
         FROM Posts
-        INNER JOIN WallsPosts ON WallsPosts.wallId = ? AND WallsPosts.postId = Posts.id;
+        INNER JOIN WallsPosts 
+            ON WallsPosts.wallId = ? 
+            AND WallsPosts.postId = Posts.id;
         `;
     
         return database.query(sql, [wallId])

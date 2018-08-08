@@ -14,7 +14,7 @@ class Database {
 
     connect(conf) {
         this.pool = mysql.createPool({...(conf || config), multipleStatements: true});
-        this.listQueries(CREATE_TABLES_QUERY_LIST);
+   //     this.listQueries(CREATE_TABLES_QUERY_LIST);
         this.connected = true;
         return this;
     }
@@ -31,8 +31,8 @@ class Database {
     }
 
     async query(query, placeholder) {
-        Logger.sqlQuery(query);
-        console.log(placeholder);
+    //    Logger.sqlQuery(query);
+    //    console.log(placeholder);
         // Using placeholder for protect api
         if (placeholder) {
             return await this.pool.query(query, placeholder);
