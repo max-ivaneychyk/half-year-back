@@ -26,8 +26,8 @@ class Comments {
     } 
 
     getListCommentsToPost (params, pagination = {}) {
-        let limit = pagination.limit || 10;
-        let offset = pagination.offset || 0;
+        let limit = pagination.limit;
+        let offset = pagination.offset;
         let sql = `
         SELECT 
         Comments.id, Comments.text, Comments.updatedAt, Comments.updatedAt,
@@ -48,6 +48,19 @@ class Comments {
         LIMIT ?, ?;`
 
         return database.query(sql, [params.postId, offset, limit])
+    }
+
+    getTotalCountCommentsToPost (params) {
+        let sql = `
+        SELECT count(Comments.id) as total
+            FROM
+                Comments
+            INNER JOIN
+                PostsComments 
+                ON PostsComments.postId = ?
+                AND PostsComments.commentId = Comments.id`
+
+        return database.query(sql, [params.postId])        
     }
 
     getCommentById (params) {

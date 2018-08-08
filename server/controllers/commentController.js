@@ -27,8 +27,10 @@ class CommentController {
 
         this.getListCommentsToPost = [
             middlewares.token.checkToken,
+            middlewares.utils.checkPagination,
             this._getListCommentsToPost,
             groupJoinData([]),
+            this._addPaginationForCommentsToPost,
             middlewares.sendAnswer
         ];
 
@@ -78,13 +80,33 @@ class CommentController {
     }
 
     _getListCommentsToPost (req, res, next) {
-        entities.comments.getListCommentsToPost(req.params)
+        entities.comments.getListCommentsToPost(req.params, req.query)
         .then(([rows]) => {
             req.ans.set({
                 data: rows
             });
             next();
         });
+    }
+
+    _addPaginationForCommentsToPost (req, res, next) {
+        let limit = req.query.limit;
+        let offset = req.query.offset;
+        let page = offset / limit;
+
+        entities.comments.getTotalCountCommentsToPost(req.params).then(([rows]) => {
+            let total = rows[0].total;
+
+            req.ans.merge({
+                pagination: {
+                    nextOffset: (page + 1) * limit,
+                    nextPage: page + 1,
+                    total
+                }
+            });
+
+            next();
+        }).catch(next);
     }
 
 
