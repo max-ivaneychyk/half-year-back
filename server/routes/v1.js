@@ -73,16 +73,16 @@ router.route('/photos/upload')
 
 
 router.route('/posts/:postId/comments')
-    .get(controllers.commentController.getCommentByPostId)
+    .get(controllers.commentController.getListCommentsToPost)
     .post(controllers.commentController.addNewCommentUnderPost);
 
 router.route('/posts/comments/:commentId')
-    .put(controllers.commentController.editCommentById)
+//    .put(controllers.commentController.editCommentById)
     .delete(controllers.commentController.deleteComment);
-
+/*
 router.route('/users/:userId/comments')
     .get(controllers.commentController.getCommentByUserId);
-
+*/
 
 // Likes 
 

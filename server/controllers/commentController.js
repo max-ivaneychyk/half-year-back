@@ -1,46 +1,93 @@
 const middlewares = require('../middlewares');
 const Validator = require('../validators/Validator');
-let {CommentModel} = require('../models/index');
-let {groupJoinData, CHECK_KEYS} = middlewares.utils.joiner;
+const entities = require('../entities');
+let {
+    CommentModel
+} = require('../models/index');
+let {
+    groupJoinData,
+    CHECK_KEYS
+} = middlewares.utils.joiner;
 
 class CommentController {
-    constructor () {
+    constructor() {
         this.addNewCommentUnderPost = [
             Validator.create(CommentModel).body,
             middlewares.token.checkToken,
-            middlewares.comments.addComment,
-            middlewares.comments.addUserWhoComment,
-            middlewares.comments.addCommentToPost,
-            middlewares.comments.getCommentById,
+            middlewares.utils.addUserIdToParams,
+            this._addComment,
+            this._addCommentToPost,
+            this._addUserWhoComment,
+            this._getCommentById,
             groupJoinData([]),
             middlewares.sendAnswer
         ];
 
-        this.editCommentById = [
-            Validator.create(CommentModel).body,
-            middlewares.token.checkToken,
-            middlewares.comments.editComment,
-            middlewares.sendAnswer
-        ];
+        this.editCommentById = [];
 
-        this.getCommentByPostId = [
+        this.getListCommentsToPost = [
             middlewares.token.checkToken,
-            middlewares.comments.getListCommentsByPostId,
+            this._getListCommentsToPost,
+            groupJoinData([]),
             middlewares.sendAnswer
         ];
 
         this.getCommentByUserId = [
             middlewares.token.checkToken,
-            middlewares.comments.getListCommentsByUserId,
             middlewares.sendAnswer
         ];
 
         this.deleteComment = [
             middlewares.token.checkToken,
-            middlewares.comments.deleteComment,
+            this._deleteCommentById,
             middlewares.sendAnswer
         ];
     }
+
+    _addComment(req, res, next) {
+        entities.comments.createComment(req.body)
+            .then(([row]) => {
+                req.params.commentId = row.insertId;
+                next();
+            })
+    }
+
+    _addCommentToPost(req, res, next) {
+        entities.comments.addCommentToPost(req.params)
+            .then(() => next());
+    }
+
+    _addUserWhoComment(req, res, next) {
+        entities.comments.saveUserWhoAddComment(req.params)
+            .then(() => next());
+    }
+
+    _getCommentById(req, res, next) {
+        entities.comments.getCommentById(req.params)
+            .then(([rows]) => {
+                req.ans.set({
+                    data: rows[0]
+                });
+                next();
+            });
+    }
+
+    _deleteCommentById(req, res, next) {
+        entities.comments.deleteComment(req.params)
+            .then(() => next());
+    }
+
+    _getListCommentsToPost (req, res, next) {
+        entities.comments.getListCommentsToPost(req.params)
+        .then(([rows]) => {
+            req.ans.set({
+                data: rows
+            });
+            next();
+        });
+    }
+
+
 }
 
 module.exports = new CommentController;
