@@ -13,7 +13,7 @@ module.exports = function (req, res, next) {
             SELECT photoId 
             FROM ${AVATARS} 
             WHERE ${AVATARS}.ownerId=${USERS}.id ORDER BY createdAt DESC LIMIT 1)=${PHOTOS} .id) 
-    AS photoUrl,
+    AS avatarUrl,
     ${WALLS}.id AS 'walls[0].id', ${WALLS}.title AS 'walls[0].title',
     ${AUTH}.verified
     

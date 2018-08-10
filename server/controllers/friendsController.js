@@ -18,10 +18,11 @@ class FriendsController {
             middlewares.friends.paginationFriends,
             middlewares.sendAnswer
         ];
-
+        
         this.getListFriendsForUser = [
             middlewares.token.checkToken,
             this._getListFriends,
+            middlewares.friends.paginationFriends,
             middlewares.sendAnswer
         ];
 
