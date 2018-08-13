@@ -36,7 +36,8 @@ class Message {
     }
 
     getListMessagesForConversation (params, pagination) {
-        let {conversationId, userId} = params;
+        let {conversationId, userId, messageId} = params;
+        let sqlPart = messageId ? ' AND Messages.id < ? ' : '';
         let sql = `
         SELECT 
             Messages.id, Messages.createdAt, Messages.message, Messages.status, Messages.updatedAt, Messages.uuid,
@@ -44,7 +45,7 @@ class Message {
         FROM Conversations
             inner join UsersConversations on Conversations.id = UsersConversations.conversationId and UsersConversations.userId = ?
             inner join ConversationsMessages on Conversations.id = ConversationsMessages.conversationId
-            inner join Messages on Messages.id = ConversationsMessages.messageId
+            inner join Messages on Messages.id = ConversationsMessages.messageId ${sqlPart}
             inner join UsersMessages on UsersMessages.messageId = Messages.id
             inner join Users on UsersMessages.userId = Users.id
         where Conversations.id = ? 
@@ -52,7 +53,7 @@ class Message {
         limit 0, 10
         `;
 
-        return database.query(sql, [userId, conversationId]);
+        return database.query(sql, messageId ? [userId, messageId, conversationId] : [userId, conversationId]);
     }
 
 }

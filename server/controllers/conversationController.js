@@ -51,7 +51,9 @@ class ConversationController {
     }
 
     _getListMessages (req, res, next) {
-        entities.message.getListMessagesForConversation(req.params).then(([rows]) => {
+        let {messageId} = req.query;
+        let {conversationId, userId} = req.params;
+        entities.message.getListMessagesForConversation({messageId, conversationId, userId}).then(([rows]) => {
             req.ans.set({
                 data: rows
             });
