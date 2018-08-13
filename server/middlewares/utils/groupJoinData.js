@@ -4,6 +4,7 @@ const CHECK_KEYS = {
   COMMENTS: 'comments',
   PHOTOS: 'photos',
   WALLS: 'walls',
+  LAST_MESSAGE: 'lastMessage',
 };
 
 let clearPlaces = {
@@ -11,6 +12,13 @@ let clearPlaces = {
         checkKey: 'lastComment.id',
         ifEmptySet: {
             key: 'lastComment',
+            value: null
+        }
+    },
+    [CHECK_KEYS.LAST_MESSAGE]: {
+        checkKey: 'lastMessage.id',
+        ifEmptySet: {
+            key: 'lastMessage',
             value: null
         }
     },

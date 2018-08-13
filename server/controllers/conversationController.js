@@ -19,7 +19,7 @@ class ConversationController {
             middlewares.token.checkToken,
             middlewares.utils.addUserIdToParams,
             this._getConversations,
-            groupJoinData([]),
+            groupJoinData([CHECK_KEYS.LAST_MESSAGE]),
             middlewares.sendAnswer
         ];
 

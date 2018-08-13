@@ -115,6 +115,7 @@ class ChatUser {
         return this._getListOnlineFriends(myId).then(([friends]) => {
             friends.forEach(friend => {
                 let userName = `user:${friend.id}`;
+                console.log(userName);
                 this.io.of(NAMESPACES.CHAT).to(userName).emit(SOCKET_EVENTS.ONLINE, payload);
             });
         })
