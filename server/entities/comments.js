@@ -30,9 +30,24 @@ class Comments {
         let offset = pagination.offset;
         let sql = `
         SELECT 
-        Comments.id, Comments.text, Comments.updatedAt, Comments.updatedAt,
+        Comments.id,
+        Comments.text, 
+        Comments.updatedAt, 
+        Comments.updatedAt,
+
         (SELECT count(*) FROM CommentsLikes WHERE CommentsLikes.commentId = Comments.id) AS 'countLikes',
-          Users.firstName AS 'owner.firstName', Users.lastName AS 'owner.lastName',  Users.id AS 'owner.id',
+        (SELECT 
+            UsersLikes.likeId 
+            FROM UsersLikes, CommentsLikes 
+            WHERE  UsersLikes.userId = ? 
+            AND UsersLikes.likeId = CommentsLikes.likeId 
+            AND CommentsLikes.commentId = Comments.id 
+            LIMIT 1) 
+        AS likeId,
+
+        Users.firstName AS 'owner.firstName', 
+        Users.lastName AS 'owner.lastName',  
+        Users.id AS 'owner.id',
         
             (SELECT Photos.url
                 FROM Photos, Avatars
@@ -47,7 +62,7 @@ class Comments {
         inner JOIN Users ON UsersComments.userId = Users.id
         LIMIT ?, ?;`
 
-        return database.query(sql, [params.postId, offset, limit])
+        return database.query(sql, [params.userId, params.postId, offset, limit])
     }
 
     getTotalCountCommentsToPost (params) {

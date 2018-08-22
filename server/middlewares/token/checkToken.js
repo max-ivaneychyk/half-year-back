@@ -1,17 +1,10 @@
-
-const ERRORS = require('../../errors/errorMessages')
-
+let entities = require('../../entities')
+let tokenService = require('../../utils/token');
 
 module.exports = function (req, res, next) {
-    let {payload, err} = req.getSessionData();
-
-    if (!err) {
-        return next();
-    }
-
-    if (err.name === 'TokenExpiredError') {
-        return next(ERRORS.TOKEN_EXPIRED);
-    }
-
-    return next(err);
+    entities.token.checkToken(req.headers.authorization, tokenService.SECRET_KEY)
+        .then(() => {
+            next()
+        })
+        .catch(next)
 };

@@ -28,6 +28,7 @@ class CommentController {
         this.getListCommentsToPost = [
             middlewares.token.checkToken,
             middlewares.utils.checkPagination,
+            middlewares.utils.addUserIdToParams,
             this._getListCommentsToPost,
             groupJoinData([]),
             this._addPaginationForCommentsToPost,

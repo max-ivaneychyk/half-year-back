@@ -15,6 +15,5 @@ $ api-console dev ./docs/api.raml  --open
 ## TO DO: 
 #### - ADD pagination middleware
 #### - Add Bearer
-#### - Resfresh token
 #### - Restore rassword
 

@@ -4,6 +4,14 @@ const SECRET_KEY = 'secret';
 const SUPER_SECRET_KEY = 'super_secret';
 
 class TokenService {
+    constructor () {
+        this.SECRET_KEY = SECRET_KEY;
+        this.REFRESH_SECRET_KEY = SUPER_SECRET_KEY;
+
+        this.TOKEN_EXP_TIME = TOKEN_EXP_TIME;
+        this.REFRESH_TOKEN_EXP_TIME = REFRESH_TOKEN_EXP_TIME;
+    }
+
     encryptToken (userData) {
         let exp = Math.floor(Date.now() / 1000) + (TOKEN_EXP_TIME);
         return jwt.sign({payload: userData, exp}, SECRET_KEY);

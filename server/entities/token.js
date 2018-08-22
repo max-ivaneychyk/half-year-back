@@ -20,6 +20,19 @@ class Token {
         return database.query(sql, [session.refreshToken, userId]).then(() => session);
     }
 
+    checkToken (token, secretKey) {
+        let {payload, err} = tokenService.decryptToken(token, secretKey);
+
+        if (!err) {
+            return Promise.resolve(payload);
+        }
+    
+        if (err.name === 'TokenExpiredError') {
+            return Promise.reject(ERRORS.TOKEN_EXPIRED);
+        }
+    
+        return Promise.reject(err);
+    }
 }
 
 

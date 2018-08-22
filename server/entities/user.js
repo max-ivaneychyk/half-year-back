@@ -31,7 +31,7 @@ class User {
         Authorization.verified
         
         FROM Users 
-        
+
         INNER JOIN Authorization 
             ON Authorization.email=? 
             AND Authorization.password=? 
