@@ -1,8 +1,11 @@
 const middlewares = require('../middlewares');
 const Validator = require('../validators/Validator');
 const {photosUploader} = require('../utils/multer');
+const entities = require('../entities');
 let {UserRegistrationModel, UserLoginModel} = require('../models/index');
 let {groupJoinData, CHECK_KEYS} = middlewares.utils.joiner;
+let errorMessages = require('../errors/errorMessages');
+let tokenController = require('./tokenController');
 
 class UserController {
     constructor () {
@@ -17,9 +20,9 @@ class UserController {
 
         this.signIn = [
             Validator.create(UserLoginModel).body,
-            middlewares.user.signInUser,
+            this._signIn,
             groupJoinData([CHECK_KEYS.WALLS]),
-            middlewares.token.addAuthToken,
+            tokenController.putSession,
             middlewares.sendAnswer
         ];
 
@@ -47,6 +50,25 @@ class UserController {
         this.test = [
             middlewares.sendAnswer
         ]
+    }
+
+    _signIn (req, res, next) {
+        entities.user.signIn(req.body).then(([rows]) => {
+            let data = rows[0];
+    
+            if (!data) {
+                return next(errorMessages.USER_NOT_FOUNT)
+            }
+    
+            if (!data.verified) {
+                return next(errorMessages.USER_NOT_VERIFIED)
+            }
+    
+            req.ans.merge({data});
+            req.params.userId = data.id;
+    
+            next()
+        }).catch(next);
     }
 }
 

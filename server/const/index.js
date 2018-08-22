@@ -27,7 +27,7 @@ exports.LIMIT = {
 
 exports.PATH_UPLOAD_IMAGES = '/public/images/uploads/';
 
-exports.TOKEN_EXP_TIME = 36000;
+exports.TOKEN_EXP_TIME = 3600;
 exports.REFRESH_TOKEN_EXP_TIME = 36000;
 
 exports.IS_ONLINE = 1;

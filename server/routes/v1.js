@@ -133,5 +133,10 @@ router.route('/friends/me/requests')
 router.route('/verify-email/:token')
     .get(controllers.verifyEmailController.verify);
 
+// refresh token    
+router.route('/tokens/authorize')
+    .post(controllers.tokenController.refreshToken);
+   
+
 module.exports = router;
 

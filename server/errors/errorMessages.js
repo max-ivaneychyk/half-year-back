@@ -8,21 +8,28 @@ const CLIENT_ERROR = 'Client error';
 module.exports = {
   USER_EXIST: {
       code: CODE.FORBIDDEN,
-      name: DATABASE_WARN,
+      type: DATABASE_WARN,
       message: 'User exist in system'
   },
   USER_NOT_VERIFIED: {
       code: CODE.FORBIDDEN,
-      name: CLIENT_ERROR,
+      type: CLIENT_ERROR,
       message: 'Your account not verified, please check your email'
   },
   USER_NOT_FOUNT: {
       code: CODE.NOT_FOUND,
-      name: CLIENT_ERROR,
+      type: CLIENT_ERROR,
       message: 'User is not exist'
   },
   ERROR_SEND_EMAIL: {
       name: EMAIL_SENDER,
       message: 'Error sending email, please try again, or change email'
-  }
+  },
+  TOKEN_EXPIRED: {
+    code: CODE.FORBIDDEN,
+    type: CLIENT_ERROR,
+    message: 'Token expired',  
+    subcode: 403001,
+  }  
+      
 };

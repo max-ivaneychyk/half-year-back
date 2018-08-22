@@ -89,7 +89,10 @@ class ChatUser {
                     list.forEach(friend => {
                         let userName = `user:${friend.userId}`;
 
-                        this.io.of(NAMESPACES.CHAT).to(userName).emit(SOCKET_EVENTS.MESSAGE, message);
+                        this.io
+                        .of(NAMESPACES.CHAT)
+                        .to(userName)
+                        .emit(SOCKET_EVENTS.MESSAGE, message);
                     });
                 })
             })

@@ -1,4 +1,7 @@
 
+const ERRORS = require('../../errors/errorMessages')
+
+
 module.exports = function (req, res, next) {
     let {payload, err} = req.getSessionData();
 
@@ -7,7 +10,7 @@ module.exports = function (req, res, next) {
     }
 
     if (err.name === 'TokenExpiredError') {
-        // refresh token
+        return next(ERRORS.TOKEN_EXPIRED);
     }
 
     return next(err);

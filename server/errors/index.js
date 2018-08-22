@@ -7,14 +7,10 @@ class AppError extends Error {
             throw Error('params must be an object type');
         }
         super(params);
-
-        this.name = params.name;
-        this.message = params.message;
-        this.code = params.code;
+        Object.assign(this, params);
     }
 
     static create (...params) {
-        console.log(...params);
         return new AppError(...params);
     }
 }
