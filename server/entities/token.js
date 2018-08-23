@@ -1,5 +1,6 @@
 const database = require('../../DB').connect();
 let tokenService = require('../utils/token/index');
+const ERRORS = require('../errors/errorMessages')
 
 
 class Token {
@@ -26,7 +27,7 @@ class Token {
         if (!err) {
             return Promise.resolve(payload);
         }
-    
+
         if (err.name === 'TokenExpiredError') {
             return Promise.reject(ERRORS.TOKEN_EXPIRED);
         }
