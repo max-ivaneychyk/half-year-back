@@ -9,7 +9,6 @@ let email = require('./email');
 let utils = require('./utils');
 let photos = require('./photos');
 let friends = require('./friends');
-let walls = require('./walls');
 
 module.exports = {
     token,
@@ -18,7 +17,6 @@ module.exports = {
     user,
     likes,
     photos,
-    walls,
     friends,
     sendAnswer,
     redirectToAuthPage,

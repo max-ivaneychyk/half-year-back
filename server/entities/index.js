@@ -9,4 +9,5 @@ module.exports = {
     posts: require('./posts'),
     token: require('./token'),
     comments: require('./comments'),
+    wall: require('./wall'),
 };
