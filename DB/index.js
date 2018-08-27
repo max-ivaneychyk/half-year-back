@@ -1,28 +1,46 @@
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 const CREATE_TABLES_QUERY_LIST = require('./SQL/createTables');
+let Logger = require('../server/utils/logger');
+let config = require('../config').database;
 
+// TODO: NEED Protect from SQL injection attacks
+// TODO: execute > `CREATE DATABASE IF NOT EXISTS half DEFAULT CHARACTER SET utf8;`
 
-module.exports = function (conf) {
+class Database {
+    constructor() {
+        this.pool = null;
+        this.connected = false;
+    }
 
-    // create the connection to database
-    const pool = mysql.createPool({
-        connectionLimit : 10,
-        host: conf.HOST,
-        user: 'root',
-        database: 'half'
-    });
+    connect(conf) {
+        this.pool = mysql.createPool({...(conf || config), multipleStatements: true});
+   //     this.listQueries(CREATE_TABLES_QUERY_LIST);
+        this.connected = true;
+        return this;
+    }
 
-    pool.getConnection(function(err, db) {
-        // Use the connection
-        CREATE_TABLES_QUERY_LIST.forEach(query => {
-            db.query(query, function (error, rows, fields) {
-                // Handle error after the release.
-                if (error) throw error;
-            });
-        })
-    })
-};
+    async disconnect() {
+        this.connected = false;
+        return await this.pool.end();
+    }
 
+    async listQueries(queries, placeholders = []) {
+        return await Promise.all(queries.map((query, index) => {
+            return this.query(query, placeholders[index])
+        }))
+    }
 
+    async query(query, placeholder) {
+        Logger.sqlQuery(query);
+        console.log(placeholder);
+        // Using placeholder for protect api
+        if (placeholder) {
+            return await this.pool.query(query, placeholder);
+        }
+        // Warning!
+        return await this.pool.query(query)
+    }
 
+}
 
+module.exports = new Database;

@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs": "api-console dev ./api.raml --open"
   },
   "repository": {
     "type": "git",
@@ -19,7 +20,13 @@
     "express": "^4.16.3",
     "joi": "^13.3.0",
     "jsonwebtoken": "^8.2.1",
+    "lodash": "^4.17.10",
+    "multer": "^1.3.1",
     "mysql2": "^1.5.3",
-    "nodemailer": "^4.6.5"
+    "nodemailer": "^4.6.5",
+    "redis": "^2.8.0",
+    "scribe-js": "^2.0.4",
+    "socket.io": "^2.1.1",
+    "uuid": "^3.3.2"
   }
 }

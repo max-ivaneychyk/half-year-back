@@ -1,19 +1,14 @@
 let express = require('express');
-let bodyParser = require('body-parser');
 let cors = require('cors');
 let server = require('./server');
 let config = require('./config');
-
 let app = express();
 
-// parse cookies
-// we need this because "cookie" is true in csrfProtection
-app.use(bodyParser.urlencoded({ extended: false }));
+global.NODE_PATH = __dirname;
+
 app.use(cors());
+app.use('/docs', express.static('docs'));
+app.use('/public', express.static('public'));
 
-
-
-
-
-app.listen(config.server.PORT, server.start.bind(server, app));
+app.listen(config.server.PORT , config.server.HOST, server.start(app));
 

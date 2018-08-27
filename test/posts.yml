@@ -1,0 +1,13 @@
+config:
+  target: 'http://localhost:5000'
+  phases:
+    - duration: 60
+      arrivalRate: 5
+      rampTo: 500
+  defaults:
+    headers:
+      Authorization: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjoxfSwiZXhwIjoxNTMyNjI3NzY4LCJpYXQiOjE1MzI1OTE3Njh9.3hGBI92ODjQyEZsxZcXUdrKfr7rQNZcrWj16eqfdIIE'
+scenarios:
+  - flow:
+    - get:
+        url: "/api/v1/users/walls/2/posts"
