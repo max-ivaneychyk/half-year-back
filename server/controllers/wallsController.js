@@ -21,6 +21,13 @@ class WallsController extends Controller {
             this._getWallById,
             this.sendAnswer
         ];
+
+        this.deleteWall = [
+            middlewares.token.checkToken,
+            middlewares.utils.addUserIdToParams,
+            this._deleteWall,
+            this.sendAnswer
+        ];
     }
 
     _createNewWall(req, res, next) {
@@ -62,6 +69,17 @@ class WallsController extends Controller {
         };
 
          entities.wall.renameWall(params)
+            .then(() => next())
+            .catch(next)
+    }
+
+    _deleteWall (req, res, next) {
+        let params = {
+            wallId: req.params.wallId,
+            userId: req.params.userId
+        };
+
+         entities.wall.deleteWall(params)
             .then(() => next())
             .catch(next)
     }

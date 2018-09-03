@@ -45,7 +45,8 @@ router.route('/users/walls')
 .post(controllers.wallsController.createWall);
 
 router.route('/users/walls/:wallId')
-.patch(controllers.wallsController.renameWall);
+.patch(controllers.wallsController.renameWall)
+.delete(controllers.wallsController.deleteWall);
 
 router.route('/users/:userId/posts')
 .get(controllers.postController.getList);

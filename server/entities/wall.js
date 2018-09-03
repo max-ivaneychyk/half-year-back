@@ -21,6 +21,20 @@ class Wall {
         return database.query(sql, placeholder);
     }
 
+    deleteWall (params) {
+        let {wallId, userId} = params;
+        let sql = `
+        DELETE w 
+        FROM Walls as w
+        inner join UsersWalls
+            on UsersWalls.userId = ?
+            and UsersWalls.wallId = w.id
+        where w.id =?
+        `;
+        let placeholder = [userId, wallId];
+        return database.query(sql, placeholder);
+    }
+
     getWallById (params) {
         let sql = `SELECT title, id FROM Walls WHERE id = ?; `;
         let placeholder = [params.wallId];

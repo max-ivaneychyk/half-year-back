@@ -45,6 +45,29 @@ class User {
         return database.query(query, [email, password])
     }
 
+    getUserProfileById (params) {
+        let {userId} = params;
+        let query = `
+            SELECT  Users.firstName, Users.lastName, Users.id,
+        (SELECT url
+            FROM Photos
+            WHERE (
+                SELECT photoId
+                FROM Avatars
+                WHERE Avatars.ownerId=Users.id ORDER BY createdAt DESC LIMIT 1)=Photos .id)
+        AS avatarUrl,
+        Walls.id AS 'walls[0].id', 
+        Walls.title AS 'walls[0].title'
+    
+        FROM Users
+        LEFT JOIN UsersWalls ON Users.id=UsersWalls.userId
+        LEFT JOIN Walls ON UsersWalls.wallId=Walls.id
+        WHERE Users.id = ?
+        `;
+    
+        return database.query(query, [userId]);
+    }
+
 }
 
 

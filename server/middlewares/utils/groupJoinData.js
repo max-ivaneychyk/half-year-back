@@ -62,7 +62,14 @@ function groupJoinData(keysForCheck = []) {
     }
 }
 
+function getFirstFromList (req, res, next) {
+    let data = req.ans.get().data;
+    req.ans.set({data: data[0]});
+    next();
+}
+
 module.exports = {
     groupJoinData,
+    getFirstFromList,
     CHECK_KEYS
 };

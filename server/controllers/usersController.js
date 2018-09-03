@@ -3,7 +3,7 @@ const Validator = require('../validators/Validator');
 const {photosUploader} = require('../utils/multer');
 const entities = require('../entities');
 let {UserRegistrationModel, UserLoginModel} = require('../models/index');
-let {groupJoinData, CHECK_KEYS} = middlewares.utils.joiner;
+let {groupJoinData, CHECK_KEYS, getFirstFromList} = middlewares.utils.joiner;
 let errorMessages = require('../errors/errorMessages');
 let tokenController = require('./tokenController');
 
@@ -42,8 +42,9 @@ class UserController {
 
         this.getUserById = [
             middlewares.token.checkToken,
-            middlewares.user.getUserProfileById,
+            this._getUserById,
             groupJoinData([CHECK_KEYS.WALLS]),
+            getFirstFromList,
             middlewares.sendAnswer
         ];
 
@@ -67,6 +68,16 @@ class UserController {
             req.ans.merge({data});
             req.params.userId = data.id;
     
+            next()
+        }).catch(next);
+    }
+
+    _getUserById (req, res, next) {
+        entities.user.getUserProfileById(req.params).then(([rows]) => {
+            let data = rows;
+
+            req.ans.merge({data});
+   
             next()
         }).catch(next);
     }
