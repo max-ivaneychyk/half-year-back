@@ -1,9 +1,23 @@
 const database = require('../../DB').connect();
 
 class Wall {
-    createWall () {
+    createWall (params) {
         let sql = `INSERT INTO Walls (title) VALUES (?); `;
-        let placeholder = ['title'];
+        let placeholder = [params.wallName];
+        return database.query(sql, placeholder);
+    }
+
+    renameWall (params) {
+        let {wallName, wallId, userId} = params;
+        let sql = `
+        update Walls 
+        inner join UsersWalls 
+            on UsersWalls.userId = ? 
+            and UsersWalls.wallId = Walls.id
+        set Walls.title=? 
+        where Walls.id =? 
+        `;
+        let placeholder = [userId, wallName, wallId];
         return database.query(sql, placeholder);
     }
 

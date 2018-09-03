@@ -13,10 +13,18 @@ class WallsController extends Controller {
             this._getWallById,
             this.sendAnswer
         ];
+
+        this.renameWall = [
+            middlewares.token.checkToken,
+            middlewares.utils.addUserIdToParams,
+            this._renameWall,
+            this._getWallById,
+            this.sendAnswer
+        ];
     }
 
     _createNewWall(req, res, next) {
-        entities.wall.createWall()
+        entities.wall.createWall(req.body)
             .then(rows => {
                 req.params.wallId = rows[0].insertId;
                 next();
@@ -24,7 +32,7 @@ class WallsController extends Controller {
             .catch(next)
     }
     _getWallById(req, res, next) {
-        entities.getWallById({
+        entities.wall.getWallById({
                 wallId: req.params.wallId
             })
             .then(([rows]) => {
@@ -41,7 +49,19 @@ class WallsController extends Controller {
             userId: req.params.userId
         };
 
-        entities.addWallToUser(params)
+        entities.wall.addWallToUser(params)
+            .then(() => next())
+            .catch(next)
+    }
+
+    _renameWall (req, res, next) {
+        let params = {
+            wallId: req.params.wallId,
+            userId: req.params.userId,
+            wallName: req.body.wallName
+        };
+
+         entities.wall.renameWall(params)
             .then(() => next())
             .catch(next)
     }

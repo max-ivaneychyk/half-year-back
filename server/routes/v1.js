@@ -44,6 +44,9 @@ router.route('/users/walls/:wallId/posts')
 router.route('/users/walls')
 .post(controllers.wallsController.createWall);
 
+router.route('/users/walls/:wallId')
+.patch(controllers.wallsController.renameWall);
+
 router.route('/users/:userId/posts')
 .get(controllers.postController.getList);
 
