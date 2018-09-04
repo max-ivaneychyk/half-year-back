@@ -25,6 +25,9 @@ router.route('/users/login')
 router.route('/users/me/avatar')
     .put(controllers.usersController.changeAvatar);
 
+router.route('/users/me/status')
+    .patch(controllers.usersController.updateStatus);
+
 router.route('/test')
     .get(controllers.usersController.test);
 
@@ -123,7 +126,7 @@ router.route('/friends/:friendId/conversations')
 
 router.route('/friends/me')
     .get(controllers.friendsController.getListMyFriends);
-router.route('/friends/:userId')
+router.route('/users/:userId/friends/')
     .get(controllers.friendsController.getListFriendsForUser);
 router.route('/friends/invites/me')
     .get(controllers.friendsController.getInvitesToFriends);

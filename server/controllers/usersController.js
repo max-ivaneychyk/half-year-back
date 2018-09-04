@@ -40,6 +40,13 @@ class UserController {
             middlewares.sendAnswer
         ];
 
+        this.updateStatus = [
+            middlewares.token.checkToken,
+            middlewares.utils.addUserIdToParams,
+            this._updateStatus,
+            middlewares.sendAnswer
+        ];
+
         this.getUserById = [
             middlewares.token.checkToken,
             this._getUserById,
@@ -80,6 +87,14 @@ class UserController {
    
             next()
         }).catch(next);
+    }
+
+    _updateStatus (req, res, next) {
+        entities.user.updateTextStatus({status: req.body.status, userId: req.params.userId})
+        .then(() => {
+           next()
+        })
+        .catch(next);
     }
 }
 

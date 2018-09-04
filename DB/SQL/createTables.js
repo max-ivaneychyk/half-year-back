@@ -6,6 +6,7 @@ module.exports = [
     id int AUTO_INCREMENT,
     lastName varchar(255),
     firstName varchar(255),
+    status varchar(60),
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY(id)
 );

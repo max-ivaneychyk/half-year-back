@@ -48,7 +48,11 @@ class User {
     getUserProfileById (params) {
         let {userId} = params;
         let query = `
-            SELECT  Users.firstName, Users.lastName, Users.id,
+       SELECT 
+            Users.id,
+            Users.firstName, 
+            Users.lastName, 
+            Users.status,
         (SELECT url
             FROM Photos
             WHERE (
@@ -66,6 +70,12 @@ class User {
         `;
     
         return database.query(query, [userId]);
+    }
+
+    updateTextStatus (params) {
+        let {userId, status} = params;
+        let sql = `UPDATE Users SET status=? WHERE id=?;`;
+        return database.query(sql, [status, userId]);
     }
 
 }
