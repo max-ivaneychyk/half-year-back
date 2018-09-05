@@ -11,6 +11,23 @@ module.exports = [
     PRIMARY KEY(id)
 );
 
+CREATE TABLE IF NOT EXISTS UsersInfo (
+    userId int,
+    dateOfBirth varchar(255),
+    gender int,
+    about varchar(1000),
+    phone char(13),
+    email varchar(40),
+    hometown varchar(60),
+    cityOfResidence varchar(60),
+
+    PRIMARY KEY(userId),
+    CONSTRAINT FK_UsersInfoUserId 
+        FOREIGN KEY (userId) 
+        REFERENCES Users (id) 
+        ON DELETE CASCADE
+);
+
 CREATE TABLE IF NOT EXISTS ${TABLES.ONLINE} (
     userId int,
     isOnline int,

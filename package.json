@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
+    "start-app": "node app.js",
+    "start-socket": "node socket.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "docs": "api-console dev ./api.raml --open"
   },
@@ -12,7 +14,7 @@
     "type": "git",
     "url": "git+https://Max123c@bitbucket.org/Max123c/half-year-back.git"
   },
-  "author": "",
+  "author": "Max Ivaneychyk",
   "license": "ISC",
   "homepage": "https://bitbucket.org/Max123c/half-year-back#readme",
   "dependencies": {

@@ -55,9 +55,10 @@ class UserController {
             middlewares.sendAnswer
         ];
 
-        this.test = [
+        this.setAdditionalInfo = [
+            middlewares.token.checkToken,
             middlewares.sendAnswer
-        ]
+        ];
     }
 
     _signIn (req, res, next) {
