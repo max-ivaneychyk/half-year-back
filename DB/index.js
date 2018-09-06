@@ -1,5 +1,5 @@
 const mysql = require('mysql2/promise');
-const CREATE_TABLES_QUERY_LIST = require('./SQL/createTables');
+const CREATE_TABLES_QUERY_LIST = require('./const/createTables');
 let Logger = require('../server/utils/logger');
 let config = require('../config').database;
 

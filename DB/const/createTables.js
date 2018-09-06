@@ -1,4 +1,4 @@
-let TABLES = require('../const/tables').TABLES;
+let TABLES = require('./tables').TABLES;
 
 module.exports = [
 
