@@ -127,6 +127,20 @@ class Friends {
 
         return database.query(sql, placeholder);
     }
+
+    addPaginationToAns (params) {
+        let {userId} = params;
+        let placeholder = [userId, userId];
+        let sql = `
+               SELECT count(*) as count
+            FROM Users 
+            INNER JOIN Friends as f ON f.myId=?
+            INNER JOIN Friends ON Friends.friendId=? AND Friends.myId = f.friendId
+            WHERE Users.id = f.friendId
+            `;
+
+        return database.query(sql, placeholder)
+    }
 }
 
 

@@ -1,8 +1,7 @@
-const middlewares = require('../middlewares');
+const entities = require('../entities');
 const {photosUploader} = require('../utils/multer');
 const IMAGE_FIELD = 'image';
 const Controller = require('./Controller');
-
 
 
 class PhotoController extends Controller {
@@ -12,7 +11,7 @@ class PhotoController extends Controller {
         this.loadPhoto = [
             this.checkToken,
             photosUploader.array(IMAGE_FIELD, 10),
-            middlewares.photos.uploadPhoto,
+            this.uploadOnePhoto,
             this.sendAnswer
         ];
     }

@@ -1,11 +1,10 @@
 let database = require('../../../DB');
-let {TABLES} = require('../../const');
 
 module.exports = function (req, res, next) {
     let token = req.params.token;
-    let query = `UPDATE ${TABLES.AUTH} SET verified=1 WHERE refreshToken='${token}'`;
+    let query = `UPDATE Authorization SET verified=1 WHERE refreshToken=?`;
 
-    database.query(query).then(() => {
+    database.query(query, [token]).then(() => {
         next()
     }).catch(next);
 };

@@ -20,7 +20,7 @@ class ConversationController extends Controller {
             this.checkToken,
             this.addUserIdToParams,
             this._getConversations,
-            this.mapRecors([this.JOIN_OBJECTS.LAST_MESSAGE]),
+            this.mapRecords([this.JOIN_OBJECTS.LAST_MESSAGE]),
             this.sendAnswer
         ];
 
@@ -28,7 +28,7 @@ class ConversationController extends Controller {
             this.checkToken,
             this.addUserIdToParams,
             this._getListMessages,
-            this.mapRecors([]),
+            this.mapRecords([]),
             this.sendAnswer
         ];
     }

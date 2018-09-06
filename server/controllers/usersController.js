@@ -23,7 +23,7 @@ class UserController extends Controller {
         this.signIn = [
             Validator.create(UserLoginModel).body,
             this._signIn,
-            this.mapRecors([this.JOIN_OBJECTS.WALLS]),
+            this.mapRecords([this.JOIN_OBJECTS.WALLS]),
             tokenController.putSession,
             this.sendAnswer
         ];
@@ -38,7 +38,7 @@ class UserController extends Controller {
         this.changeAvatar = [
             this.checkToken,
             photosUploader.array('avatar', 1),
-            middlewares.photos.uploadPhoto,
+            this.uploadOnePhoto,
             this._updateAvatarId,
             this.sendAnswer
         ];
@@ -53,7 +53,7 @@ class UserController extends Controller {
         this.getUserById = [
             this.checkToken,
             this._getUserById,
-            this.mapRecors([this.JOIN_OBJECTS.WALLS]),
+            this.mapRecords([this.JOIN_OBJECTS.WALLS]),
             this.getFirstElemFromDataList,
             this.sendAnswer
         ];
@@ -61,7 +61,7 @@ class UserController extends Controller {
         this.userFullInfoById = [
             this.checkToken,
             this._getUserFullInfoById,
-            this.mapRecors([this.JOIN_OBJECTS.WALLS]),
+            this.mapRecords([this.JOIN_OBJECTS.WALLS]),
             this.getFirstElemFromDataList,
             this.sendAnswer
         ];

@@ -14,7 +14,7 @@ class PostController extends Controller {
 
         this.$getPostById = [
             this._getPostById,
-            this.mapRecors([this.JOIN_OBJECTS.PHOTOS, this.JOIN_OBJECTS.COMMENTS]),
+            this.mapRecords([this.JOIN_OBJECTS.PHOTOS, this.JOIN_OBJECTS.COMMENTS]),
         ];
 
         this.addNewPost = [
@@ -47,7 +47,7 @@ class PostController extends Controller {
             this.checkToken,
             this.addUserIdToParams,
             this._getPosts,
-            this.mapRecors([this.JOIN_OBJECTS.PHOTOS, this.JOIN_OBJECTS.COMMENTS]),
+            this.mapRecords([this.JOIN_OBJECTS.PHOTOS, this.JOIN_OBJECTS.COMMENTS]),
             this._addPagination,
             this.sendAnswer
         ]

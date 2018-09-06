@@ -4,7 +4,7 @@ let AppError = require('../errors');
 const Controller = require('./Controller');
 
 class FriendsController extends Controller {
-    constructor () {
+    constructor() {
         super();
 
         this.addToFriends = [
@@ -18,14 +18,14 @@ class FriendsController extends Controller {
             this.checkToken,
             this.addUserIdToParams,
             this._getListFriends,
-            middlewares.friends.paginationFriends,
+            this._addPaginationToAns,
             this.sendAnswer
         ];
-        
+
         this.getListFriendsForUser = [
             this.checkToken,
             this._getListFriends,
-            middlewares.friends.paginationFriends,
+            this._addPaginationToAns,
             this.sendAnswer
         ];
 
@@ -52,13 +52,13 @@ class FriendsController extends Controller {
 
     }
 
-    _addUserToFriends (req, res, next) {
+    _addUserToFriends(req, res, next) {
         entities.friends.addToFriends(req.params).then(() => {
             next();
         }).catch(e => next(AppError.create(e)))
     }
 
-    _getInvitesToFriends (req, res, next) {
+    _getInvitesToFriends(req, res, next) {
         entities.friends.getInvitesToFriends(req.params).then(([rows]) => {
             req.ans.set({
                 data: rows
@@ -67,7 +67,7 @@ class FriendsController extends Controller {
         }).catch(e => next(AppError.create(e)))
     }
 
-    _getMyRequestsToFriends (req, res, next) {
+    _getMyRequestsToFriends(req, res, next) {
         entities.friends.getMyRequestsToFriends(req.params).then(([rows]) => {
             req.ans.set({
                 data: rows
@@ -76,23 +76,43 @@ class FriendsController extends Controller {
         }).catch(e => next(AppError.create(e)))
     }
 
-    _getListFriends (req, res, next) {
+    _getListFriends(req, res, next) {
 
-        entities.friends.getListFriends(req.params).then(([rows]) => {
-            req.ans.set({
-                data: rows
-            });
+        entities.friends.getListFriends(req.params)
+            .then(([rows]) => {
+                req.ans.set({
+                    data: rows
+                });
 
-            next();
-        }).catch(e => next(AppError.create(e)))
+                next();
+            })
+            .catch(e => next(AppError.create(e)))
     }
 
-    _deleteUserFromFriends (req, res, next) {
+    _deleteUserFromFriends(req, res, next) {
 
-        entities.friends.deleteFriend(req.params).then(() => {
-            next();
-        }).catch(e => next(AppError.create(e)))
+        entities.friends.deleteFriend(req.params)
+            .then(() => {
+                next();
+            })
+            .catch(e => next(AppError.create(e)))
     }
+
+    _addPaginationToAns(req, res, next) {
+        let {userId} = req.params;
+
+        entities.friends.addPaginationToAns({userId})
+            .then(([rows]) => {
+                req.ans.merge({
+                    pagination: {
+                        total: rows[0].count
+                    }
+                });
+                next();
+            })
+            .catch(next)
+    }
+
 }
 
 module.exports = new FriendsController;

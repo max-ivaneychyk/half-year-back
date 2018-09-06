@@ -1,4 +1,5 @@
 const middlewares = require('../middlewares');
+const entities = require('../entities');
 let {groupJoinData, CHECK_KEYS} = middlewares.utils.joiner;
 
 class Controller {
@@ -18,13 +19,22 @@ class Controller {
         middlewares.utils.addUserIdToParams.apply(null, arguments);
     }
 
-    mapRecors(listForJoin = []) {
+    mapRecords(listForJoin = []) {
         return groupJoinData(listForJoin)
     }
 
     getFirstElemFromDataList (req, res, next) {
         req.ans.merge({data: req.ans.get().data[0]});
         next();
+    }
+
+    uploadOnePhoto(req, res, next) {
+        entities.photo.uploadOnePhoto(req)
+            .then(data => {
+                req.ans.set({data});
+                next();
+            })
+            .catch(next)
     }
 
     validateBody(model) {

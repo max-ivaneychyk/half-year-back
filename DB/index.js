@@ -30,15 +30,11 @@ class Database {
         }))
     }
 
-    async query(query, placeholder) {
+    async query(query, placeholder = []) {
         Logger.sqlQuery(query);
         console.log(placeholder);
         // Using placeholder for protect api
-        if (placeholder) {
-            return await this.pool.query(query, placeholder);
-        }
-        // Warning!
-        return await this.pool.query(query)
+        return await this.pool.query(query, placeholder);
     }
 
 }

@@ -11,4 +11,5 @@ module.exports = {
     comments: require('./comments'),
     wall: require('./wall'),
     likes: require('./likes'),
+    photo: require('./photo'),
 };

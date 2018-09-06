@@ -16,7 +16,7 @@ class CommentController extends Controller {
             this._addCommentToPost,
             this._addUserWhoComment,
             this._getCommentById,
-            this.mapRecors([]),
+            this.mapRecords([]),
             this.sendAnswer
         ];
 
@@ -27,7 +27,7 @@ class CommentController extends Controller {
             middlewares.utils.checkPagination,
             this.addUserIdToParams,
             this._getListCommentsToPost,
-            this.mapRecors([]),
+            this.mapRecords([]),
             this._addPaginationForCommentsToPost,
             this.sendAnswer
         ];
