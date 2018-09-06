@@ -1,56 +1,55 @@
-const middlewares = require('../middlewares');
 const Validator = require('../validators/Validator');
 const entities = require('../entities');
 const constants = require('../const');
+let Controller = require('./Controller');
 
 let {
     PostModel
 } = require('../models/index');
-let {
-    groupJoinData,
-    CHECK_KEYS
-} = middlewares.utils.joiner;
 
-class PostController {
+
+class PostController extends Controller {
     constructor() {
+        super();
+
         this.$getPostById = [
             this._getPostById,
-            groupJoinData([CHECK_KEYS.PHOTOS, CHECK_KEYS.COMMENTS]),
+            this.mapRecors([this.JOIN_OBJECTS.PHOTOS, this.JOIN_OBJECTS.COMMENTS]),
         ];
 
         this.addNewPost = [
             Validator.create(PostModel).body,
-            middlewares.token.checkToken,
-            middlewares.utils.addUserIdToParams,
+            this.checkToken,
+            this.addUserIdToParams,
             this._addNewPost,
             this._addUserToPost,
             this._addPostToWall,
             this._addPhotosToPost,
             ...this.$getPostById,
-            middlewares.sendAnswer
+            this.sendAnswer
         ];
 
         this.editPostById = [];
 
         this.getPostById = [
-            middlewares.token.checkToken,
+            this.checkToken,
             ...this.$getPostById,
-            middlewares.sendAnswer
+            this.sendAnswer
         ];
 
         this.deletePost = [
-            middlewares.token.checkToken,
+            this.checkToken,
             this._deletePost,
-            middlewares.sendAnswer
+            this.sendAnswer
         ];
 
         this.getList = [
-            middlewares.token.checkToken,
-            middlewares.utils.addUserIdToParams,
+            this.checkToken,
+            this.addUserIdToParams,
             this._getPosts,
-            groupJoinData([CHECK_KEYS.PHOTOS, CHECK_KEYS.COMMENTS]),
+            this.mapRecors([this.JOIN_OBJECTS.PHOTOS, this.JOIN_OBJECTS.COMMENTS]),
             this._addPagination,
-            middlewares.sendAnswer
+            this.sendAnswer
         ]
     }
 

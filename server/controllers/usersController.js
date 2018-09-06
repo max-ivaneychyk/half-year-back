@@ -3,61 +3,73 @@ const Validator = require('../validators/Validator');
 const {photosUploader} = require('../utils/multer');
 const entities = require('../entities');
 let {UserRegistrationModel, UserLoginModel} = require('../models/index');
-let {groupJoinData, CHECK_KEYS, getFirstFromList} = middlewares.utils.joiner;
 let errorMessages = require('../errors/errorMessages');
 let tokenController = require('./tokenController');
+let Controller = require('./Controller');
 
-class UserController {
+class UserController extends Controller {
     constructor () {
+        super();
+
         this.signUp = [
             Validator.create(UserRegistrationModel).body,
             Validator.isSameFields(['password', 'repeatPassword']),
             Validator.deleteFields(['repeatPassword']),
             middlewares.user.addNewUser,
             middlewares.email.sendVerifyEmail,
-            middlewares.sendAnswer
+            this.sendAnswer
         ];
 
         this.signIn = [
             Validator.create(UserLoginModel).body,
             this._signIn,
-            groupJoinData([CHECK_KEYS.WALLS]),
+            this.mapRecors([this.JOIN_OBJECTS.WALLS]),
             tokenController.putSession,
-            middlewares.sendAnswer
+            this.sendAnswer
         ];
 
         this.searchUsers = [
-            middlewares.token.checkToken,
+            this.checkToken,
             middlewares.user.searchUsers,
-            middlewares.sendAnswer
+            this.sendAnswer
         ];
 
         this.changeAvatar = [
-            middlewares.token.checkToken,
+            this.checkToken,
             photosUploader.array('avatar', 1),
             middlewares.photos.uploadPhoto,
             middlewares.user.saveAvatarId,
-            middlewares.sendAnswer
+            this.sendAnswer
         ];
 
         this.updateStatus = [
-            middlewares.token.checkToken,
-            middlewares.utils.addUserIdToParams,
+            this.checkToken,
+            this.addUserIdToParams,
             this._updateStatus,
-            middlewares.sendAnswer
+            this.sendAnswer
         ];
 
         this.getUserById = [
-            middlewares.token.checkToken,
+            this.checkToken,
             this._getUserById,
-            groupJoinData([CHECK_KEYS.WALLS]),
-            getFirstFromList,
-            middlewares.sendAnswer
+            this.mapRecors([this.JOIN_OBJECTS.WALLS]),
+            this.getFirstElemFromDataList,
+            this.sendAnswer
         ];
 
+        this.userFullInfoById = [
+            this.checkToken,
+            this._getUserFullInfoById,
+            this.mapRecors([this.JOIN_OBJECTS.WALLS]),
+            this.getFirstElemFromDataList,
+            this.sendAnswer           
+        ];
+        
         this.setAdditionalInfo = [
-            middlewares.token.checkToken,
-            middlewares.sendAnswer
+            this.checkToken,
+            this.addUserIdToParams,
+            this._setAdditionalInfo,
+            ...this.userFullInfoById
         ];
     }
 
@@ -90,8 +102,26 @@ class UserController {
         }).catch(next);
     }
 
+    _getUserFullInfoById (req, res, next) {
+        entities.user.getUserFullProfileById(req.params).then(([rows]) => {
+            let data = rows;
+
+            req.ans.merge({data});
+   
+            next()
+        }).catch(next);
+    }
+
     _updateStatus (req, res, next) {
         entities.user.updateTextStatus({status: req.body.status, userId: req.params.userId})
+        .then(() => {
+           next()
+        })
+        .catch(next);
+    }
+
+    _setAdditionalInfo (req, res, next) {
+        entities.user.setAdditionalInfo({...req.body, userId: req.params.userId})
         .then(() => {
            next()
         })

@@ -1,38 +1,35 @@
 const middlewares = require('../middlewares');
 const Validator = require('../validators/Validator');
 const entities = require('../entities');
-let {
-    CommentModel
-} = require('../models/index');
-let {
-    groupJoinData,
-    CHECK_KEYS
-} = middlewares.utils.joiner;
+let { CommentModel } = require('../models/index');
+const Controller = require('./Controller');
 
-class CommentController {
+class CommentController extends Controller {
     constructor() {
+        super();
+
         this.addNewCommentUnderPost = [
             Validator.create(CommentModel).body,
-            middlewares.token.checkToken,
-            middlewares.utils.addUserIdToParams,
+            this.checkToken,
+            this.addUserIdToParams,
             this._addComment,
             this._addCommentToPost,
             this._addUserWhoComment,
             this._getCommentById,
-            groupJoinData([]),
-            middlewares.sendAnswer
+            this.mapRecors([]),
+            this.sendAnswer
         ];
 
         this.editCommentById = [];
 
         this.getListCommentsToPost = [
-            middlewares.token.checkToken,
+            this.checkToken,
             middlewares.utils.checkPagination,
-            middlewares.utils.addUserIdToParams,
+            this.addUserIdToParams,
             this._getListCommentsToPost,
-            groupJoinData([]),
+            this.mapRecors([]),
             this._addPaginationForCommentsToPost,
-            middlewares.sendAnswer
+            this.sendAnswer
         ];
 
         this.getCommentByUserId = [
@@ -41,9 +38,9 @@ class CommentController {
         ];
 
         this.deleteComment = [
-            middlewares.token.checkToken,
+            this.checkToken,
             this._deleteCommentById,
-            middlewares.sendAnswer
+            this.sendAnswer
         ];
     }
 

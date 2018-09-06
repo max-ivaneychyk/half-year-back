@@ -1,30 +1,32 @@
 const middlewares = require('../middlewares');
+const Controller = require('./Controller');
 
-class LikesController {
+class LikesController extends Controller {
     constructor () {
+        super();
         // For Posts
         this.setLikeToPost = [
-            middlewares.token.checkToken,
+            this.checkToken,
             middlewares.likes.createLike,
             middlewares.likes.addLikeToPost,
             middlewares.likes.addUserWhoLike,
             middlewares.likes.getLike,
-            middlewares.sendAnswer
+            this.sendAnswer
         ];
 
         this.setLikeToComment = [
-            middlewares.token.checkToken,
+            this.checkToken,
             middlewares.likes.createLike,
             middlewares.likes.addLikeToComment,
             middlewares.likes.addUserWhoLike,
             middlewares.likes.getLike,
-            middlewares.sendAnswer
+            this.sendAnswer
         ];
 
         this.deleteLike = [
-            middlewares.token.checkToken,
+            this.checkToken,
             middlewares.likes.removeLike,
-            middlewares.sendAnswer
+            this.sendAnswer
         ];
     }
 }

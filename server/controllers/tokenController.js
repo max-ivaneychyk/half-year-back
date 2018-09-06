@@ -1,12 +1,15 @@
 const middlewares = require('../middlewares');
 const entities = require('../entities');
+let Controller = require('./Controller');
 
-class TokenController {
+class TokenController extends Controller {
     constructor() {
+        super();
+
         this.refreshToken = [
             this._getUserIdFromToken,
             this.putSession,
-            middlewares.sendAnswer
+            this.sendAnswer
         ];
     }
 

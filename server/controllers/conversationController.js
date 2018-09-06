@@ -1,34 +1,35 @@
 const entities = require('../entities');
-const middlewares = require('../middlewares');
 const Validator = require('../validators/Validator');
 let {CommentModel} = require('../models/index');
-let {groupJoinData, CHECK_KEYS} = middlewares.utils.joiner;
 let AppError = require('../errors');
+const Controller = require('./Controller');
 
 
-class ConversationController {
+class ConversationController extends Controller {
     constructor () {
+        super();
+
         this.getConversationByUser = [
-            middlewares.token.checkToken,
-            middlewares.utils.addUserIdToParams,
+            this.checkToken,
+            this.addUserIdToParams,
             this._getConversationIdByUser,
-            middlewares.sendAnswer
+            this.sendAnswer
         ];
 
         this.getListConversations = [
-            middlewares.token.checkToken,
-            middlewares.utils.addUserIdToParams,
+            this.checkToken,
+            this.addUserIdToParams,
             this._getConversations,
-            groupJoinData([CHECK_KEYS.LAST_MESSAGE]),
-            middlewares.sendAnswer
+            this.mapRecors([this.JOIN_OBJECTS.LAST_MESSAGE]),
+            this.sendAnswer
         ];
 
         this.getListMessagesForConversation = [
-            middlewares.token.checkToken,
-            middlewares.utils.addUserIdToParams,
+            this.checkToken,
+            this.addUserIdToParams,
             this._getListMessages,
-            groupJoinData([]),
-            middlewares.sendAnswer
+            this.mapRecors([]),
+            this.sendAnswer
         ];
     }
 
@@ -61,6 +62,6 @@ class ConversationController {
         }).catch(e => next(AppError.create(e)))
     }
 
-}
+    }
 
 module.exports = new ConversationController;

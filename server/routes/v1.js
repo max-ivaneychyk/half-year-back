@@ -22,6 +22,9 @@ router.route('/users/me/avatar')
 router.route('/users/me/info')
     .put(controllers.usersController.setAdditionalInfo);
 
+router.route('/users/:userId/info')
+    .get(controllers.usersController.userFullInfoById);
+
 router.route('/users/me/status')
     .patch(controllers.usersController.updateStatus);
 

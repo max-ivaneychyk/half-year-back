@@ -1,4 +1,3 @@
-const middlewares = require('../middlewares');
 const entities = require('../entities');
 const Controller = require('./Controller');
 
@@ -6,8 +5,8 @@ class WallsController extends Controller {
     constructor() {
         super();
         this.createWall = [
-            middlewares.token.checkToken,
-            middlewares.utils.addUserIdToParams,
+            this.checkToken,
+            this.addUserIdToParams,
             this._createNewWall,
             this._addWallToUser,
             this._getWallById,
@@ -15,16 +14,16 @@ class WallsController extends Controller {
         ];
 
         this.renameWall = [
-            middlewares.token.checkToken,
-            middlewares.utils.addUserIdToParams,
+            this.checkToken,
+            this.addUserIdToParams,
             this._renameWall,
             this._getWallById,
             this.sendAnswer
         ];
 
         this.deleteWall = [
-            middlewares.token.checkToken,
-            middlewares.utils.addUserIdToParams,
+            this.checkToken,
+            this.addUserIdToParams,
             this._deleteWall,
             this.sendAnswer
         ];

@@ -1,50 +1,53 @@
 const middlewares = require('../middlewares');
 const entities = require('../entities');
 let AppError = require('../errors');
+const Controller = require('./Controller');
 
-class FriendsController {
+class FriendsController extends Controller {
     constructor () {
+        super();
+
         this.addToFriends = [
-            middlewares.token.checkToken,
-            middlewares.utils.addUserIdToParams,
+            this.checkToken,
+            this.addUserIdToParams,
             this._addUserToFriends,
-            middlewares.sendAnswer
+            this.sendAnswer
         ];
 
         this.getListMyFriends = [
-            middlewares.token.checkToken,
-            middlewares.utils.addUserIdToParams,
+            this.checkToken,
+            this.addUserIdToParams,
             this._getListFriends,
             middlewares.friends.paginationFriends,
-            middlewares.sendAnswer
+            this.sendAnswer
         ];
         
         this.getListFriendsForUser = [
-            middlewares.token.checkToken,
+            this.checkToken,
             this._getListFriends,
             middlewares.friends.paginationFriends,
-            middlewares.sendAnswer
+            this.sendAnswer
         ];
 
         this.deleteFromFriends = [
-            middlewares.token.checkToken,
-            middlewares.utils.addUserIdToParams,
+            this.checkToken,
+            this.addUserIdToParams,
             this._deleteUserFromFriends,
-            middlewares.sendAnswer
+            this.sendAnswer
         ];
 
         this.getInvitesToFriends = [
-            middlewares.token.checkToken,
-            middlewares.utils.addUserIdToParams,
+            this.checkToken,
+            this.addUserIdToParams,
             this._getInvitesToFriends,
-            middlewares.sendAnswer
+            this.sendAnswer
         ];
 
         this.getMyRequests = [
-            middlewares.token.checkToken,
-            middlewares.utils.addUserIdToParams,
+            this.checkToken,
+            this.addUserIdToParams,
             this._getMyRequestsToFriends,
-            middlewares.sendAnswer
+            this.sendAnswer
         ]
 
     }
