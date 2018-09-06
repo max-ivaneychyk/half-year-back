@@ -10,4 +10,5 @@ module.exports = {
     token: require('./token'),
     comments: require('./comments'),
     wall: require('./wall'),
+    likes: require('./likes'),
 };

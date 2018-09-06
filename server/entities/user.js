@@ -1,4 +1,5 @@
 const database = require('../../DB').connect();
+let tokenService = require('../utils/token');
 
 
 // TODO: Pagination
@@ -144,7 +145,7 @@ class User {
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
 
         return database.query(sql, [
-            userId, 
+            userId,
             dateOfBirth,
             gender,
             about,
@@ -155,8 +156,47 @@ class User {
         ]);
     }
 
-}
+    registerNewUser(params) {
+        let {firstName, lastName, email, password} = params;
+        let token = tokenService.generateRefreshToken({email});
+        let sqlSecurityInfo = `INSERT INTO Authorization (email, password, refreshToken) VALUES (?, ?, ?);`;
+        let sqlAddUser = `
+        INSERT INTO Users (firstName, lastName) VALUES (?, ?);
+        INSERT INTO Online (userId, isOnline) VALUES (LAST_INSERT_ID(), 0);
+    `;
 
+        return database.query(sqlSecurityInfo, [email, password, token])
+            .then(() => database.query(sqlAddUser, [firstName, lastName]))
+            .then(() => token)
+    }
+
+    saveAvatarId(params) {
+        let placeholder = [params.userId, params.avatarId];
+        let sql = `INSERT INTO Avatars (ownerId, photoId) VALUES (?, ?); `;
+
+        return database.query(sql, placeholder);
+    }
+
+    searchUsers(params) {
+        let {userId} = params;
+        let query = `
+            SELECT  Users.id, Users.firstName, Users.lastName, 
+            (
+              SELECT Photos.url 
+              FROM Avatars, Photos 
+              WHERE ownerId=Users.id AND Avatars.photoId=Photos.id 
+              ORDER BY Avatars.createdAt DESC 
+              LIMIT 1
+            ) AS 'avatarUrl'
+            FROM Users
+            WHERE Users.id != ? AND Users.id NOT IN (SELECT friendId FROM Friends WHERE myId = ?)
+            LIMIT 10
+        `;
+
+        return database.query(query, [userId, userId])
+    }
+
+}
 
 
 module.exports = new User;

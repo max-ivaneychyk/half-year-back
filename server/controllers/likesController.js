@@ -1,33 +1,83 @@
 const middlewares = require('../middlewares');
 const Controller = require('./Controller');
+const entities = require('../entities');
 
 class LikesController extends Controller {
-    constructor () {
+    constructor() {
         super();
         // For Posts
         this.setLikeToPost = [
             this.checkToken,
-            middlewares.likes.createLike,
-            middlewares.likes.addLikeToPost,
-            middlewares.likes.addUserWhoLike,
-            middlewares.likes.getLike,
+            this.addUserIdToParams,
+            this._addLikeToPost,
+            this._getLike,
             this.sendAnswer
         ];
 
         this.setLikeToComment = [
             this.checkToken,
-            middlewares.likes.createLike,
-            middlewares.likes.addLikeToComment,
-            middlewares.likes.addUserWhoLike,
-            middlewares.likes.getLike,
+            this.addUserIdToParams,
+            this._addLikeToComment,
+            this._getLike,
             this.sendAnswer
         ];
 
         this.deleteLike = [
             this.checkToken,
-            middlewares.likes.removeLike,
+            this._removeLike,
             this.sendAnswer
         ];
+    }
+
+    _addLikeToPost(req, res, next) {
+        entities.likes.createLike()
+            .then(([rows]) => {
+                req.params.likeId = rows.insertId;
+
+                return entities.likes.attachToPost({
+                    likeId: req.params.likeId,
+                    postId: req.params.postId
+                });
+            })
+            .then(() => entities.likes.saveUserWhoLike({
+                likeId: req.params.likeId,
+                userId: req.params.userId
+            }))
+            .then(() => next())
+            .catch(next)
+    }
+
+    _addLikeToComment(req, res, next) {
+        entities.likes.createLike()
+            .then(([rows]) => {
+                req.params.likeId = rows.insertId;
+
+                return entities.likes.attachToComment({
+                    likeId: req.params.likeId,
+                    commentId: req.params.commentId
+                });
+            })
+            .then(() => entities.likes.saveUserWhoLike({
+                likeId: req.params.likeId,
+                userId: req.params.userId
+            }))
+            .then(() => next())
+            .catch(next)
+    }
+
+    _removeLike(req, res, next) {
+        entities.likes.removeLike({likeId: req.params.likeId})
+            .then(() => next())
+            .catch(next)
+    }
+
+    _getLike(req, res, next) {
+        entities.likes.getLike({likeId: req.params.likeId})
+            .then(([rows]) => {
+                req.ans.set({data: rows[0]});
+                next();
+            })
+            .catch(next)
     }
 }
 

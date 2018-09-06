@@ -8,14 +8,14 @@ let tokenController = require('./tokenController');
 let Controller = require('./Controller');
 
 class UserController extends Controller {
-    constructor () {
+    constructor() {
         super();
 
         this.signUp = [
             Validator.create(UserRegistrationModel).body,
             Validator.isSameFields(['password', 'repeatPassword']),
             Validator.deleteFields(['repeatPassword']),
-            middlewares.user.addNewUser,
+            this._registerNewUser,
             middlewares.email.sendVerifyEmail,
             this.sendAnswer
         ];
@@ -30,7 +30,8 @@ class UserController extends Controller {
 
         this.searchUsers = [
             this.checkToken,
-            middlewares.user.searchUsers,
+            this.addUserIdToParams,
+            this._searchUsers,
             this.sendAnswer
         ];
 
@@ -38,7 +39,7 @@ class UserController extends Controller {
             this.checkToken,
             photosUploader.array('avatar', 1),
             middlewares.photos.uploadPhoto,
-            middlewares.user.saveAvatarId,
+            this._updateAvatarId,
             this.sendAnswer
         ];
 
@@ -62,9 +63,9 @@ class UserController extends Controller {
             this._getUserFullInfoById,
             this.mapRecors([this.JOIN_OBJECTS.WALLS]),
             this.getFirstElemFromDataList,
-            this.sendAnswer           
+            this.sendAnswer
         ];
-        
+
         this.setAdditionalInfo = [
             this.checkToken,
             this.addUserIdToParams,
@@ -73,59 +74,85 @@ class UserController extends Controller {
         ];
     }
 
-    _signIn (req, res, next) {
+    _signIn(req, res, next) {
         entities.user.signIn(req.body).then(([rows]) => {
             let data = rows[0];
-    
+
             if (!data) {
                 return next(errorMessages.USER_NOT_FOUNT)
             }
-    
+
             if (!data.verified) {
                 return next(errorMessages.USER_NOT_VERIFIED)
             }
-    
+
             req.ans.merge({data});
             req.params.userId = data.id;
-    
+
             next()
         }).catch(next);
     }
 
-    _getUserById (req, res, next) {
+    _getUserById(req, res, next) {
         entities.user.getUserProfileById(req.params).then(([rows]) => {
             let data = rows;
 
             req.ans.merge({data});
-   
+
             next()
         }).catch(next);
     }
 
-    _getUserFullInfoById (req, res, next) {
+    _getUserFullInfoById(req, res, next) {
         entities.user.getUserFullProfileById(req.params).then(([rows]) => {
             let data = rows;
 
             req.ans.merge({data});
-   
+
             next()
         }).catch(next);
     }
 
-    _updateStatus (req, res, next) {
+    _updateStatus(req, res, next) {
         entities.user.updateTextStatus({status: req.body.status, userId: req.params.userId})
-        .then(() => {
-           next()
-        })
-        .catch(next);
+            .then(() => {
+                next()
+            })
+            .catch(next);
     }
 
-    _setAdditionalInfo (req, res, next) {
+    _setAdditionalInfo(req, res, next) {
         entities.user.setAdditionalInfo({...req.body, userId: req.params.userId})
-        .then(() => {
-           next()
-        })
-        .catch(next);
+            .then(() => {
+                next()
+            })
+            .catch(next);
+    }
+
+    _registerNewUser(req, res, next) {
+        entities.user.registerNewUser(req.body)
+            .then(token => {
+                req.body.token = token;
+                next()
+            })
+            .catch(next);
+    }
+
+    _searchUsers(req, res, next) {
+        entities.user.searchUsers({userId: req.params.userId})
+            .then(([rows]) => {
+                req.ans.merge({data: rows});
+                next()
+            })
+            .catch(next);
+    }
+
+    _updateAvatarId(req, res, next) {
+        entities.user.saveAvatarId({userId: req.params.userId, avatarId: req.ans.get().data.id})
+            .then(() => {
+                next();
+            })
+            .catch(next)
     }
 }
 
