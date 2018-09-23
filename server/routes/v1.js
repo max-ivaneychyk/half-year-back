@@ -119,7 +119,7 @@ router.route('/friends/:friendId/conversations')
 
 router.route('/friends/me')
     .get(controllers.friendsController.getListMyFriends);
-router.route('/friends/:userId')
+router.route('/users/:userId/friends')
     .get(controllers.friendsController.getListFriendsForUser);
 router.route('/friends/invites/me')
     .get(controllers.friendsController.getInvitesToFriends);

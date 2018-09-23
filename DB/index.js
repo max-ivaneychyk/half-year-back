@@ -14,7 +14,7 @@ class Database {
 
     connect(conf) {
         this.pool = mysql.createPool({...(conf || config), multipleStatements: true});
-   //     this.listQueries(CREATE_TABLES_QUERY_LIST);
+        this.listQueries(CREATE_TABLES_QUERY_LIST);
         this.connected = true;
         return this;
     }
