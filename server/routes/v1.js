@@ -98,6 +98,17 @@ router.route('/friends/:friendId/conversations')
     .get(controllers.conversationController.getConversationByUser);
 
 
+router.route('/friends/me')
+    .get(controllers.friendsController.getListMyFriends);
+router.route('/users/:userId/friends')
+    .get(controllers.friendsController.getListFriendsForUser);
+router.route('/friends/invites/me')
+    .get(controllers.friendsController.getInvitesToFriends);
+router.route('/friends/me/requests')
+    .get(controllers.friendsController.getMyRequests);
+
+
+
 // Email
 
 // TODO : TOKENS API 

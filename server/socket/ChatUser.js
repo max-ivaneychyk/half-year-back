@@ -47,11 +47,9 @@ class ChatUser {
         this.setOnline(id);
     }
 
-
     static create(data) {
         return new ChatUser(data);
     }
-
 
     sendMessage(msg) {
         let {
@@ -62,9 +60,9 @@ class ChatUser {
         let messageId;
 
         return messageEntity.createMessage({
-                message,
-                uuid
-            })
+            message,
+            uuid
+        })
             .then(data => {
                 messageId = data.messageId
                 return data;
@@ -90,9 +88,9 @@ class ChatUser {
                         let userName = `user:${friend.userId}`;
 
                         this.io
-                        .of(NAMESPACES.CHAT)
-                        .to(userName)
-                        .emit(SOCKET_EVENTS.MESSAGE, message);
+                            .of(NAMESPACES.CHAT)
+                            .to(userName)
+                            .emit(SOCKET_EVENTS.MESSAGE, message);
                     });
                 })
             })
@@ -127,9 +125,9 @@ class ChatUser {
         } = data;
 
         conversationEntity.readConversation({
-                conversationId,
-                userId: this.id
-            })
+            conversationId,
+            userId: this.id
+        })
             .then(([result]) => {
                 if (result.affectedRows) {
                     return conversationEntity.getUsersIdListFromConversation({
