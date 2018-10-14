@@ -15,15 +15,12 @@ exports.STATUS_CODE = {
     NOT_IMPLEMENTED: 501
 };
 
-exports.TABLES = require('../../DB/const/tables').TABLES;
-
 exports.LIMIT = {
     COMMENTS_MIN: 3,
     COMMENTS_MAX: 10,
     USERS: 10,
     POSTS: 10
 };
-
 
 exports.PATH_UPLOAD_IMAGES = '/public/images/uploads/';
 

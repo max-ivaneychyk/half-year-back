@@ -39,7 +39,7 @@ class ConversationController extends Controller {
                 data: rows
             });
             next();
-        }).catch(e => next(AppError.create(e)))
+        }).catch(next)
     }
 
     _getConversations (req, res, next) {
@@ -48,7 +48,7 @@ class ConversationController extends Controller {
                 data: rows
             });
             next();
-        }).catch(e => next(AppError.create(e)))
+        }).catch(next)
     }
 
     _getListMessages (req, res, next) {
@@ -59,7 +59,7 @@ class ConversationController extends Controller {
                 data: rows
             });
             next();
-        }).catch(e => next(AppError.create(e)))
+        }).catch(next)
     }
 
     }

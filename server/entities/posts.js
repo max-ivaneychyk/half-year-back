@@ -54,15 +54,15 @@ class Posts {
         (SELECT count(*) FROM PostsComments WHERE PostsComments.postId = post.id) AS countComments,
         (SELECT UsersLikes.likeId FROM UsersLikes, PostsLikes WHERE  UsersLikes.userId = 1 AND UsersLikes.likeId = PostsLikes.likeId AND PostsLikes.postId = post.id LIMIT 1) AS likeId,
     
-        (SELECT count(*) FROM CommentsLikes WHERE CommentsLikes.commentId = Comments.id) AS 'comments[0].countLikes',
-        Comments.id AS 'comments[0].id',
-        Comments.text AS 'comments[0].text',
-        Comments.createdAt AS 'comments[0].createdAt',
-        (SELECT UsersLikes.likeId FROM UsersLikes, CommentsLikes WHERE  UsersLikes.userId = 1 AND UsersLikes.likeId = CommentsLikes.likeId AND CommentsLikes.commentId =  Comments.id LIMIT 1) AS  'comments[0].likeId',
+        (SELECT count(*) FROM CommentsLikes WHERE CommentsLikes.commentId = Comments.id) AS 'lastComment.countLikes',
+        Comments.id AS 'lastComment.id',
+        Comments.text AS 'lastComment.text',
+        Comments.createdAt AS 'lastComment.createdAt',
+        (SELECT UsersLikes.likeId FROM UsersLikes, CommentsLikes WHERE  UsersLikes.userId = 1 AND UsersLikes.likeId = CommentsLikes.likeId AND CommentsLikes.commentId =  Comments.id LIMIT 1) AS  'lastComment.likeId',
     
-        OwnerComment.id AS  'comments[0].owner.id',
-        OwnerComment.firstName AS  'comments[0].owner.firstName',
-        OwnerComment.lastName AS  'comments[0].owner.lastName',
+        OwnerComment.id AS  'lastComment.owner.id',
+        OwnerComment.firstName AS  'lastComment.owner.firstName',
+        OwnerComment.lastName AS  'lastComment.owner.lastName',
     
         (SELECT Photos.url
             FROM Photos, Avatars

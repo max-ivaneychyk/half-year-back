@@ -32,7 +32,6 @@ class Database {
 
     async query(query, placeholder = []) {
         Logger.sqlQuery(query);
-        console.log(placeholder);
         // Using placeholder for protect api
         return await this.pool.query(query, placeholder);
     }

@@ -36,18 +36,6 @@ class Controller {
             })
             .catch(next)
     }
-
-    validateBody(model) {
-
-    }
-
-    validateQuery(model) {
-
-    }
-
-    validateParams(model) {
-
-    }
 }
 
 module.exports = Controller;

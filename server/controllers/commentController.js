@@ -20,8 +20,6 @@ class CommentController extends Controller {
             this.sendAnswer
         ];
 
-        this.editCommentById = [];
-
         this.getListCommentsToPost = [
             this.checkToken,
             middlewares.utils.checkPagination,

@@ -55,7 +55,7 @@ class FriendsController extends Controller {
     _addUserToFriends(req, res, next) {
         entities.friends.addToFriends(req.params).then(() => {
             next();
-        }).catch(e => next(AppError.create(e)))
+        }).catch(next)
     }
 
     _getInvitesToFriends(req, res, next) {
@@ -64,7 +64,7 @@ class FriendsController extends Controller {
                 data: rows
             });
             next();
-        }).catch(e => next(AppError.create(e)))
+        }).catch(next)
     }
 
     _getMyRequestsToFriends(req, res, next) {
@@ -73,7 +73,7 @@ class FriendsController extends Controller {
                 data: rows
             });
             next();
-        }).catch(e => next(AppError.create(e)))
+        }).catch(next)
     }
 
     _getListFriends(req, res, next) {
@@ -86,7 +86,7 @@ class FriendsController extends Controller {
 
                 next();
             })
-            .catch(e => next(AppError.create(e)))
+            .catch(next)
     }
 
     _deleteUserFromFriends(req, res, next) {
@@ -95,7 +95,7 @@ class FriendsController extends Controller {
             .then(() => {
                 next();
             })
-            .catch(e => next(AppError.create(e)))
+            .catch(next)
     }
 
     _addPaginationToAns(req, res, next) {

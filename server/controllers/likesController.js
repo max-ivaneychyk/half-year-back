@@ -1,4 +1,3 @@
-const middlewares = require('../middlewares');
 const Controller = require('./Controller');
 const entities = require('../entities');
 

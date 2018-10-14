@@ -38,6 +38,7 @@ class UserController extends Controller {
         this.changeAvatar = [
             this.checkToken,
             photosUploader.array('avatar', 1),
+            this.addUserIdToParams,
             this.uploadOnePhoto,
             this._updateAvatarId,
             this.sendAnswer
@@ -77,6 +78,8 @@ class UserController extends Controller {
     _signIn(req, res, next) {
         entities.user.signIn(req.body).then(([rows]) => {
             let data = rows[0];
+
+            console.log(data);
 
             if (!data) {
                 return next(errorMessages.USER_NOT_FOUNT)
