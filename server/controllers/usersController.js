@@ -29,6 +29,11 @@ class UserController extends Controller {
             this.sendAnswer
         ];
 
+        this.confirmResetPassword = [
+            this._confirmResetPassword,
+            middlewares.redirectToAuthPage
+        ];
+
         this.signIn = [
             Validator.create(UserLoginModel).body,
             this._signIn,
@@ -135,6 +140,14 @@ class UserController extends Controller {
 
     _setAdditionalInfo(req, res, next) {
         entities.user.setAdditionalInfo({...req.body, userId: req.params.userId})
+            .then(() => {
+                next()
+            })
+            .catch(next);
+    }
+
+    _confirmResetPassword (req, res, next) {
+        entities.user.confirmResetPassword({token: req.params.token})
             .then(() => {
                 next()
             })

@@ -180,6 +180,23 @@ class User {
             .then(() => token)
     }
 
+    confirmResetPassword (params) {
+        let {token} = params;
+        let sql = `update Authorization
+        inner join ResetPassword 
+        on Authorization.email=ResetPassword.email 
+        and ResetPassword.resolve=0 
+        AND ResetPassword.sentToken=?
+        set Authorization.password = ResetPassword.newPassword, ResetPassword.resolve=1`;
+
+        return database.query(sql, [token])
+            .then(result => {
+               if(!result[0].affectedRows) {
+                   throw {message: 'Invalid url link'}
+               }
+            })
+    }
+
     saveAvatarId(params) {
         let placeholder = [params.userId, params.avatarId];
         let sql = `INSERT INTO Avatars (ownerId, photoId) VALUES (?, ?); `;

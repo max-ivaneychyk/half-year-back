@@ -16,6 +16,9 @@ router.route('/users/:userId')
 router.route('/users/reset-password')
     .post(controllers.usersController.resetPassword);
 
+router.route('/users/confirm-reset-password/:token')
+    .get(controllers.usersController.confirmResetPassword);
+
 router.route('/users/login')
     .post(controllers.usersController.signIn);
 
