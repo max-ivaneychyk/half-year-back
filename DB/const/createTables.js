@@ -281,6 +281,15 @@ CREATE TABLE IF NOT EXISTS ${TABLES.USERS_POSTS} (
         ON DELETE CASCADE 
 ); 
 
+CREATE TABLE IF NOT EXISTS ResetPassword (
+    email varchar(255) NOT NULL,
+    resolve int DEFAULT 0,
+    newPassword varchar(255) NOT NULL,
+    sentToken varchar(500) UNIQUE,
+	updatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+
 CREATE TABLE IF NOT EXISTS ${TABLES.USERS_COMMENTS} (
     commentId int,
     userId int,

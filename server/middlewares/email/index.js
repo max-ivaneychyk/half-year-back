@@ -1,5 +1,6 @@
 
 module.exports = {
     sendVerifyEmail: require('./sendVerifyEmail'),
-    endVerifyEmail: require('./endVerifyEmail')
+    endVerifyEmail: require('./endVerifyEmail'),
+    resetPasswordEmail: require('./resetPasswordEmail')
 };

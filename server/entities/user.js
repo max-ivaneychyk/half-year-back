@@ -1,7 +1,6 @@
 const database = require('../../DB').connect();
 let tokenService = require('../utils/token');
 
-
 // TODO: Pagination
 
 class User {
@@ -167,6 +166,17 @@ class User {
 
         return database.query(sqlSecurityInfo, [email, password, token])
             .then(() => database.query(sqlAddUser, [firstName, lastName]))
+            .then(() => token)
+    }
+
+    resetPassword(params) {
+        let {email, password} = params;
+        let token = tokenService.generateRefreshToken({email});
+        let sql = `insert into ResetPassword (newPassword, sentToken, email)
+        select ?, ?, ?
+        where exists (select email from Authorization where email=?)`;
+
+        return database.query(sql, [password, token, email, email])
             .then(() => token)
     }
 

@@ -2,7 +2,7 @@ const middlewares = require('../middlewares');
 const Validator = require('../validators/Validator');
 const {photosUploader} = require('../utils/multer');
 const entities = require('../entities');
-let {UserRegistrationModel, UserLoginModel} = require('../models/index');
+let {UserRegistrationModel, UserLoginModel, UserResetPasswordModel} = require('../models/index');
 let errorMessages = require('../errors/errorMessages');
 let tokenController = require('./tokenController');
 let Controller = require('./Controller');
@@ -17,6 +17,15 @@ class UserController extends Controller {
             Validator.deleteFields(['repeatPassword']),
             this._registerNewUser,
             middlewares.email.sendVerifyEmail,
+            this.sendAnswer
+        ];
+
+        this.resetPassword = [
+            Validator.create(UserResetPasswordModel).body,
+            Validator.isSameFields(['password', 'repeatPassword']),
+            Validator.deleteFields(['repeatPassword']),
+            this._resetPassword,
+            middlewares.email.resetPasswordEmail,
             this.sendAnswer
         ];
 
@@ -134,6 +143,15 @@ class UserController extends Controller {
 
     _registerNewUser(req, res, next) {
         entities.user.registerNewUser(req.body)
+            .then(token => {
+                req.body.token = token;
+                next()
+            })
+            .catch(next);
+    }
+
+    _resetPassword(req, res, next) {
+        entities.user.resetPassword(req.body)
             .then(token => {
                 req.body.token = token;
                 next()

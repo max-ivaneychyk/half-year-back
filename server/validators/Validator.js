@@ -46,6 +46,7 @@ class Validator {
     }
 
     validateBodyMiddleware(req, res, next) {
+        console.log(req.body);
         let {error, value} = this.validate(req.body);
 
        if (error) {
