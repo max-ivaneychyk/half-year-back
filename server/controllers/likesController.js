@@ -29,8 +29,16 @@ class LikesController extends Controller {
     }
 
     _addLikeToPost(req, res, next) {
-        entities.likes.createLike()
-            .then(([rows]) => {
+        let {postId, userId} = req.params;
+
+        entities.likes.isExistPostLike({postId, userId}).then(([rows]) => {
+            if (rows.length) {
+                throw {messages: 'Like is exists'};
+            }
+
+            return entities.likes.createLike()
+        })
+             .then(([rows]) => {
                 req.params.likeId = rows.insertId;
 
                 return entities.likes.attachToPost({
@@ -47,7 +55,15 @@ class LikesController extends Controller {
     }
 
     _addLikeToComment(req, res, next) {
-        entities.likes.createLike()
+        let {commentId, userId} = req.params;
+
+        entities.likes.isExistCommentLike({commentId, userId}).then(([rows]) => {
+            if (rows.length) {
+                throw {messages: 'Like is exists'};
+            }
+
+            return entities.likes.createLike()
+        })
             .then(([rows]) => {
                 req.params.likeId = rows.insertId;
 
